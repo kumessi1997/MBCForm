@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <title>MB Capital – Đăng Ký Mở Tài Khoản Tổ Chức</title>
+    <style>
+        /* ═══════════════════ BASE ═══════════════════ */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 9pt;
+            background: #d8dde6;
+            color: #000;
+        }
+
+        /* ═══════════════════ TOP BAR ═══════════════════ */
+        .top-bar {
+            background: #071C2C;
+            padding: 0;
+            position: sticky;
+            top: 0;
+            z-index: 200;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+        }
+
+        .top-bar-inner {
+            display: flex;
+            align-items: stretch;
+            justify-content: space-between;
+        }
+
+        .nav-logo {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            padding-left: 16px;
+        }
+
+        .nav-logo img {
+            height: 24px;
+            width: auto;
+            display: block;
+        }
+
+        .tab-switcher {
+            display: flex;
+            align-items: stretch;
+            justify-content: center;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            padding: 0 22px;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+            white-space: nowrap;
+            min-height: 46px;
+            letter-spacing: 0.2px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .tab-btn:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.07);
+        }
+
+        .tab-btn.active {
+            color: #fff;
+            border-bottom: 3px solid #e8302a;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .bar-actions {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 8px;
+            padding: 0 16px;
+        }
+
+        .bar-label {
+            color: rgba(255, 255, 255, 0.55);
+            font-size: 11px;
+        }
+
+        .btn-print {
+            background: #e8302a;
+            color: #fff;
+            border: none;
+            padding: 8px 18px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 2px;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+        }
+
+        .btn-print:hover {
+            background: #c0251f;
+        }
+
+        .btn-docx {
+            background: #1d6a3a;
+            color: #fff;
+            border: none;
+            padding: 8px 18px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 2px;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+        }
+
+        .btn-docx:hover {
+            background: #144d2a;
+        }
+
+        /* ═══════════════════ PAGE WRAP ═══════════════════ */
+        .page-wrap {
+            width: 794px;
+            margin: 22px auto 40px;
+            background: #fff;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.22);
+            padding: 26px 40px;
+        }
+
+        /* ═══════════════════ SHARED COMPONENTS ═══════════════════ */
+        .doc-header {
+            margin-bottom: 12px;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .logo-img {
+            height: 25px;
+            width: auto;
+            display: block;
+        }
+
+        .doc-title {
+            text-align: center;
+        }
+
+        .doc-title h1 {
+            font-size: 11pt;
+            font-weight: bold;
+            color: #1a3a6b;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            line-height: 1.3;
+        }
+
+        .doc-title h2 {
+            font-size: 10pt;
+            color: #1a3a6b;
+            font-weight: bold;
+            font-style: italic;
+        }
+
+        .doc-title h3 {
+            font-size: 8.5pt;
+            color: #444;
+            font-style: italic;
+            margin-top: 2px;
+        }
+
+        .spacer {
+            width: 80px;
+            flex-shrink: 0;
+        }
+
+        .main-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 8.5pt;
+            table-layout: fixed;
+        }
+
+        .main-table td,
+        .main-table th {
+            border: 1px solid #000;
+            padding: 3px 5px;
+            vertical-align: top;
+            line-height: 1.35;
+        }
+
+        .row-section td {
+            background: #1a3a6b;
+            color: #fff;
+            font-weight: bold;
+            font-size: 8.5pt;
+            padding: 4px 6px;
+        }
+
+        .cell-num {
+            background: #1a3a6b;
+            color: #fff;
+            font-weight: bold;
+            text-align: center;
+            width: 18px;
+            padding: 3px 2px;
+            vertical-align: top;
+            font-size: 8.5pt;
+        }
+
+        .lbl {
+            font-weight: bold;
+            font-size: 8pt;
+            display: block;
+        }
+
+        .lbl-en {
+            font-weight: normal;
+            font-style: italic;
+            font-size: 7.5pt;
+        }
+
+        .lbl-only {
+            font-size: 8pt;
+            display: block;
+        }
+
+        .lbl-only-en {
+            font-style: italic;
+            font-size: 7.5pt;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="number"],
+        input[type="date"] {
+            border: none;
+            border-bottom: 1px solid #666;
+            outline: none;
+            width: 100%;
+            font-family: Arial, sans-serif;
+            font-size: 8.5pt;
+            padding: 1px 2px;
+            background: transparent;
+            color: #000;
+            min-height: 13px;
+        }
+
+        input:focus {
+            border-bottom-color: #1a3a6b;
+            background: #f0f4ff;
+        }
+
+        .cb-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .cb-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 4px;
+            font-size: 8pt;
+        }
+
+        .cb-item input[type="checkbox"],
+        .cb-item input[type="radio"] {
+            width: 11px;
+            height: 11px;
+            margin: 2px 0 0 0;
+            accent-color: #1a3a6b;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .sig-h90 {
+            height: 88px;
+            vertical-align: top;
+            text-align: center;
+            padding: 4px 6px !important;
+        }
+
+        .sig-title {
+            font-weight: bold;
+            font-size: 8pt;
+        }
+
+        .sig-sub {
+            font-style: italic;
+            font-size: 7.5pt;
+        }
+
+        .date-input {
+            border: none;
+            border-bottom: 1px solid #666;
+            width: 130px;
+            font-size: 8pt;
+            font-family: Arial, sans-serif;
+            background: transparent;
+            outline: none;
+        }
+
+        .doc-footer {
+            font-size: 7pt;
+            color: #333;
+            margin-top: 6px;
+            border-top: 1px solid #999;
+            padding-top: 4px;
+        }
+
+        .pdf-page-break {
+            page-break-before: always;
+            break-before: page;
+            height: 0;
+        }
+
+        .commit-block {
+            font-size: 7.5pt;
+            line-height: 1.5;
+            padding: 4px 6px;
+            border: 1px solid #000;
+            margin-top: -1px;
+        }
+
+        .commit-block p {
+            margin-bottom: 5px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #000;
+        }
+
+        .commit-block p:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        /* ═══════════════════ PRINT ═══════════════════ */
+        @media print {
+            body { background: white; }
+
+            .top-bar { display: none !important; }
+
+            .page-wrap {
+                width: 100%;
+                margin: 0;
+                box-shadow: none;
+                padding: 13mm 15mm 11mm 15mm;
+            }
+
+            input {
+                border-bottom: 1px solid #666 !important;
+                background: transparent !important;
+            }
+
+            .date-input {
+                border-bottom: 1px solid #666 !important;
+                background: transparent !important;
+            }
+
+            .cell-num,
+            .row-section td {
+                background: #1a3a6b !important;
+                color: #fff !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            @page {
+                size: A4 portrait;
+                margin: 0;
+            }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="docx-export.js"></script>
+</head>
+
+<body>
+
+    <div class="top-bar">
+        <div class="top-bar-inner">
+            <div class="nav-logo">
+                <img src="logoMBCwhite.png" alt="MB Capital Logo">
+            </div>
+            <div class="tab-switcher">
+                <a class="tab-btn" href="index.html">📄 Giấy Đăng Ký Mua (BMFF)</a>
+                <a class="tab-btn active" href="mo-tai-khoan-to-chuc.html">📋 Đăng Ký Mở Tài Khoản Tổ Chức</a>
+            </div>
+            <div class="bar-actions">
+                <span class="bar-label">Điền xong →</span>
+                <button class="btn-docx" onclick="doExportDocx('Dang_Ky_Mo_Tai_Khoan_To_Chuc.doc')" style="display:none">📝 Export DOCX</button>
+                <button class="btn-print" onclick="doExportPdf('Dang_Ky_Mo_Tai_Khoan_To_Chuc.pdf')">📄 Export PDF</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="page-wrap">
+
+        <div class="doc-header">
+            <div class="logo-area">
+                <img class="logo-img" src="logoMBC.png" alt="MB Capital Logo">
+            </div>
+            <div class="doc-title">
+                <h1>GIẤY ĐĂNG KÝ MỞ TÀI KHOẢN GIAO DỊCH CHỨNG CHỈ QUỸ</h1>
+                <h2>ACCOUNT OPENING APPLICATION FORM</h2>
+                <h3>(Dành cho Nhà đầu tư tổ chức / For Institutional Investor)</h3>
+            </div>
+        </div>
+
+        <table class="main-table">
+            <colgroup>
+                <col style="width: 3%;">
+                <col style="width: 34%;">
+                <col style="width: 22%;">
+                <col style="width: 20.5%;">
+                <col style="width: 20.5%;">
+            </colgroup>
+
+            <!-- ─── SECTION A ─── -->
+            <tr class="row-section">
+                <td style="width:18px;text-align:center;font-weight:bold;">A</td>
+                <td colspan="4" style="font-weight:bold;color:#fff;">Thông tin về Nhà đầu tư <em>(Investor information)</em></td>
+            </tr>
+
+            <!-- 1 -->
+            <tr>
+                <td class="cell-num">1</td>
+                <td colspan="2"><span class="lbl">Nhà đầu tư <span class="lbl-en">(Investor Type)*:</span></span></td>
+                <td colspan="2">
+                    <div class="cb-group">
+                        <label class="cb-item"><input type="radio" name="f2_inv_type" value="vn"> Tổ chức Việt Nam <em>(Vietnamese institutional investor)</em></label>
+                        <label class="cb-item"><input type="radio" name="f2_inv_type" value="foreign"> Tổ chức nước ngoài <em>(Foreign institutional investor)</em></label>
+                    </div>
+                </td>
+            </tr>
+
+            <!-- 2 -->
+            <tr>
+                <td class="cell-num">2</td>
+                <td colspan="4">
+                    <span class="lbl">Tên Nhà đầu tư <span class="lbl-en">(Investor name)*:</span></span>
+                    <input type="text" name="f2_inv_name">
+                </td>
+            </tr>
+            <tr>
+                <td class="cell-num"></td>
+                <td colspan="4">
+                    <span class="lbl-only">Tên tiếng Anh <span class="lbl-only-en">(Name in English):</span></span>
+                    <input type="text" name="f2_inv_name_en">
+                </td>
+            </tr>
+            <tr>
+                <td class="cell-num"></td>
+                <td colspan="4">
+                    <span class="lbl-only">Tên viết tắt <span class="lbl-only-en">(Abbreviated name):</span></span>
+                    <input type="text" name="f2_inv_abbr">
+                </td>
+            </tr>
+
+            <!-- 3 -->
+            <tr>
+                <td class="cell-num">3</td>
+                <td style="width:34%;">
+                    <span class="lbl">Số ĐKKD*: <span class="lbl-en">(Business license number)</span></span>
+                    <input type="text" name="f2_biz_num">
+                </td>
+                <td style="width:22%;">
+                    <span class="lbl">Ngày cấp*: <span class="lbl-en">(Issuing date)</span></span>
+                    <input type="text" name="f2_biz_date">
+                </td>
+                <td colspan="2">
+                    <span class="lbl">Nơi cấp*: <span class="lbl-en">(Issuing place)</span></span>
+                    <input type="text" name="f2_biz_place">
+                </td>
+            </tr>
+
+            <!-- 4 -->
+            <tr>
+                <td class="cell-num">4</td>
+                <td colspan="4">
+                    <span class="lbl">Ngành nghề kinh doanh chính <span class="lbl-en">(Main business line):</span></span>
+                    <input type="text" name="f2_biz_line">
+                </td>
+            </tr>
+
+            <!-- 5 -->
+            <tr>
+                <td class="cell-num">5</td>
+                <td colspan="4">
+                    <span class="lbl">Mã số thuế <span class="lbl-en">(Tax ID number)*:</span></span>
+                    <input type="text" name="f2_tax_id">
+                </td>
+            </tr>
+
+            <!-- 6 -->
+            <tr>
+                <td class="cell-num">6</td>
+                <td colspan="4">
+                    <span class="lbl">Địa chỉ chủ sở chính*:</span>
+                    <input type="text" name="f2_hq_address">
+                </td>
+            </tr>
+
+            <!-- 7 -->
+            <tr>
+                <td class="cell-num">7</td>
+                <td>
+                    <span class="lbl">Điện thoại <span class="lbl-en">(Phone)*:</span></span>
+                    <input type="tel" name="f2_phone">
+                </td>
+                <td>
+                    <span class="lbl">Fax:</span>
+                    <input type="text" name="f2_fax">
+                </td>
+                <td colspan="2">
+                    <span class="lbl">E-mail*:</span>
+                    <input type="email" name="f2_email">
+                </td>
+            </tr>
+
+            <!-- 8 -->
+            <tr>
+                <td class="cell-num">8</td>
+                <td colspan="4">
+                    <span class="lbl">Website:</span>
+                    <input type="text" name="f2_website">
+                </td>
+            </tr>
+
+            <!-- 9 -->
+            <tr>
+                <td class="cell-num">9</td>
+                <td colspan="4">
+                    <span class="lbl">Mã số giao dịch chứng khoán <span class="lbl-en">(Securities Trading code)*:</span></span>
+                    <input type="text" name="f2_sec_code">
+                </td>
+            </tr>
+
+            <!-- 10 -->
+            <tr>
+                <td class="cell-num">10</td>
+                <td colspan="4">
+                    <span class="lbl">Tài khoản thanh toán/Tài khoản vốn đầu tư gián tiếp <span class="lbl-en">(Bank account details)*:</span></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="cell-num"></td>
+                <td colspan="4">
+                    <span class="lbl-only">Tên chủ tài khoản <span class="lbl-only-en">(Account holder name):</span></span>
+                    <input type="text" name="f2_bank_holder">
+                </td>
+            </tr>
+            <tr>
+                <td class="cell-num"></td>
+                <td colspan="4">
+                    <span class="lbl-only">Số tài khoản <span class="lbl-only-en">(Account number):</span></span>
+                    <input type="text" name="f2_bank_num">
+                </td>
+            </tr>
+            <tr>
+                <td class="cell-num"></td>
+                <td colspan="2">
+                    <span class="lbl-only">Ngân hàng <span class="lbl-only-en">(Bank name):</span></span>
+                    <input type="text" name="f2_bank_name">
+                </td>
+                <td colspan="2">
+                    <span class="lbl-only">Chi nhánh <span class="lbl-only-en">(Branch name):</span></span>
+                    <input type="text" name="f2_bank_branch">
+                </td>
+            </tr>
+
+            <!-- 11 -->
+            <tr>
+                <td class="cell-num">11</td>
+                <td colspan="4">
+                    <span class="lbl">Thông tin Người đại diện theo pháp luật <span class="lbl-en">(Legal representative Information)</span></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="cell-num"></td>
+                <td colspan="2">
+                    <span class="lbl-only">Người đại diện theo pháp luật*: <span class="lbl-only-en">(Legal representative)</span></span>
+                    <input type="text" name="f2_legal_rep">
+                </td>
+                <td colspan="2">
+                    <span class="lbl-only">Chức vụ*: <span class="lbl-only-en">(Position)</span></span>
+                    <input type="text" name="f2_legal_pos">
+                </td>
+            </tr>
+            <tr>
+                <td class="cell-num"></td>
+                <td>
+                    <span class="lbl-only">Ngày sinh <span class="lbl-only-en">(Date of Birth)*:</span></span>
+                    <input type="text" name="f2_legal_dob">
+                </td>
+                <td>
+                    <span class="lbl-only">Quốc tịch <span class="lbl-only-en">(Nationality)*:</span></span>
+                    <input type="text" name="f2_legal_nat">
+                </td>
+                <td colspan="2">
+                    <span class="lbl-only">Điện thoại <span class="lbl-only-en">(Tel)*:</span></span>
+                    <input type="tel" name="f2_legal_tel">
+                </td>
+            </tr>
+            <tr>
+                <td class="cell-num"></td>
+                <td colspan="2">
+                    <span class="lbl-only">Số CMND/CCCD <span class="lbl-only-en">(ID number)*:</span></span>
+                    <input type="text" name="f2_legal_id">
+                </td>
+                <td colspan="2">
+                    <span class="lbl-only">Ngày cấp <span class="lbl-only-en">(Issuing date)*:</span></span>
+                    <input type="text" name="f2_legal_id_date">
+                </td>
+            </tr>
+            <tr>
+                <td class="cell-num"></td>
+                <td colspan="4">
+                    <span class="lbl-only">Nơi cấp <span class="lbl-only-en">(Issuing place)*:</span></span>
+                    <input type="text" name="f2_legal_id_place">
+                </td>
+            </tr>
+            <tr>
+                <td class="cell-num"></td>
+                <td colspan="4">
+                    <span class="lbl-only">Địa chỉ thường trú <span class="lbl-only-en">(Residential address)*:</span></span>
+                    <input type="text" name="f2_legal_addr">
+                </td>
+            </tr>
+
+            <!-- 12 -->
+            <tr>
+                <td class="cell-num">12</td>
+                <td colspan="4">
+                    <span class="lbl">Thông tin Người đại diện vốn <span class="lbl-en">(Capital representative Information)</span></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="cell-num"></td>
+                <td colspan="2">
+                    <span class="lbl-only">Người đại diện vốn: <span class="lbl-only-en">(Capital representative)</span></span>
+                    <input type="text" name="f2_cap_rep">
+                </td>
+                <td colspan="2">
+                    <span class="lbl-only">Chức vụ: <span class="lbl-only-en">(Position)</span></span>
+                    <input type="text" name="f2_cap_pos">
+                </td>
+            </tr>
+            <tr>
+                <td class="cell-num"></td>
+                <td colspan="2">
+                    <span class="lbl-only">Số CMND/CCCD <span class="lbl-only-en">(ID number):</span></span>
+                    <input type="text" name="f2_cap_id">
+                </td>
+                <td colspan="2">
+                    <span class="lbl-only">Ngày cấp <span class="lbl-only-en">(Issuing date):</span></span>
+                    <input type="text" name="f2_cap_id_date">
+                </td>
+            </tr>
+            <tr>
+                <td class="cell-num"></td>
+                <td colspan="4">
+                    <span class="lbl-only">Nơi cấp <span class="lbl-only-en">(Issuing place):</span></span>
+                    <input type="text" name="f2_cap_id_place">
+                </td>
+            </tr>
+            <tr>
+                <td class="cell-num"></td>
+                <td colspan="2">
+                    <span class="lbl-only">Điện thoại liên lạc <span class="lbl-only-en">(Phone):</span></span>
+                    <input type="tel" name="f2_cap_phone">
+                </td>
+                <td colspan="2">
+                    <span class="lbl-only">E-mail:</span>
+                    <input type="email" name="f2_cap_email">
+                </td>
+            </tr>
+
+            <!-- 13 -->
+            <tr>
+                <td class="cell-num">13</td>
+                <td colspan="4">
+                    <span class="lbl">Thông tin người được ủy quyền đặt lệnh <span class="lbl-en">(Authorized person to place trading orders)</span></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="cell-num"></td>
+                <td>
+                    <span class="lbl-only">Họ và tên: <span class="lbl-only-en">(Full name)</span></span>
+                    <input type="text" name="f2_auth_name">
+                </td>
+                <td>
+                    <span class="lbl-only">Chức vụ: <span class="lbl-only-en">(Position)</span></span>
+                    <input type="text" name="f2_auth_pos">
+                </td>
+                <td colspan="2" rowspan="4" class="sig-h90" style="text-align:center;">
+                    <div class="sig-title">Người được ủy quyền đặt lệnh</div>
+                    <div class="sig-title"><em>(Authorized person)</em></div>
+                    <div class="sig-sub">(Ký, ghi rõ họ tên / <em>Signature with full name)</em></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="cell-num"></td>
+                <td>
+                    <span class="lbl-only">Số CMT/Passport: <span class="lbl-only-en">(ID/Passport number)</span></span>
+                    <input type="text" name="f2_auth_id">
+                </td>
+                <td>
+                    <span class="lbl-only">Quốc tịch: <span class="lbl-only-en">(Nationality)</span></span>
+                    <input type="text" name="f2_auth_nat">
+                </td>
+            </tr>
+            <tr>
+                <td class="cell-num"></td>
+                <td>
+                    <span class="lbl-only">Ngày cấp: <span class="lbl-only-en">(Issuing date)</span></span>
+                    <input type="text" name="f2_auth_id_date">
+                </td>
+                <td>
+                    <span class="lbl-only">Nơi cấp: <span class="lbl-only-en">(Issuing place)</span></span>
+                    <input type="text" name="f2_auth_id_place">
+                </td>
+            </tr>
+            <tr>
+                <td class="cell-num"></td>
+                <td>
+                    <span class="lbl-only">Điện thoại di động: <span class="lbl-only-en">(Cellphone)</span></span>
+                    <input type="tel" name="f2_auth_phone">
+                </td>
+                <td>
+                    <span class="lbl-only">Email:</span>
+                    <input type="email" name="f2_auth_email">
+                </td>
+            </tr>
+
+            <!-- 14 -->
+            <tr>
+                <td class="cell-num">14</td>
+                <td colspan="4">
+                    <span class="lbl">Thông tin người được hưởng lợi <span class="lbl-en">(Beneficiary information)</span></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="cell-num"></td>
+                <td>
+                    <span class="lbl-only">Tên người hưởng lợi: <span class="lbl-only-en">(Full name)</span></span>
+                    <input type="text" name="f2_ben_name">
+                </td>
+                <td>
+                    <span class="lbl-only">Quốc tịch: <span class="lbl-only-en">(Nationality)</span></span>
+                    <input type="text" name="f2_ben_nat">
+                </td>
+                <td colspan="2" rowspan="5" class="sig-h90" style="text-align:center;">
+                    <div class="sig-title">Người hưởng lợi</div>
+                    <div class="sig-title"><em>(Beneficiary)</em></div>
+                    <div class="sig-sub">(Ký, ghi rõ họ tên / <em>Signature with full name)</em></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="cell-num"></td>
+                <td>
+                    <span class="lbl-only">Số CMND/CCCD/ĐKKD: <span class="lbl-only-en">(ID number, Business license number)</span></span>
+                    <input type="text" name="f2_ben_id">
+                </td>
+                <td>
+                    <span class="lbl-only">Ngày cấp: <span class="lbl-only-en">(Issuing date)</span></span>
+                    <input type="text" name="f2_ben_id_date">
+                </td>
+            </tr>
+            <tr>
+                <td class="cell-num"></td>
+                <td>
+                    <span class="lbl-only">Nơi cấp: <span class="lbl-only-en">(Issuing place)</span></span>
+                    <input type="text" name="f2_ben_id_place">
+                </td>
+                <td>
+                    <span class="lbl-only">Địa chỉ: <span class="lbl-only-en">(Address)</span></span>
+                    <input type="text" name="f2_ben_addr">
+                </td>
+            </tr>
+            <tr>
+                <td class="cell-num"></td>
+                <td>
+                    <span class="lbl-only">Điện thoại: <span class="lbl-only-en">(Phone)</span></span>
+                    <input type="tel" name="f2_ben_phone">
+                </td>
+                <td>
+                    <span class="lbl-only">Số tài khoản: <span class="lbl-only-en">(Account number)</span></span>
+                    <input type="text" name="f2_ben_acct">
+                </td>
+            </tr>
+            <tr>
+                <td class="cell-num"></td>
+                <td>
+                    <span class="lbl-only">Ngân hàng: <span class="lbl-only-en">(Bank name)</span></span>
+                    <input type="text" name="f2_ben_bank">
+                </td>
+                <td>
+                    <span class="lbl-only">Chi nhánh: <span class="lbl-only-en">(Branch name)</span></span>
+                    <input type="text" name="f2_ben_branch">
+                </td>
+            </tr>
+            <tr>
+                <td class="cell-num"></td>
+                <td colspan="2">
+                    <span class="lbl-only">Người đại diện theo pháp luật: <span class="lbl-only-en">(Legal representative)</span></span>
+                    <input type="text" name="f2_ben_lr">
+                </td>
+                <td colspan="2">
+                    <span class="lbl-only">Chức vụ: <span class="lbl-only-en">(Position)</span></span>
+                    <input type="text" name="f2_ben_lr_pos">
+                </td>
+            </tr>
+            <tr>
+                <td class="cell-num"></td>
+                <td>
+                    <span class="lbl-only">Số CMND/CCCD: <span class="lbl-only-en">(ID number)</span></span>
+                    <input type="text" name="f2_ben_lr_id">
+                </td>
+                <td>
+                    <span class="lbl-only">Ngày cấp: <span class="lbl-only-en">(Issuing date)</span></span>
+                    <input type="text" name="f2_ben_lr_date">
+                </td>
+                <td colspan="2">
+                    <span class="lbl-only">Nơi cấp: <span class="lbl-only-en">(Issuing place)</span></span>
+                    <input type="text" name="f2_ben_lr_place">
+                </td>
+            </tr>
+            <tr>
+                <td class="cell-num"></td>
+                <td>
+                    <span class="lbl-only">Quốc tịch: <span class="lbl-only-en">(Nationality)</span></span>
+                    <input type="text" name="f2_ben_lr_nat">
+                </td>
+                <td>
+                    <span class="lbl-only">Địa chỉ: <span class="lbl-only-en">(Address)</span></span>
+                    <input type="text" name="f2_ben_lr_addr">
+                </td>
+                <td colspan="2">
+                    <span class="lbl-only">Điện thoại: <span class="lbl-only-en">(Phone)</span></span>
+                    <input type="tel" name="f2_ben_lr_phone">
+                </td>
+            </tr>
+
+        </table>
+
+        <!-- ─── SECTION B ─── -->
+        <table class="main-table" style="margin-top:-1px;">
+            <colgroup>
+                <col style="width: 3%;">
+                <col style="width: 33%;">
+                <col style="width: 16%;">
+                <col style="width: 16%;">
+                <col style="width: 16%;">
+                <col style="width: 16%;">
+            </colgroup>
+            <tr style="height: 0; line-height: 0; visibility: collapse;">
+                <td style="width: 3%; padding: 0; border: none; height: 0;"></td>
+                <td style="width: 33%; padding: 0; border: none; height: 0;"></td>
+                <td style="width: 16%; padding: 0; border: none; height: 0;"></td>
+                <td style="width: 16%; padding: 0; border: none; height: 0;"></td>
+                <td style="width: 16%; padding: 0; border: none; height: 0;"></td>
+                <td style="width: 16%; padding: 0; border: none; height: 0;"></td>
+            </tr>
+            <tr class="row-section">
+                <td style="width:18px;text-align:center;font-weight:bold;">B</td>
+                <td colspan="5" style="color:#fff;font-weight:bold;">Thông tin về nhu cầu đầu tư <em>(Investment information):</em></td>
+            </tr>
+            <tr>
+                <td class="cell-num"></td>
+                <td style="vertical-align:middle;">
+                    <span class="lbl-only">Thời gian đầu tư dự kiến:<br><span class="lbl-only-en">(Expecting investment term)</span></span>
+                </td>
+                <td><label class="cb-item"><input type="radio" name="f2_term" value="lt12"> <span>Dưới 12 tháng<br><em class="lbl-en">(Below 12 months)</em></span></label></td>
+                <td colspan="2"><label class="cb-item"><input type="radio" name="f2_term" value="12to24"> <span>Từ 12 đến dưới 24 tháng<br><em class="lbl-en">(From 12 to below 24 months)</em></span></label></td>
+                <td><label class="cb-item"><input type="radio" name="f2_term" value="gt24"> <span>Trên 24 tháng<br><em class="lbl-en">(24 months and above)</em></span></label></td>
+            </tr>
+            <tr>
+                <td class="cell-num"></td>
+                <td style="vertical-align:middle;">
+                    <span class="lbl-only">Mức độ chấp nhận rủi ro:<br><span class="lbl-only-en">(Risk tolerance)</span></span>
+                </td>
+                <td><label class="cb-item"><input type="radio" name="f2_risk" value="high"> <span>Cao<br><em class="lbl-en">(High)</em></span></label></td>
+                <td><label class="cb-item"><input type="radio" name="f2_risk" value="avg"> <span>Trung bình<br><em class="lbl-en">(Average)</em></span></label></td>
+                <td><label class="cb-item"><input type="radio" name="f2_risk" value="below"> <span>Vừa phải<br><em class="lbl-en">(Below Average)</em></span></label></td>
+                <td><label class="cb-item"><input type="radio" name="f2_risk" value="low"> <span>Thấp<br><em class="lbl-en">(Low)</em></span></label></td>
+            </tr>
+            <tr>
+                <td class="cell-num"></td>
+                <td style="vertical-align:middle;">
+                    <span class="lbl-only">Kinh nghiệm trong hoạt động đầu tư chứng khoán:<br><span class="lbl-only-en">(Experience in stock investing)</span></span>
+                </td>
+                <td><label class="cb-item"><input type="radio" name="f2_exp" value="gt5"> <span>Trên 5 năm<br><em class="lbl-en">(5 years and above)</em></span></label></td>
+                <td><label class="cb-item"><input type="radio" name="f2_exp" value="1to5"> <span>Từ 1 - 5 năm<br><em class="lbl-en">(From 1 to 5 years)</em></span></label></td>
+                <td><label class="cb-item"><input type="radio" name="f2_exp" value="lt1"> <span>Dưới 1 năm<br><em class="lbl-en">(Below 1 year)</em></span></label></td>
+                <td><label class="cb-item"><input type="radio" name="f2_exp" value="none"> <span>Chưa có kinh nghiệm<br><em class="lbl-en">(No experience)</em></span></label></td>
+            </tr>
+        </table>
+
+        <!-- ─── SECTION C ─── -->
+        <table class="main-table" style="margin-top:-1px;">
+            <colgroup>
+                <col style="width: 3%;">
+                <col style="width: 34%;">
+                <col style="width: 22%;">
+                <col style="width: 20.5%;">
+                <col style="width: 20.5%;">
+            </colgroup>
+            <tr class="row-section">
+                <td style="width:18px;text-align:center;font-weight:bold;">C</td>
+                <td colspan="4" style="color:#fff;font-weight:bold;">Thông tin bổ sung theo quy định FATCA <em>(Additional Information for FATCA compliance purpose)</em></td>
+            </tr>
+            <tr>
+                <td class="cell-num"></td>
+                <td colspan="4" style="font-style:italic;font-size:8pt;">
+                    Vui lòng bổ sung thông tin tại Phụ lục đính kèm Giấy đăng ký này /
+                    <em>Please fill out the Appendix attached to this Application form.</em>
+                </td>
+            </tr>
+
+            <!-- ─── SECTION D ─── -->
+            <tr class="row-section">
+                <td style="width:18px;text-align:center;font-weight:bold;">D</td>
+                <td colspan="4" style="color:#fff;font-weight:bold;">Thông tin về Đại lý phân phối <em>(Distributor information)</em></td>
+            </tr>
+            <tr>
+                <td class="cell-num">1</td>
+                <td colspan="4">
+                    <span class="lbl">Tên Đại lý phân phối <span class="lbl-en">(Name of Distributor)</span>:</span>
+                    Công ty cổ phần quản lý quỹ đầu tư MB
+                </td>
+            </tr>
+            <tr>
+                <td class="cell-num">2</td>
+                <td colspan="2">
+                    <span class="lbl">Giấy phép thành lập và hoạt động: <span style="font-weight:normal;">21/UBCK-GP</span> <span class="lbl-en">(Business license number)</span></span>
+                </td>
+                <td>
+                    <span class="lbl-only"><strong>Ngày cấp:</strong> <span style="font-weight:normal;">15/11/2007</span> <span class="lbl-only-en">(Issuing date)</span></span>
+                </td>
+                <td>
+                    <span class="lbl-only"><strong>Nơi cấp:</strong> <span style="font-weight:normal;">Ủy ban Chứng khoán Nhà nước</span> <span class="lbl-only-en">(Issuing place)</span></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="cell-num">3</td>
+                <td colspan="4">
+                    <span class="lbl">Trụ sở <span class="lbl-en">(Head office address)</span>:</span>
+                    Tầng 12, tòa nhà MB, số 21 Cát Linh, phường Ô Chợ Dừa, thành phố Hà Nội
+                </td>
+            </tr>
+            <tr>
+                <td class="cell-num"></td>
+                <td colspan="2"><strong>Tel:</strong> +84-24-37262808</td>
+                <td><strong>Fax:</strong> +84-24-37262810</td>
+                <td><strong>Website:</strong> mbcapital.com.vn</td>
+            </tr>
+            <tr>
+                <td class="cell-num">4</td>
+                <td colspan="3">
+                    <span class="lbl">Địa điểm phân phối: <span class="lbl-en">(Distribution location)</span></span>
+                    Trụ sở Công ty CP quản lý quỹ đầu tư MB
+                </td>
+                <td>
+                    <span class="lbl-only"><strong>Mã địa điểm phân phối:</strong> <span class="lbl-only-en">(Distribution location code)</span></span>
+                    <input type="text" name="f2_dist_code">
+                </td>
+            </tr>
+            <tr>
+                <td class="cell-num"></td>
+                <td colspan="2"><strong>Tel:</strong> +84-24-37262808</td>
+                <td colspan="2"><strong>Fax:</strong> +84-24-37262810</td>
+            </tr>
+            <tr>
+                <td class="cell-num">5</td>
+                <td colspan="2">
+                    <span class="lbl">Nhân viên phân phối CCQ: <span class="lbl-en">(Distributor agent)</span></span>
+                    <input type="text" name="f2_agent_name">
+                </td>
+                <td colspan="2">
+                    <span class="lbl">Số chứng chỉ hành nghề/ngày cấp: <span class="lbl-en">(license number/issuing date)</span></span>
+                    <input type="text" name="f2_agent_license">
+                </td>
+            </tr>
+            <tr>
+                <td class="cell-num"></td>
+                <td colspan="2">
+                    <span class="lbl-only"><strong>Tel:</strong></span>
+                    <input type="tel" name="f2_agent_tel">
+                </td>
+                <td colspan="2">
+                    <span class="lbl-only"><strong>Email:</strong></span>
+                    <input type="email" name="f2_agent_email">
+                </td>
+            </tr>
+
+        </table>
+
+        <!-- Ngắt trang: Section E bắt đầu từ trang 3 -->
+        <div class="pdf-page-break"></div>
+
+        <!-- ─── SECTION E ─── -->
+        <table class="main-table">
+            <tr class="row-section">
+                <td style="width:18px;text-align:center;font-weight:bold;">E</td>
+                <td colspan="4" style="color:#fff;font-weight:bold;">Cam kết của Nhà đầu tư <em>(Investor commitment)</em></td>
+            </tr>
+        </table>
+
+        <div class="commit-block">
+            <p>Chúng tôi cam kết đã tìm hiểu rõ Bản cáo bạch và Điều lệ quỹ/ các quỹ đầu tư mà Chúng tôi đăng ký mở tài khoản do MB Capital quản lý cũng như các rủi ro của việc đầu tư vào Quỹ./ <em>We thoroughly scrutinized the Prospectus and the Fund Charter of Fund/Funds of which We register account managed by MB Capital, as well as risks associated to investment in the Fund.</em></p>
+            <p>Chúng tôi hiểu rằng đây là sản phẩm đầu tư, có thể có những rủi ro tiềm tàng khi đầu tư vào Quỹ. Giá trị tài sản ròng/đơn vị quỹ có thể tăng hoặc giảm và lợi nhuận kỳ vọng cũng như các kết quả đạt được trong quá khứ của Quỹ không đảm bảo cho kết quả đạt được trong tương lai. Hoàn toàn chịu trách nhiệm liên quan đến việc đầu tư vào chứng chỉ quỹ./ <em>We understand that fund certificate is an investment product, and there may be potential risks when we invest in the Fund. The Net Asset Value per fund unit may increase or decrease, and both the expected profit and the past results of the Fund do not guarantee the future results. We are fully responsible for our decision on investing in fund certificates.</em></p>
+            <p>Chúng tôi cam kết mọi thông tin được cung cấp ở mẫu này và các tài liệu đi kèm là chính xác, và sẽ thông báo cho MB Capital mọi thay đổi và cập nhật (nếu có)./ <em>We guarantee that all information provided here and attached documents are correct, and we shall notify MB Capital any change and update (if any).</em></p>
+            <p>Chúng tôi hiểu rằng MB Capital có toàn quyền thay đổi các mẫu phiếu lệnh mà không cần thông báo trước./ <em>We understand that MB Capital preserves the right to alter these order forms without any prior notification.</em></p>
+            <p>Chúng tôi cam kết thông báo bằng văn bản cho Đại lý phân phối của Quỹ trong trường hợp có bất kỳ sự thay đổi nào đối với thông tin đã được /Chúng tôi cung cấp ở đây./ <em>We hereby undertake to inform in written to the Distribution at its registered address in the event of any change of information provided herein.</em></p>
+        </div>
+
+        <!-- ─── SECTION F – Signatures ─── -->
+        <table class="main-table" style="margin-top:-1px;">
+            <colgroup>
+                <col style="width: 50%;">
+                <col style="width: 25%;">
+                <col style="width: 25%;">
+            </colgroup>
+            <tr class="row-section">
+                <td colspan="3" style="color:#fff;font-weight:bold;text-align:center;">Chữ ký <em>(Signatures)</em></td>
+            </tr>
+            <tr>
+                <td class="sig-h90" style="width:50%;text-align:center;">
+                    <div class="sig-title">Nhà đầu tư <em>(Investor)</em></div>
+                    <div class="sig-sub">(ký, ghi rõ họ tên và đóng dấu / <em>Signature with full name and sealed)</em></div>
+                </td>
+                <td colspan="2" class="sig-h90" style="text-align:center;">
+                    <div class="sig-title">Công ty Cổ phần Quản lý Quỹ đầu tư MB</div>
+                    <div class="sig-title"><em>(MB Capital Management Joint Stock Company)</em></div>
+                    <div class="sig-sub">(ký, ghi rõ họ tên và đóng dấu / <em>Signature with full name and sealed)</em></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="sig-h90" style="text-align:center;">
+                    <div class="sig-title">Đại diện có thẩm quyền của ĐLPP</div>
+                    <div class="sig-title"><em>(Representative of the Distributor)</em></div>
+                    <div class="sig-sub">(ký, ghi rõ họ tên và đóng dấu / <em>Signature with full name and sealed)</em></div>
+                </td>
+                <td class="sig-h90" style="text-align:center;">
+                    <div class="sig-title">Cán bộ quản lý <em>(Supervisor)</em></div>
+                    <div class="sig-sub">(ký, ghi rõ họ tên / <em>Signature with full name)</em></div>
+                </td>
+                <td class="sig-h90" style="text-align:center;">
+                    <div class="sig-title">Nhân viên nhận lệnh <em>(Receiver)</em></div>
+                    <div class="sig-sub">(ký, ghi rõ họ tên / <em>Signature with full name)</em></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" style="padding:4px 6px;">
+                    <span class="lbl">Ngày <em>(date):</em></span>
+                    <input class="date-input" type="text" name="f2_sign_date" placeholder="   /   /        ">
+                </td>
+            </tr>
+        </table>
+
+        <div class="doc-footer">
+            CÔNG TY CP QUẢN LÝ QUỸ ĐẦU TƯ MB &nbsp;|&nbsp; Tầng 8, Tòa nhà MB, 3 Liễu Giai, Quận Ba Đình, Hà Nội
+            &nbsp;|&nbsp; Tel: +8424 37262808 &nbsp;|&nbsp; Fax: +8424 37262810 &nbsp;|&nbsp; www.mbcapital.com.vn
+        </div>
+    </div>
+
+    <script>
+        // Auto-focus input when clicking anywhere inside the table cell
+        document.querySelectorAll('.main-table td').forEach(td => {
+            const input = td.querySelector('input[type="text"], input[type="email"], input[type="tel"], input[type="number"], input[type="date"]');
+            if (input) {
+                td.style.cursor = 'text';
+                td.addEventListener('click', (e) => {
+                    if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'SELECT' && e.target.tagName !== 'TEXTAREA' && e.target.tagName !== 'A' && e.target.tagName !== 'BUTTON') {
+                        input.focus();
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
