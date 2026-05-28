@@ -300,14 +300,14 @@
         }
 
         .sig-h90 {
-            height: 88px;
+            height: 132px;
             vertical-align: top;
             text-align: center;
             padding: 4px 6px !important;
         }
 
         .sig-h70 {
-            height: 72px;
+            height: 108px;
             vertical-align: top;
             text-align: center;
             padding: 4px 6px !important;
@@ -376,10 +376,50 @@
                 print-color-adjust: exact;
             }
 
+            .fund-option {
+                background: #1a3a6b !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .fund-option.selected {
+                background: #e8302a !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
             @page {
                 size: A4 portrait;
                 margin: 0;
             }
+        }
+
+        /* ═══════════════════ FUND PICKER ═══════════════════ */
+        .fund-picker {
+            margin-top: 5px;
+            border: 1px solid #1a3a6b;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .fund-option {
+            background: #1a3a6b;
+            color: #fff;
+            font-weight: bold;
+            font-size: 8pt;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+            user-select: none;
+            transition: background 0.15s;
+        }
+
+        .fund-option:last-child { border-bottom: none; }
+
+        .fund-option:hover { background: #254a85; }
+
+        .fund-option.selected {
+            background: #e8302a;
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -500,12 +540,17 @@
                 <td class="cell-num">4</td>
                 <td colspan="2">
                     <span class="lbl">Tôi/Chúng tôi muốn đăng ký mua chứng chỉ quỹ như sau <span class="lbl-en">(I/we request to subscribe for the Fund certificates as follows)</span>:</span>
-                    <div style="display: grid; grid-template-columns: 215px 1fr; gap: 4px; margin-top: 4px; line-height: 1.4;">
+                    <div class="fund-picker">
+                        <div class="fund-option" data-code="MBAM" onclick="pickFund(this)">QUỸ ĐẦU TƯ TRÁI PHIẾU DÒNG TIỀN LINH HOẠT MB <strong>(MBAM)</strong></div>
+                        <div class="fund-option selected" data-code="BMFF" onclick="pickFund(this)">QUỸ ĐẦU TƯ TĂNG TRƯỞNG BORDIER – MB FLAGSHIP <strong>(BMFF)</strong></div>
+                        <div class="fund-option" data-code="MBVF" onclick="pickFund(this)">QUỸ ĐẦU TƯ GIÁ TRỊ MB CAPITAL <strong>(MBVF)</strong></div>
+                        <div class="fund-option" data-code="MBBOND" onclick="pickFund(this)">QUỸ ĐẦU TƯ TRÁI PHIẾU MB <strong>(MBBOND)</strong></div>
+                    </div>
+                    <div style="display:grid;grid-template-columns:215px 1fr;gap:4px;margin-top:6px;line-height:1.4;">
                         <div><strong>Tên Quỹ <em>(Fund name):</em></strong></div>
-                        <div><strong>Quỹ Đầu tư Tăng trưởng Bordier – MB Flagship</strong> <em>(Bordier - MB Flagship Growth Fund)</em></div>
-                        
+                        <div id="fund-name-disp"><strong>Quỹ Đầu tư Tăng trưởng Bordier – MB Flagship</strong></div>
                         <div><strong>Tên viết tắt của quỹ <em>(Fund Code):</em></strong></div>
-                        <div><strong>BMFF</strong></div>
+                        <div id="fund-code-disp"><strong>BMFF</strong></div>
                     </div>
                 </td>
             </tr>
@@ -520,7 +565,10 @@
                 </td>
                 <td>
                     <span class="lbl">Số tiền đầu tư bằng số: <span class="lbl-en">(in number):</span></span>
-                    <input type="text" name="f1_amount_num">
+                    <div style="display:flex;align-items:baseline;gap:4px;">
+                        <input type="text" name="f1_amount_num" class="money-input" placeholder="0" inputmode="numeric" style="flex:1;">
+                        <span style="font-size:8pt;white-space:nowrap;">đồng</span>
+                    </div>
                     <span class="lbl" style="margin-top:3px;">Số tiền đầu tư bằng chữ: <span class="lbl-en">(in written amount)</span></span>
                     <input type="text" name="f1_amount_text">
                     <span class="lbl" style="margin-top:3px;">Ngày đăng ký giao dịch <span class="lbl-en">(Registered trading day):</span></span>
@@ -584,11 +632,11 @@
                 <td colspan="3" style="padding:0;">
                     <table style="width:100%;border-collapse:collapse;">
                         <tr>
-                            <td style="width:50%;border-right:1px solid #000;padding:4px 6px;height:90px;vertical-align:top;text-align:center;">
+                            <td style="width:50%;border-right:1px solid #000;padding:4px 6px;height:135px;vertical-align:top;text-align:center;">
                                 <div class="sig-title">Nhà đầu tư <em>(Investor)</em></div>
                                 <div class="sig-sub">(ký, ghi rõ họ tên và đóng dấu/ <em>Signature with full name and sealed)</em></div>
                             </td>
-                            <td style="width:50%;padding:4px 6px;height:90px;vertical-align:top;text-align:center;">
+                            <td style="width:50%;padding:4px 6px;height:135px;vertical-align:top;text-align:center;">
                                 <div class="sig-title">Người được ủy quyền <em>(Authorized person)</em></div>
                                 <div class="sig-sub">(ký, ghi rõ họ tên/ <em>Signature with full name)</em></div>
                             </td>
@@ -682,12 +730,42 @@
         </table>
 
         <div class="doc-footer">
-            CÔNG TY CP QUẢN LÝ QUỸ ĐẦU TƯ MB &nbsp;|&nbsp; Tầng 12, Tòa nhà MB, 21 Cát Linh, Ô Chợ Dừa, Hà Nội
+            CÔNG TY CP QUẢN LÝ QUỸ ĐẦU TƯ MB &nbsp;|&nbsp; Tầng 12, tòa nhà MB, số 21 Cát Linh, phường Ô Chợ Dừa, thành phố Hà Nội
             &nbsp;|&nbsp; Tel: +84 24 3726 2808 &nbsp;|&nbsp; Fax: +8424 3726 2810 &nbsp;|&nbsp; www.mbcapital.com.vn
         </div>
     </div>
 
     <script>
+        // Format số tiền với dấu phân cách hàng nghìn (kiểu VN: 1.000.000)
+        document.querySelectorAll('.money-input').forEach(function(input) {
+            input.addEventListener('input', function() {
+                var pos = this.selectionStart;
+                var prevLen = this.value.length;
+                var raw = this.value.replace(/\D/g, '');
+                if (raw === '') { this.value = ''; return; }
+                this.value = new Intl.NumberFormat('vi-VN').format(parseInt(raw, 10));
+                // Giữ vị trí con trỏ sau khi format
+                var diff = this.value.length - prevLen;
+                this.setSelectionRange(pos + diff, pos + diff);
+            });
+        });
+
+        var FUNDS = {
+            MBAM:  { name: 'Quỹ Đầu tư Trái phiếu Dòng tiền Linh hoạt MB', nameEn: 'MB Flexible Cash Flow Bond Fund' },
+            BMFF:  { name: 'Quỹ Đầu tư Tăng trưởng Bordier – MB Flagship',  nameEn: 'Bordier – MB Flagship Growth Fund' },
+            MBVF:  { name: 'Quỹ Đầu tư Giá trị MB Capital',                 nameEn: 'MB Capital Value Fund' },
+            MBBOND:{ name: 'Quỹ Đầu tư Trái phiếu MB',                      nameEn: 'MB Bond Fund' }
+        };
+
+        function pickFund(el) {
+            document.querySelectorAll('.fund-option').forEach(function(o) { o.classList.remove('selected'); });
+            el.classList.add('selected');
+            var fund = FUNDS[el.dataset.code];
+            if (!fund) return;
+            document.getElementById('fund-name-disp').innerHTML = '<strong>' + fund.name + '</strong>';
+            document.getElementById('fund-code-disp').innerHTML = '<strong>' + el.dataset.code + '</strong>';
+        }
+
         // Auto-focus input when clicking anywhere inside the table cell
         document.querySelectorAll('.main-table td').forEach(td => {
             const input = td.querySelector('input[type="text"], input[type="email"], input[type="tel"], input[type="number"], input[type="date"]');
