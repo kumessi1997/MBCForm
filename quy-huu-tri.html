@@ -1,1028 +1,1856 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" type="image/png" href="favicon.png">
-<title>MB Capital – Mô Phỏng Quỹ Hưu Trí Tự Nguyện</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Arial,sans-serif;font-size:9pt;background:#d8dde6;color:#000}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <title>MB Capital – Mô Phỏng Quỹ Hưu Trí Tự Nguyện</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
 
-/* TOP BAR */
-.top-bar{background:#071C2C;padding:0;position:sticky;top:0;z-index:200;box-shadow:0 2px 8px rgba(0,0,0,.35)}
-.top-bar-inner{display:flex;align-items:stretch;justify-content:space-between}
-.nav-logo{flex:1;display:flex;align-items:center;padding-left:16px}
-.nav-logo img{height:24px;width:auto;display:block}
-.tab-switcher{display:flex;align-items:stretch;justify-content:center}
-.tab-btn{background:transparent;border:none;color:rgba(255,255,255,.6);padding:0 22px;font-family:Arial,sans-serif;font-size:12px;font-weight:bold;cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap;min-height:46px;letter-spacing:.2px;text-decoration:none;display:flex;align-items:center}
-.tab-btn:hover{color:#fff;background:rgba(255,255,255,.07)}
-.tab-btn.active{color:#fff;border-bottom:3px solid #e8302a;background:rgba(255,255,255,.1)}
-.bar-actions{flex:1;display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:0 16px}
-.bar-label{color:rgba(255,255,255,.55);font-size:11px}
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 9pt;
+      background: #d8dde6;
+      color: #000
+    }
 
-/* INNER TABS */
-.inner-nav{background:#0f2a40;border-bottom:2px solid #1a3a6b;display:flex;gap:0;overflow-x:auto}
-.itab{background:transparent;border:none;color:rgba(255,255,255,.55);padding:10px 24px;font-family:Arial,sans-serif;font-size:11px;font-weight:bold;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;letter-spacing:.2px;transition:all .15s}
-.itab:hover{color:#fff;background:rgba(255,255,255,.06)}
-.itab.act{color:#fff;border-bottom:3px solid #4db8ff;background:rgba(77,184,255,.08)}
+    /* TOP BAR */
+    .top-bar {
+      background: #071C2C;
+      padding: 0;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .35)
+    }
 
-/* PANELS */
-.panel{display:none;padding:24px 20px;max-width:980px;margin:0 auto}
-.panel.show{display:block}
+    .top-bar-inner {
+      display: flex;
+      align-items: stretch;
+      justify-content: space-between
+    }
 
-/* SECTION HEADER */
-.sec-hdr{background:#1a3a6b;color:#fff;font-weight:bold;font-size:9.5pt;padding:6px 10px;letter-spacing:.3px;margin:18px 0 0}
-.sec-hdr:first-child{margin-top:0}
-.sec-sub{background:#dce8f7;color:#1a3a6b;font-weight:bold;font-size:8.5pt;padding:4px 10px;margin-bottom:2px}
+    .nav-logo {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      padding-left: 16px
+    }
 
-/* INPUT TABLE */
-.inp-tbl{width:100%;border-collapse:collapse;margin-bottom:2px}
-.inp-tbl td{border:1px solid #bbb;padding:5px 8px;vertical-align:middle;font-size:8.5pt}
-.inp-tbl .lbl-cell{background:#f0f4fa;width:55%;font-weight:bold;color:#1a3a6b}
-.inp-tbl .val-cell{background:#fffde7;width:45%}
-.inp-tbl .val-cell.readonly{background:#f5f5f5;color:#555}
-.inp-tbl input[type=text],.inp-tbl input[type=number]{border:none;border-bottom:1.5px solid #1a3a6b;background:transparent;font-family:Arial,sans-serif;font-size:9pt;width:100%;padding:1px 3px;outline:none;color:#000;font-weight:bold}
-.inp-tbl input:focus{background:#fff8d4;border-bottom-color:#e8302a}
-.inp-tbl select{border:1px solid #1a3a6b;background:#fffde7;font-family:Arial,sans-serif;font-size:9pt;padding:2px 4px;width:100%;outline:none;font-weight:bold;color:#000}
-.inp-tbl .hint{font-size:7.5pt;color:#666;font-weight:normal;font-style:italic;margin-top:2px}
-.inp-tbl .derived{color:#0a56a0;font-weight:bold}
+    .nav-logo img {
+      height: 24px;
+      width: auto;
+      display: block
+    }
 
-/* KPI CARDS */
-.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:16px 0}
-.kpi-grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:12px 0}
-.kpi-grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:12px 0}
-.kpi-card{background:#fff;border:1px solid #dce8f7;border-top:4px solid #1a3a6b;border-radius:2px;padding:14px 16px;box-shadow:0 1px 6px rgba(0,0,0,.08)}
-.kpi-card.red{border-top-color:#e8302a}
-.kpi-card.green{border-top-color:#1d6a3a}
-.kpi-card.amber{border-top-color:#d48000}
-.kpi-card .kpi-label{font-size:8pt;color:#555;font-weight:bold;letter-spacing:.2px;text-transform:uppercase;margin-bottom:6px}
-.kpi-card .kpi-val{font-size:15pt;font-weight:bold;color:#1a3a6b;line-height:1.1}
-.kpi-card .kpi-val.big{font-size:18pt}
-.kpi-card .kpi-sub{font-size:7.5pt;color:#777;margin-top:4px;font-style:italic}
-.kpi-card.red .kpi-val{color:#c0251f}
-.kpi-card.green .kpi-val{color:#1d6a3a}
-.kpi-card.amber .kpi-val{color:#d48000}
+    .tab-switcher {
+      display: flex;
+      align-items: stretch;
+      justify-content: center
+    }
 
-/* RESULT TABLE */
-.res-tbl{width:100%;border-collapse:collapse;margin:8px 0}
-.res-tbl th{background:#1a3a6b;color:#fff;padding:5px 8px;font-size:8pt;text-align:left;border:1px solid #1a3a6b}
-.res-tbl th.rc{text-align:center}
-.res-tbl td{border:1px solid #ccc;padding:4px 8px;font-size:8pt;vertical-align:top}
-.res-tbl td.rc{text-align:center}
-.res-tbl td.rr{text-align:right;font-variant-numeric:tabular-nums}
-.res-tbl tr:nth-child(even) td{background:#f0f4fa}
-.res-tbl tr.total-row td{background:#dce8f7;font-weight:bold}
-.res-tbl tr.highlight td{background:#fffde7}
-.res-tbl tr.red-row td{background:#fde8e8}
-.res-tbl tr.green-row td{background:#e8f4ee;font-weight:bold}
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: rgba(255, 255, 255, .6);
+      padding: 0 22px;
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      font-weight: bold;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all .2s;
+      white-space: nowrap;
+      min-height: 46px;
+      letter-spacing: .2px;
+      text-decoration: none;
+      display: flex;
+      align-items: center
+    }
 
-/* CALLOUT */
-.callout{border-left:4px solid #1a3a6b;background:#edf3fc;padding:10px 14px;margin:14px 0;font-size:8.5pt}
-.callout.green{border-color:#1d6a3a;background:#e8f4ee}
-.callout.red{border-color:#e8302a;background:#fde8e8}
-.callout.amber{border-color:#d48000;background:#fff8e1}
-.callout-hdr{display:block;margin-bottom:5px;font-size:9pt;font-weight:bold}
+    .tab-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, .07)
+    }
 
-/* JOURNEY */
-.journey{display:flex;align-items:center;gap:6px;margin:16px 0;flex-wrap:wrap}
-.journey-block{background:#1a3a6b;color:#fff;padding:10px 14px;font-size:8pt;font-weight:bold;text-align:center;flex:1;min-width:120px;border-radius:2px}
-.journey-block .jb-title{font-size:9pt;font-weight:bold}
-.journey-block .jb-sub{font-size:7.5pt;font-weight:normal;opacity:.8;margin-top:3px}
-.journey-arr{color:#1a3a6b;font-size:18pt;font-weight:bold}
+    .tab-btn.active {
+      color: #fff;
+      border-bottom: 3px solid #e8302a;
+      background: rgba(255, 255, 255, .1)
+    }
 
-/* CHART */
-.chart-wrap{background:#fff;border:1px solid #dce8f7;padding:14px;margin:12px 0;border-radius:2px}
-.chart-wrap canvas{max-height:280px}
-.chart-title{font-size:9pt;font-weight:bold;color:#1a3a6b;margin-bottom:8px}
-.chart-grid{display:grid;grid-template-columns:1.6fr 1fr;gap:14px;margin:12px 0}
+    .bar-actions {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+      padding: 0 16px
+    }
 
-/* LAYOUT */
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+    .bar-label {
+      color: rgba(255, 255, 255, .55);
+      font-size: 11px
+    }
 
-/* PAGE TITLE */
-.page-title{font-size:14pt;font-weight:bold;color:#1a3a6b;margin-bottom:4px}
-.page-subtitle{font-size:9pt;color:#555;margin-bottom:16px;font-style:italic}
-.badge{display:inline-block;background:#e8302a;color:#fff;font-size:7.5pt;font-weight:bold;padding:2px 8px;border-radius:10px;margin-left:6px;vertical-align:middle}
-.badge.navy{background:#1a3a6b}
-.badge.green{background:#1d6a3a}
-.badge.amber{background:#d48000}
+    /* INNER TABS */
+    .inner-nav {
+      background: #0f2a40;
+      border-bottom: 2px solid #1a3a6b;
+      display: flex;
+      gap: 0;
+      overflow-x: auto
+    }
 
-/* REPORT SECTIONS */
-.rpt-section{background:#fff;border:1px solid #dce8f7;border-radius:4px;margin:20px 0;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.07)}
-.rpt-hdr{padding:14px 20px;display:flex;align-items:center;gap:14px;color:#fff}
-.rpt-hdr.h1{background:linear-gradient(135deg,#1a3a6b,#0a56a0)}
-.rpt-hdr.h2{background:linear-gradient(135deg,#1d6a3a,#27904e)}
-.rpt-hdr.h3{background:linear-gradient(135deg,#b06e00,#d48000)}
-.rpt-hdr.h4{background:linear-gradient(135deg,#a01e18,#c0251f)}
-.rpt-hdr.hx{background:linear-gradient(135deg,#071C2C,#1a3a6b)}
-.rpt-num{background:rgba(255,255,255,.2);border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-size:13pt;font-weight:bold;flex-shrink:0}
-.rpt-hdr-title{font-size:12pt;font-weight:bold;letter-spacing:.2px}
-.rpt-hdr-sub{font-size:8pt;opacity:.82;margin-top:2px}
-.rpt-body{padding:20px}
+    .itab {
+      background: transparent;
+      border: none;
+      color: rgba(255, 255, 255, .55);
+      padding: 10px 24px;
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      font-weight: bold;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      white-space: nowrap;
+      letter-spacing: .2px;
+      transition: all .15s
+    }
 
-/* REPORT HERO */
-.report-hero{background:linear-gradient(135deg,#071C2C 0%,#1a3a6b 100%);color:#fff;padding:24px 20px 20px;margin:-24px -20px 20px;border-bottom:4px solid #e8302a}
-.hero-title{font-size:17pt;font-weight:bold;margin-bottom:3px}
-.hero-subtitle{font-size:8.5pt;opacity:.7;margin-bottom:16px;font-style:italic}
-.hero-params{display:flex;gap:14px;flex-wrap:wrap;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);padding:10px 14px;border-radius:3px;margin-bottom:16px;font-size:8.5pt}
-.hero-params .dp-lbl{color:rgba(255,255,255,.65);font-size:7.5pt;font-weight:bold;text-transform:uppercase;margin-bottom:2px}
-.hero-params .dp-val{color:#4db8ff;font-weight:bold;font-size:10.5pt}
-.hero-kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.hero-kpi{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:4px;padding:12px 14px}
-.hero-kpi.h1{border-top:3px solid #4db8ff}
-.hero-kpi.h2{border-top:3px solid #4dcc80}
-.hero-kpi.h3{border-top:3px solid #ffd040}
-.hero-kpi.h4{border-top:3px solid #ff6b6b}
-.hero-kpi .hk-label{font-size:7.5pt;font-weight:bold;text-transform:uppercase;opacity:.75;margin-bottom:5px}
-.hero-kpi .hk-val{font-size:14pt;font-weight:bold;line-height:1.1}
-.hero-kpi .hk-sub{font-size:7pt;opacity:.65;margin-top:4px}
+    .itab:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, .06)
+    }
 
-/* COMPARE GRID */
-.cmp-grid{display:grid;grid-template-columns:1fr 48px 1fr;gap:8px;align-items:center;margin:12px 0}
-.cmp-box{border-radius:4px;padding:14px 16px}
-.cmp-box.bad{background:#fde8e8;border:2px solid #e8302a}
-.cmp-box.good{background:#e8f4ee;border:2px solid #1d6a3a}
-.cmp-box .cb-tag{font-size:7.5pt;font-weight:bold;text-transform:uppercase;margin-bottom:6px}
-.cmp-box.bad .cb-tag{color:#c0251f}
-.cmp-box.good .cb-tag{color:#1d6a3a}
-.cmp-box .cb-val{font-size:16pt;font-weight:bold}
-.cmp-box.bad .cb-val{color:#c0251f}
-.cmp-box.good .cb-val{color:#1d6a3a}
-.cmp-box .cb-sub{font-size:7.5pt;color:#666;margin-top:3px}
-.cmp-arr{font-size:22pt;color:#1a3a6b;font-weight:bold;text-align:center}
+    .itab.act {
+      color: #fff;
+      border-bottom: 3px solid #4db8ff;
+      background: rgba(77, 184, 255, .08)
+    }
 
-/* BIG SAVING */
-.big-saving{background:linear-gradient(135deg,#e8f4ee,#d4eedc);border:2px solid #1d6a3a;border-radius:4px;padding:16px 20px;margin:12px 0;display:flex;align-items:center;gap:16px}
-.bs-icon{font-size:26pt;flex-shrink:0}
-.bs-label{font-size:8.5pt;color:#555;font-weight:bold;text-transform:uppercase;margin-bottom:4px}
-.bs-val{font-size:22pt;font-weight:bold;color:#1d6a3a}
-.bs-sub{font-size:7.5pt;color:#777;margin-top:3px;font-style:italic}
+    /* PANELS */
+    .panel {
+      display: none;
+      padding: 24px 20px;
+      max-width: 980px;
+      margin: 0 auto
+    }
 
-/* SIMULATE BUTTON */
-.btn-simulate{background:linear-gradient(135deg,#e8302a,#c0251f);color:#fff;border:none;padding:16px 40px;font-size:13pt;font-weight:bold;cursor:pointer;border-radius:4px;width:100%;margin-top:24px;letter-spacing:.4px;box-shadow:0 4px 16px rgba(232,48,42,.35);transition:all .2s;display:flex;align-items:center;justify-content:center;gap:10px}
-.btn-simulate:hover{background:linear-gradient(135deg,#c0251f,#a01e18);transform:translateY(-2px);box-shadow:0 6px 20px rgba(232,48,42,.45)}
+    .panel.show {
+      display: block
+    }
 
-/* BACK LINK */
-.back-link{display:inline-flex;align-items:center;gap:6px;color:#1a3a6b;font-size:8.5pt;font-weight:bold;cursor:pointer;margin-bottom:16px;text-decoration:none;background:#edf3fc;border:1px solid #b8d0ee;padding:6px 14px;border-radius:20px}
-.back-link:hover{background:#dce8f7}
+    /* SECTION HEADER */
+    .sec-hdr {
+      background: #1a3a6b;
+      color: #fff;
+      font-weight: bold;
+      font-size: 9.5pt;
+      padding: 6px 10px;
+      letter-spacing: .3px;
+      margin: 18px 0 0
+    }
 
-@media(max-width:700px){
-  .kpi-grid,.hero-kpi-grid{grid-template-columns:repeat(2,1fr)}
-  .two-col,.kpi-grid-3,.chart-grid,.cmp-grid{grid-template-columns:1fr}
-  .kpi-grid-2{grid-template-columns:repeat(2,1fr)}
-  .cmp-arr{transform:rotate(90deg)}
-}
-@media print{
-  .top-bar,.inner-nav,.back-link,.btn-simulate{display:none!important}
-  .panel{display:block!important;padding:0}
-  #pan-inputs{display:none!important}
-  .rpt-section{break-inside:avoid;box-shadow:none}
-}
-</style>
+    .sec-hdr:first-child {
+      margin-top: 0
+    }
+
+    .sec-sub {
+      background: #dce8f7;
+      color: #1a3a6b;
+      font-weight: bold;
+      font-size: 8.5pt;
+      padding: 4px 10px;
+      margin-bottom: 2px
+    }
+
+    /* INPUT TABLE */
+    .inp-tbl {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2px
+    }
+
+    .inp-tbl td {
+      border: 1px solid #bbb;
+      padding: 5px 8px;
+      vertical-align: middle;
+      font-size: 8.5pt
+    }
+
+    .inp-tbl .lbl-cell {
+      background: #f0f4fa;
+      width: 55%;
+      font-weight: bold;
+      color: #1a3a6b
+    }
+
+    .inp-tbl .val-cell {
+      background: #fffde7;
+      width: 45%
+    }
+
+    .inp-tbl .val-cell.readonly {
+      background: #f5f5f5;
+      color: #555
+    }
+
+    .inp-tbl input[type=text],
+    .inp-tbl input[type=number] {
+      border: none;
+      border-bottom: 1.5px solid #1a3a6b;
+      background: transparent;
+      font-family: Arial, sans-serif;
+      font-size: 9pt;
+      width: 100%;
+      padding: 1px 3px;
+      outline: none;
+      color: #000;
+      font-weight: bold
+    }
+
+    .inp-tbl input:focus {
+      background: #fff8d4;
+      border-bottom-color: #e8302a
+    }
+
+    .inp-tbl select {
+      border: 1px solid #1a3a6b;
+      background: #fffde7;
+      font-family: Arial, sans-serif;
+      font-size: 9pt;
+      padding: 2px 4px;
+      width: 100%;
+      outline: none;
+      font-weight: bold;
+      color: #000
+    }
+
+    .inp-tbl .hint {
+      font-size: 7.5pt;
+      color: #666;
+      font-weight: normal;
+      font-style: italic;
+      margin-top: 2px
+    }
+
+    .inp-tbl .derived {
+      color: #0a56a0;
+      font-weight: bold
+    }
+
+    /* KPI CARDS */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin: 16px 0
+    }
+
+    .kpi-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin: 12px 0
+    }
+
+    .kpi-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 12px 0
+    }
+
+    .kpi-card {
+      background: #fff;
+      border: 1px solid #dce8f7;
+      border-top: 4px solid #1a3a6b;
+      border-radius: 2px;
+      padding: 14px 16px;
+      box-shadow: 0 1px 6px rgba(0, 0, 0, .08)
+    }
+
+    .kpi-card.red {
+      border-top-color: #e8302a
+    }
+
+    .kpi-card.green {
+      border-top-color: #1d6a3a
+    }
+
+    .kpi-card.amber {
+      border-top-color: #d48000
+    }
+
+    .kpi-card .kpi-label {
+      font-size: 8pt;
+      color: #555;
+      font-weight: bold;
+      letter-spacing: .2px;
+      text-transform: uppercase;
+      margin-bottom: 6px
+    }
+
+    .kpi-card .kpi-val {
+      font-size: 15pt;
+      font-weight: bold;
+      color: #1a3a6b;
+      line-height: 1.1
+    }
+
+    .kpi-card .kpi-val.big {
+      font-size: 18pt
+    }
+
+    .kpi-card .kpi-sub {
+      font-size: 7.5pt;
+      color: #777;
+      margin-top: 4px;
+      font-style: italic
+    }
+
+    .kpi-card.red .kpi-val {
+      color: #c0251f
+    }
+
+    .kpi-card.green .kpi-val {
+      color: #1d6a3a
+    }
+
+    .kpi-card.amber .kpi-val {
+      color: #d48000
+    }
+
+    /* RESULT TABLE */
+    .res-tbl {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0
+    }
+
+    .res-tbl th {
+      background: #1a3a6b;
+      color: #fff;
+      padding: 5px 8px;
+      font-size: 8pt;
+      text-align: left;
+      border: 1px solid #1a3a6b
+    }
+
+    .res-tbl th.rc {
+      text-align: center
+    }
+
+    .res-tbl td {
+      border: 1px solid #ccc;
+      padding: 4px 8px;
+      font-size: 8pt;
+      vertical-align: top
+    }
+
+    .res-tbl td.rc {
+      text-align: center
+    }
+
+    .res-tbl td.rr {
+      text-align: right;
+      font-variant-numeric: tabular-nums
+    }
+
+    .res-tbl tr:nth-child(even) td {
+      background: #f0f4fa
+    }
+
+    .res-tbl tr.total-row td {
+      background: #dce8f7;
+      font-weight: bold
+    }
+
+    .res-tbl tr.highlight td {
+      background: #fffde7
+    }
+
+    .res-tbl tr.red-row td {
+      background: #fde8e8
+    }
+
+    .res-tbl tr.green-row td {
+      background: #e8f4ee;
+      font-weight: bold
+    }
+
+    /* CALLOUT */
+    .callout {
+      border-left: 4px solid #1a3a6b;
+      background: #edf3fc;
+      padding: 10px 14px;
+      margin: 14px 0;
+      font-size: 8.5pt
+    }
+
+    .callout.green {
+      border-color: #1d6a3a;
+      background: #e8f4ee
+    }
+
+    .callout.red {
+      border-color: #e8302a;
+      background: #fde8e8
+    }
+
+    .callout.amber {
+      border-color: #d48000;
+      background: #fff8e1
+    }
+
+    .callout-hdr {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 9pt;
+      font-weight: bold
+    }
+
+    /* JOURNEY */
+    .journey {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin: 16px 0;
+      flex-wrap: wrap
+    }
+
+    .journey-block {
+      background: #1a3a6b;
+      color: #fff;
+      padding: 10px 14px;
+      font-size: 8pt;
+      font-weight: bold;
+      text-align: center;
+      flex: 1;
+      min-width: 120px;
+      border-radius: 2px
+    }
+
+    .journey-block .jb-title {
+      font-size: 9pt;
+      font-weight: bold
+    }
+
+    .journey-block .jb-sub {
+      font-size: 7.5pt;
+      font-weight: normal;
+      opacity: .8;
+      margin-top: 3px
+    }
+
+    .journey-arr {
+      color: #1a3a6b;
+      font-size: 18pt;
+      font-weight: bold
+    }
+
+    /* CHART */
+    .chart-wrap {
+      background: #fff;
+      border: 1px solid #dce8f7;
+      padding: 14px;
+      margin: 12px 0;
+      border-radius: 2px
+    }
+
+    .chart-wrap canvas {
+      max-height: 280px
+    }
+
+    .chart-title {
+      font-size: 9pt;
+      font-weight: bold;
+      color: #1a3a6b;
+      margin-bottom: 8px
+    }
+
+    .chart-grid {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr;
+      gap: 14px;
+      margin: 12px 0
+    }
+
+    /* LAYOUT */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      align-items: start
+    }
+
+    /* PAGE TITLE */
+    .page-title {
+      font-size: 14pt;
+      font-weight: bold;
+      color: #1a3a6b;
+      margin-bottom: 4px
+    }
+
+    .page-subtitle {
+      font-size: 9pt;
+      color: #555;
+      margin-bottom: 16px;
+      font-style: italic
+    }
+
+    .badge {
+      display: inline-block;
+      background: #e8302a;
+      color: #fff;
+      font-size: 7.5pt;
+      font-weight: bold;
+      padding: 2px 8px;
+      border-radius: 10px;
+      margin-left: 6px;
+      vertical-align: middle
+    }
+
+    .badge.navy {
+      background: #1a3a6b
+    }
+
+    .badge.green {
+      background: #1d6a3a
+    }
+
+    .badge.amber {
+      background: #d48000
+    }
+
+    /* REPORT SECTIONS */
+    .rpt-section {
+      background: #fff;
+      border: 1px solid #dce8f7;
+      border-radius: 4px;
+      margin: 20px 0;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .07)
+    }
+
+    .rpt-hdr {
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: #fff
+    }
+
+    .rpt-hdr.h1 {
+      background: linear-gradient(135deg, #1a3a6b, #0a56a0)
+    }
+
+    .rpt-hdr.h2 {
+      background: linear-gradient(135deg, #1d6a3a, #27904e)
+    }
+
+    .rpt-hdr.h3 {
+      background: linear-gradient(135deg, #b06e00, #d48000)
+    }
+
+    .rpt-hdr.h4 {
+      background: linear-gradient(135deg, #a01e18, #c0251f)
+    }
+
+    .rpt-hdr.hx {
+      background: linear-gradient(135deg, #071C2C, #1a3a6b)
+    }
+
+    .rpt-num {
+      background: rgba(255, 255, 255, .2);
+      border-radius: 50%;
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13pt;
+      font-weight: bold;
+      flex-shrink: 0
+    }
+
+    .rpt-hdr-title {
+      font-size: 12pt;
+      font-weight: bold;
+      letter-spacing: .2px
+    }
+
+    .rpt-hdr-sub {
+      font-size: 8pt;
+      opacity: .82;
+      margin-top: 2px
+    }
+
+    .rpt-body {
+      padding: 20px
+    }
+
+    /* REPORT HERO */
+    .report-hero {
+      background: linear-gradient(135deg, #071C2C 0%, #1a3a6b 100%);
+      color: #fff;
+      padding: 24px 20px 20px;
+      margin: -24px -20px 20px;
+      border-bottom: 4px solid #e8302a
+    }
+
+    .hero-title {
+      font-size: 17pt;
+      font-weight: bold;
+      margin-bottom: 3px
+    }
+
+    .hero-subtitle {
+      font-size: 8.5pt;
+      opacity: .7;
+      margin-bottom: 16px;
+      font-style: italic
+    }
+
+    .hero-params {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      background: rgba(255, 255, 255, .1);
+      border: 1px solid rgba(255, 255, 255, .2);
+      padding: 10px 14px;
+      border-radius: 3px;
+      margin-bottom: 16px;
+      font-size: 8.5pt
+    }
+
+    .hero-params .dp-lbl {
+      color: rgba(255, 255, 255, .65);
+      font-size: 7.5pt;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin-bottom: 2px
+    }
+
+    .hero-params .dp-val {
+      color: #4db8ff;
+      font-weight: bold;
+      font-size: 10.5pt
+    }
+
+    .hero-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px
+    }
+
+    .hero-kpi {
+      background: rgba(255, 255, 255, .08);
+      border: 1px solid rgba(255, 255, 255, .15);
+      border-radius: 4px;
+      padding: 12px 14px
+    }
+
+    .hero-kpi.h1 {
+      border-top: 3px solid #4db8ff
+    }
+
+    .hero-kpi.h2 {
+      border-top: 3px solid #4dcc80
+    }
+
+    .hero-kpi.h3 {
+      border-top: 3px solid #ffd040
+    }
+
+    .hero-kpi.h4 {
+      border-top: 3px solid #ff6b6b
+    }
+
+    .hero-kpi .hk-label {
+      font-size: 7.5pt;
+      font-weight: bold;
+      text-transform: uppercase;
+      opacity: .75;
+      margin-bottom: 5px
+    }
+
+    .hero-kpi .hk-val {
+      font-size: 14pt;
+      font-weight: bold;
+      line-height: 1.1
+    }
+
+    .hero-kpi .hk-sub {
+      font-size: 7pt;
+      opacity: .65;
+      margin-top: 4px
+    }
+
+    /* COMPARE GRID */
+    .cmp-grid {
+      display: grid;
+      grid-template-columns: 1fr 48px 1fr;
+      gap: 8px;
+      align-items: center;
+      margin: 12px 0
+    }
+
+    .cmp-box {
+      border-radius: 4px;
+      padding: 14px 16px
+    }
+
+    .cmp-box.bad {
+      background: #fde8e8;
+      border: 2px solid #e8302a
+    }
+
+    .cmp-box.good {
+      background: #e8f4ee;
+      border: 2px solid #1d6a3a
+    }
+
+    .cmp-box .cb-tag {
+      font-size: 7.5pt;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin-bottom: 6px
+    }
+
+    .cmp-box.bad .cb-tag {
+      color: #c0251f
+    }
+
+    .cmp-box.good .cb-tag {
+      color: #1d6a3a
+    }
+
+    .cmp-box .cb-val {
+      font-size: 16pt;
+      font-weight: bold
+    }
+
+    .cmp-box.bad .cb-val {
+      color: #c0251f
+    }
+
+    .cmp-box.good .cb-val {
+      color: #1d6a3a
+    }
+
+    .cmp-box .cb-sub {
+      font-size: 7.5pt;
+      color: #666;
+      margin-top: 3px
+    }
+
+    .cmp-arr {
+      font-size: 22pt;
+      color: #1a3a6b;
+      font-weight: bold;
+      text-align: center
+    }
+
+    /* BIG SAVING */
+    .big-saving {
+      background: linear-gradient(135deg, #e8f4ee, #d4eedc);
+      border: 2px solid #1d6a3a;
+      border-radius: 4px;
+      padding: 16px 20px;
+      margin: 12px 0;
+      display: flex;
+      align-items: center;
+      gap: 16px
+    }
+
+    .bs-icon {
+      font-size: 26pt;
+      flex-shrink: 0
+    }
+
+    .bs-label {
+      font-size: 8.5pt;
+      color: #555;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin-bottom: 4px
+    }
+
+    .bs-val {
+      font-size: 22pt;
+      font-weight: bold;
+      color: #1d6a3a
+    }
+
+    .bs-sub {
+      font-size: 7.5pt;
+      color: #777;
+      margin-top: 3px;
+      font-style: italic
+    }
+
+    /* SIMULATE BUTTON */
+    .btn-simulate {
+      background: linear-gradient(135deg, #e8302a, #c0251f);
+      color: #fff;
+      border: none;
+      padding: 16px 40px;
+      font-size: 13pt;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 4px;
+      width: 100%;
+      margin-top: 24px;
+      letter-spacing: .4px;
+      box-shadow: 0 4px 16px rgba(232, 48, 42, .35);
+      transition: all .2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px
+    }
+
+    .btn-simulate:hover {
+      background: linear-gradient(135deg, #c0251f, #a01e18);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(232, 48, 42, .45)
+    }
+
+    /* BACK LINK */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #1a3a6b;
+      font-size: 8.5pt;
+      font-weight: bold;
+      cursor: pointer;
+      margin-bottom: 16px;
+      text-decoration: none;
+      background: #edf3fc;
+      border: 1px solid #b8d0ee;
+      padding: 6px 14px;
+      border-radius: 20px
+    }
+
+    .back-link:hover {
+      background: #dce8f7
+    }
+
+    /* ── Tablet landscape / iPad Pro landscape (≤1050px):
+       Thu nhỏ padding tab ── */
+    @media(max-width:1050px) {
+      .tab-btn { padding: 0 14px; font-size: 11px }
+    }
+
+    /* ── iPad portrait (tất cả model) + nhỏ hơn (≤900px):
+       Wrap top bar, grid 4-col → 2-col ── */
+    @media(max-width:900px) {
+      /* Top bar */
+      .top-bar-inner { flex-wrap: wrap }
+      .nav-logo { flex: none; padding: 7px 12px }
+      .bar-actions { flex: none; padding: 5px 12px }
+      .bar-label { font-size: 10px }
+      .tab-switcher {
+        order: 3;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        justify-content: flex-start;
+        border-top: 1px solid rgba(255,255,255,.1);
+        scrollbar-width: none
+      }
+      .tab-switcher::-webkit-scrollbar { display: none }
+      .tab-btn {
+        padding: 0 16px;
+        font-size: 11px;
+        min-height: 38px;
+        flex-shrink: 0;
+        letter-spacing: 0
+      }
+
+      /* Inner tabs */
+      .itab { padding: 8px 16px; font-size: 10.5px }
+
+      /* Panel */
+      .panel { padding: 20px 14px }
+
+      /* Grid: 4-col → 2-col trên iPad portrait */
+      .kpi-grid,
+      .hero-kpi-grid { grid-template-columns: repeat(2, 1fr) }
+
+      /* chart-grid vẫn 2-col trên iPad portrait 768px+ */
+      /* hero-params hiển thị 3 per row */
+      .hero-params { gap: 10px }
+    }
+
+    /* ── iPad mini/standard portrait rìa (≤780px) ── */
+    @media(max-width:780px) {
+      .tab-btn { padding: 0 12px; font-size: 10.5px }
+      .nav-logo { padding: 7px 10px }
+      .bar-actions { padding: 5px 10px }
+      .panel { padding: 16px 12px }
+    }
+
+    /* ── Mobile phone (≤700px):
+       Full mobile – layout 1-col, input table stack ── */
+    @media(max-width:700px) {
+
+      /* Tab nhỏ hơn trên mobile */
+      .tab-btn { padding: 0 10px; font-size: 10px; min-height: 36px }
+
+      /* Inner tabs */
+      .itab { padding: 8px 14px; font-size: 10px }
+
+      /* Grids */
+      .kpi-grid,
+      .hero-kpi-grid { grid-template-columns: repeat(2, 1fr) }
+
+      .two-col,
+      .kpi-grid-3,
+      .chart-grid,
+      .cmp-grid { grid-template-columns: 1fr }
+
+      .kpi-grid-2 { grid-template-columns: repeat(2, 1fr) }
+
+      .cmp-arr { transform: rotate(90deg) }
+
+      /* Input table: label trên, input dưới */
+      .inp-tbl .lbl-cell,
+      .inp-tbl .val-cell { display: block; width: 100% }
+      .inp-tbl tr { display: block; margin-bottom: 2px }
+      .inp-tbl td { display: block; border-bottom: none }
+      .inp-tbl .lbl-cell { border-bottom: none; padding-bottom: 2px }
+      .inp-tbl .val-cell { border-top: none }
+      .inp-tbl select,
+      .inp-tbl input[type=text],
+      .inp-tbl input[type=number] { font-size: 10pt }
+
+      /* Report hero */
+      .report-hero { margin: -16px -12px 16px; padding: 16px 12px 14px }
+      .hero-title { font-size: 13pt }
+      .hero-params { gap: 8px; padding: 8px 10px }
+
+      /* Journey */
+      .journey { flex-direction: column; gap: 4px }
+      .journey-arr { transform: rotate(90deg); line-height: 1 }
+      .journey-block { min-width: unset; width: 100% }
+
+      /* Section headers */
+      .sec-hdr { font-size: 9pt }
+
+      /* Simulate button */
+      .btn-simulate { padding: 12px 20px; font-size: 11pt }
+    }
+
+    /* ── Rất nhỏ (≤400px) ── */
+    @media(max-width:400px) {
+      .panel { padding: 10px 8px }
+      .kpi-grid,
+      .hero-kpi-grid,
+      .kpi-grid-2 { grid-template-columns: 1fr }
+      .report-hero { margin: -10px -8px 12px; padding: 12px 8px 10px }
+    }
+
+    @media print {
+
+      .top-bar,
+      .inner-nav,
+      .back-link,
+      .btn-simulate {
+        display: none !important
+      }
+
+      .panel {
+        display: block !important;
+        padding: 0
+      }
+
+      #pan-inputs {
+        display: none !important
+      }
+
+      .rpt-section {
+        break-inside: avoid;
+        box-shadow: none
+      }
+    }
+
+    @page {
+      size: A4 landscape;
+      margin: 10mm 12mm;
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- TOP NAV -->
-<div class="top-bar">
-  <div class="top-bar-inner">
-    <div class="nav-logo"><img src="logoMBCwhite.png" alt="MB Capital"></div>
-    <div class="tab-switcher">
-      <a class="tab-btn active" href="quy-huu-tri.html">🏦 Mô Phỏng Quỹ Hưu Trí</a>
-      <a class="tab-btn" href="index.html">📄 Giấy Đăng Ký Mua (BMFF)</a>
-      <a class="tab-btn" href="mo-tai-khoan-to-chuc.html">📋 Đăng Ký Mở Tài Khoản Tổ Chức</a>
-    </div>
-    <div class="bar-actions"><span class="bar-label">NĐ 85/2026/NĐ-CP</span></div>
-  </div>
-</div>
-
-<!-- INNER TABS -->
-<div class="inner-nav">
-  <button class="itab act" data-tab="inputs" onclick="switchTab('inputs',this)">⚙️ Thông Số Đầu Vào</button>
-  <button class="itab" data-tab="baocao" onclick="switchTab('baocao',this)">📊 Báo Cáo Mô Phỏng</button>
-</div>
-
-<!-- ═══ PANEL: INPUTS ═══ -->
-<div id="pan-inputs" class="panel show">
-  <div class="page-title">Bảng Thông Số Đầu Vào</div>
-  <div class="page-subtitle">Nhập đầy đủ thông tin bên dưới, sau đó nhấn nút <strong>"Tạo Mô Phỏng"</strong> để xem báo cáo chi tiết</div>
-
-  <div class="sec-hdr">I. THÔNG TIN NGƯỜI LAO ĐỘNG</div>
-  <table class="inp-tbl">
-    <tr>
-      <td class="lbl-cell">Thu nhập chịu thuế (VND/tháng)</td>
-      <td class="val-cell"><input type="text" id="thu_nhap" value="50.000.000" onchange="recalc()"><div class="hint">Ví dụ: 50.000.000</div></td>
-    </tr>
-    <tr>
-      <td class="lbl-cell">Bậc thuế TNCN biên hiện tại</td>
-      <td class="val-cell">
-        <select id="bac_thue" onchange="recalc()">
-          <option value="5">5% — Thu nhập ≤ 5 triệu/tháng</option>
-          <option value="10">10% — Thu nhập 5–10 triệu/tháng</option>
-          <option value="15">15% — Thu nhập 10–18 triệu/tháng</option>
-          <option value="20">20% — Thu nhập 18–32 triệu/tháng</option>
-          <option value="25" selected>25% — Thu nhập 32–52 triệu/tháng</option>
-          <option value="30">30% — Thu nhập 52–80 triệu/tháng</option>
-          <option value="35">35% — Thu nhập &gt; 80 triệu/tháng</option>
-        </select>
-      </td>
-    </tr>
-  </table>
-
-  <div class="sec-hdr">II. PHƯƠNG THỨC ĐÓNG QUỸ</div>
-  <table class="inp-tbl">
-    <tr>
-      <td class="lbl-cell">Phương thức đóng</td>
-      <td class="val-cell">
-        <select id="mode_dong" onchange="onModeChange()">
-          <option value="1">1 — Công ty đóng 100%</option>
-          <option value="2">2 — Người lao động tự đóng 100%</option>
-          <option value="3" selected>3 — Đồng hành (Cty + NLĐ)</option>
-        </select>
-      </td>
-    </tr>
-    <tr id="row-dn-ratio">
-      <td class="lbl-cell">Tỷ lệ Công ty đóng (%) <span class="hint" style="display:inline">— chỉ áp dụng phương thức 3</span></td>
-      <td class="val-cell">
-        <select id="dn_ratio" onchange="recalc()">
-          <option value="50">50%</option>
-          <option value="60">60%</option>
-          <option value="70" selected>70%</option>
-          <option value="80">80%</option>
-          <option value="90">90%</option>
-        </select>
-      </td>
-    </tr>
-    <tr>
-      <td class="lbl-cell">Mức đóng quỹ tổng (VND/tháng/người)</td>
-      <td class="val-cell"><input type="text" id="muc_dong_tong" value="8.000.000" onchange="recalc()"></td>
-    </tr>
-    <tr>
-      <td class="lbl-cell">→ Phần Công ty đóng (VND/tháng)</td>
-      <td class="val-cell readonly"><span id="dn_dong_disp" class="derived">—</span></td>
-    </tr>
-    <tr>
-      <td class="lbl-cell">→ Phần NLĐ đóng (VND/tháng)</td>
-      <td class="val-cell readonly"><span id="nld_dong_disp" class="derived">—</span></td>
-    </tr>
-  </table>
-
-  <div class="sec-hdr">III. THAM SỐ ĐẦU TƯ</div>
-  <table class="inp-tbl">
-    <tr>
-      <td class="lbl-cell">Thời gian tích lũy (năm)</td>
-      <td class="val-cell"><input type="number" id="so_nam" value="25" min="5" max="40" onchange="recalc()"></td>
-    </tr>
-    <tr>
-      <td class="lbl-cell">Hiệu suất đầu tư kỳ vọng (%/năm)</td>
-      <td class="val-cell">
-        <select id="lai_suat" onchange="recalc()">
-          <option value="3">3%/năm — Thận trọng</option>
-          <option value="5">5%/năm — Bảo thủ</option>
-          <option value="7" selected>7%/năm — Cơ sở (lịch sử)</option>
-          <option value="9">9%/năm — Tích cực</option>
-          <option value="11">11%/năm — Lạc quan</option>
-        </select>
-      </td>
-    </tr>
-  </table>
-
-  <div class="sec-hdr">IV. PHƯƠNG THỨC NHẬN KHI VỀ HƯU</div>
-  <table class="inp-tbl">
-    <tr>
-      <td class="lbl-cell">Phương thức nhận khi về hưu</td>
-      <td class="val-cell">
-        <select id="mode_pt" onchange="onPayoutChange()">
-          <option value="1">1 — Rút một lần</option>
-          <option value="2" selected>2 — Nhận lương hưu định kỳ hàng tháng</option>
-        </select>
-      </td>
-    </tr>
-    <tr id="row-nam-nhan">
-      <td class="lbl-cell">Số năm nhận lương hưu định kỳ</td>
-      <td class="val-cell">
-        <select id="so_nam_nhan" onchange="recalc()">
-          <option value="10">10 năm</option>
-          <option value="15" selected>15 năm</option>
-          <option value="20">20 năm</option>
-        </select>
-      </td>
-    </tr>
-  </table>
-
-  <div class="sec-hdr">V. HẰNG SỐ PHÁP LÝ (Nghị định 85/2026/NĐ-CP ngày 25/03/2026)</div>
-  <table class="inp-tbl">
-    <tr>
-      <td class="lbl-cell">Mức trần giảm trừ thuế cho NLĐ (VND/tháng)</td>
-      <td class="val-cell readonly"><span class="derived">1.000.000</span></td>
-    </tr>
-    <tr>
-      <td class="lbl-cell">Mức trần chi phí được trừ cho DN (VND/tháng/người)</td>
-      <td class="val-cell readonly"><span class="derived">3.000.000</span></td>
-    </tr>
-    <tr>
-      <td class="lbl-cell">Thuế suất khấu trừ tại nguồn khi rút (phần DN đóng)</td>
-      <td class="val-cell readonly"><span class="derived">10% (phẳng)</span></td>
-    </tr>
-    <tr>
-      <td class="lbl-cell">Thuế suất phần NLĐ tự đóng khi rút</td>
-      <td class="val-cell readonly"><span class="derived">0% (miễn thuế)</span></td>
-    </tr>
-  </table>
-
-  <button class="btn-simulate" onclick="goToReport()">
-    🚀 TẠO MÔ PHỎNG — XEM BÁO CÁO ĐẦY ĐỦ
-  </button>
-</div><!-- end pan-inputs -->
-
-<!-- ═══ PANEL: BÁO CÁO ═══ -->
-<div id="pan-baocao" class="panel">
-
-  <!-- HERO -->
-  <div class="report-hero">
-    <div class="hero-title">📋 Báo Cáo Kế Hoạch Hưu Trí Tự Nguyện</div>
-    <div class="hero-subtitle">Mô phỏng theo Nghị định 85/2026/NĐ-CP — MB Capital</div>
-    <div class="hero-params" id="r-params"></div>
-    <div class="hero-kpi-grid">
-      <div class="hero-kpi h1">
-        <div class="hk-label">🛡️ Tiết Kiệm Thuế — Khối 1</div>
-        <div class="hk-val" id="r-kpi1">—</div>
-        <div class="hk-sub">Tổng thuế TNCN tiết kiệm (NLĐ)</div>
+  <!-- TOP NAV -->
+  <div class="top-bar">
+    <div class="top-bar-inner">
+      <div class="nav-logo"><img src="logoMBCwhite.png" alt="MB Capital"></div>
+      <div class="tab-switcher">
+        <a class="tab-btn active" href="quy-huu-tri.html">🏦 Mô Phỏng Quỹ Hưu Trí</a>
+        <a class="tab-btn" href="index.html">📄 Giấy Đăng Ký Mua (BMFF)</a>
+        <a class="tab-btn" href="mo-tai-khoan-to-chuc.html">📋 Đăng Ký Mở Tài Khoản Tổ Chức</a>
       </div>
-      <div class="hero-kpi h2">
-        <div class="hk-label">📈 Tổng Tài Sản — Khối 2</div>
-        <div class="hk-val" id="r-kpi2">—</div>
-        <div class="hk-sub">Vốn gốc + Lãi kép + Lá chắn</div>
-      </div>
-      <div class="hero-kpi h3">
-        <div class="hk-label">💼 Ưu Đãi Thuế Rút — Khối 3</div>
-        <div class="hk-val" id="r-kpi3">—</div>
-        <div class="hk-sub">Tiết kiệm so với lũy tiến 35%</div>
-      </div>
-      <div class="hero-kpi h4">
-        <div class="hk-label">💰 Lương Hưu — Khối 4</div>
-        <div class="hk-val" id="r-kpi4">—</div>
-        <div class="hk-sub" id="r-kpi4-sub">Nhận hàng tháng suốt kỳ hưu</div>
-      </div>
+      <div class="bar-actions"><span class="bar-label">NĐ 85/2026/NĐ-CP</span></div>
     </div>
   </div>
 
-  <span class="back-link" onclick="switchTab('inputs', document.querySelector('[data-tab=inputs]'))">← Quay lại Thông Số Đầu Vào</span>
-
-  <!-- JOURNEY -->
-  <div class="journey">
-    <div class="journey-block">
-      <div class="jb-title">KHỐI 1 — Lúc ĐÓNG</div>
-      <div class="jb-sub">Giảm thuế TNCN ngay lập tức</div>
-    </div>
-    <div class="journey-arr">→</div>
-    <div class="journey-block" style="background:#1d6a3a">
-      <div class="jb-title">KHỐI 2 — Trong TÍCH LŨY</div>
-      <div class="jb-sub">Lãi kép 100% miễn thuế</div>
-    </div>
-    <div class="journey-arr">→</div>
-    <div class="journey-block" style="background:#b06e00">
-      <div class="jb-title">KHỐI 3 — Lúc RÚT</div>
-      <div class="jb-sub">Chỉ 10% — Không lũy tiến</div>
-    </div>
-    <div class="journey-arr">→</div>
-    <div class="journey-block" style="background:#c0251f">
-      <div class="jb-title">KHỐI 4 — Khi VỀ HƯU</div>
-      <div class="jb-sub">Rút 1 lần hoặc lương hưu</div>
-    </div>
+  <!-- INNER TABS -->
+  <div class="inner-nav">
+    <button class="itab act" data-tab="inputs" onclick="switchTab('inputs',this)">⚙️ Thông Số Đầu Vào</button>
+    <button class="itab" data-tab="baocao" onclick="switchTab('baocao',this)">📊 Báo Cáo Mô Phỏng</button>
   </div>
 
-  <!-- ═══ KHỐI 1 ═══ -->
-  <div class="rpt-section">
-    <div class="rpt-hdr h1">
-      <div class="rpt-num">01</div>
-      <div>
-        <div class="rpt-hdr-title">🛡️ Lá Chắn Thuế — Bạn Tiết Kiệm Được Tiền Thuế Ngay Từ Tháng Đầu</div>
-        <div class="rpt-hdr-sub">Đóng vào Quỹ → thu nhập chịu thuế giảm → thuế TNCN phải nộp giảm ngay — không cần chờ cuối năm</div>
+  <!-- ═══ PANEL: INPUTS ═══ -->
+  <div id="pan-inputs" class="panel show">
+    <div class="page-title">Bảng Thông Số Đầu Vào</div>
+    <div class="page-subtitle">Nhập đầy đủ thông tin bên dưới, sau đó nhấn nút <strong>"Tạo Mô Phỏng"</strong> để xem
+      báo cáo chi tiết</div>
+
+    <div class="sec-hdr">I. THÔNG TIN NGƯỜI LAO ĐỘNG</div>
+    <table class="inp-tbl">
+      <tr>
+        <td class="lbl-cell">Thu nhập chịu thuế (VND/tháng)</td>
+        <td class="val-cell"><input type="text" id="thu_nhap" value="50.000.000" onchange="recalc()">
+          <div class="hint">Ví dụ: 50.000.000</div>
+        </td>
+      </tr>
+      <tr>
+        <td class="lbl-cell">Bậc thuế TNCN biên hiện tại</td>
+        <td class="val-cell">
+          <select id="bac_thue" onchange="recalc()">
+            <option value="5">5% — Thu nhập ≤ 5 triệu/tháng</option>
+            <option value="10">10% — Thu nhập 5–10 triệu/tháng</option>
+            <option value="15">15% — Thu nhập 10–18 triệu/tháng</option>
+            <option value="20">20% — Thu nhập 18–32 triệu/tháng</option>
+            <option value="25" selected>25% — Thu nhập 32–52 triệu/tháng</option>
+            <option value="30">30% — Thu nhập 52–80 triệu/tháng</option>
+            <option value="35">35% — Thu nhập &gt; 80 triệu/tháng</option>
+          </select>
+        </td>
+      </tr>
+    </table>
+
+    <div class="sec-hdr">II. PHƯƠNG THỨC ĐÓNG QUỸ</div>
+    <table class="inp-tbl">
+      <tr>
+        <td class="lbl-cell">Phương thức đóng</td>
+        <td class="val-cell">
+          <select id="mode_dong" onchange="onModeChange()">
+            <option value="1">1 — Công ty đóng 100%</option>
+            <option value="2">2 — Người lao động tự đóng 100%</option>
+            <option value="3" selected>3 — Đồng hành (Cty + NLĐ)</option>
+          </select>
+        </td>
+      </tr>
+      <tr id="row-dn-ratio">
+        <td class="lbl-cell">Tỷ lệ Công ty đóng (%) <span class="hint" style="display:inline">— chỉ áp dụng phương thức
+            3</span></td>
+        <td class="val-cell">
+          <select id="dn_ratio" onchange="recalc()">
+            <option value="50">50%</option>
+            <option value="60">60%</option>
+            <option value="70" selected>70%</option>
+            <option value="80">80%</option>
+            <option value="90">90%</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td class="lbl-cell">Mức đóng quỹ tổng (VND/tháng/người)</td>
+        <td class="val-cell"><input type="text" id="muc_dong_tong" value="8.000.000" onchange="recalc()"></td>
+      </tr>
+      <tr>
+        <td class="lbl-cell">→ Phần Công ty đóng (VND/tháng)</td>
+        <td class="val-cell readonly"><span id="dn_dong_disp" class="derived">—</span></td>
+      </tr>
+      <tr>
+        <td class="lbl-cell">→ Phần NLĐ đóng (VND/tháng)</td>
+        <td class="val-cell readonly"><span id="nld_dong_disp" class="derived">—</span></td>
+      </tr>
+    </table>
+
+    <div class="sec-hdr">III. THAM SỐ ĐẦU TƯ</div>
+    <table class="inp-tbl">
+      <tr>
+        <td class="lbl-cell">Thời gian tích lũy (năm)</td>
+        <td class="val-cell"><input type="number" id="so_nam" value="25" min="5" max="40" onchange="recalc()"></td>
+      </tr>
+      <tr>
+        <td class="lbl-cell">Hiệu suất đầu tư kỳ vọng (%/năm)</td>
+        <td class="val-cell">
+          <select id="lai_suat" onchange="recalc()">
+            <option value="3">3%/năm — Thận trọng</option>
+            <option value="5">5%/năm — Bảo thủ</option>
+            <option value="7" selected>7%/năm — Cơ sở (lịch sử)</option>
+            <option value="9">9%/năm — Tích cực</option>
+            <option value="11">11%/năm — Lạc quan</option>
+          </select>
+        </td>
+      </tr>
+    </table>
+
+    <div class="sec-hdr">IV. PHƯƠNG THỨC NHẬN KHI VỀ HƯU</div>
+    <table class="inp-tbl">
+      <tr>
+        <td class="lbl-cell">Phương thức nhận khi về hưu</td>
+        <td class="val-cell">
+          <select id="mode_pt" onchange="onPayoutChange()">
+            <option value="1">1 — Rút một lần</option>
+            <option value="2" selected>2 — Nhận lương hưu định kỳ hàng tháng</option>
+          </select>
+        </td>
+      </tr>
+      <tr id="row-nam-nhan">
+        <td class="lbl-cell">Số năm nhận lương hưu định kỳ</td>
+        <td class="val-cell">
+          <select id="so_nam_nhan" onchange="recalc()">
+            <option value="10">10 năm</option>
+            <option value="15" selected>15 năm</option>
+            <option value="20">20 năm</option>
+          </select>
+        </td>
+      </tr>
+    </table>
+
+    <div class="sec-hdr">V. HẰNG SỐ PHÁP LÝ (Nghị định 85/2026/NĐ-CP ngày 25/03/2026)</div>
+    <table class="inp-tbl">
+      <tr>
+        <td class="lbl-cell">Mức trần giảm trừ thuế cho NLĐ (VND/tháng)</td>
+        <td class="val-cell readonly"><span class="derived">1.000.000</span></td>
+      </tr>
+      <tr>
+        <td class="lbl-cell">Mức trần chi phí được trừ cho DN (VND/tháng/người)</td>
+        <td class="val-cell readonly"><span class="derived">3.000.000</span></td>
+      </tr>
+      <tr>
+        <td class="lbl-cell">Thuế suất khấu trừ tại nguồn khi rút (phần DN đóng)</td>
+        <td class="val-cell readonly"><span class="derived">10% (phẳng)</span></td>
+      </tr>
+      <tr>
+        <td class="lbl-cell">Thuế suất phần NLĐ tự đóng khi rút</td>
+        <td class="val-cell readonly"><span class="derived">0% (miễn thuế)</span></td>
+      </tr>
+    </table>
+
+    <button class="btn-simulate" onclick="goToReport()">
+      🚀 TẠO MÔ PHỎNG — XEM BÁO CÁO ĐẦY ĐỦ
+    </button>
+  </div><!-- end pan-inputs -->
+
+  <!-- ═══ PANEL: BÁO CÁO ═══ -->
+  <div id="pan-baocao" class="panel">
+
+    <!-- HERO -->
+    <div class="report-hero">
+      <div class="hero-title">📋 Báo Cáo Kế Hoạch Hưu Trí Tự Nguyện</div>
+      <div class="hero-subtitle">Mô phỏng theo Nghị định 85/2026/NĐ-CP — MB Capital</div>
+      <div class="hero-params" id="r-params"></div>
+      <div class="hero-kpi-grid">
+        <div class="hero-kpi h1">
+          <div class="hk-label">🛡️ Tiết Kiệm Thuế — Khối 1</div>
+          <div class="hk-val" id="r-kpi1">—</div>
+          <div class="hk-sub">Tổng thuế TNCN tiết kiệm (NLĐ)</div>
+        </div>
+        <div class="hero-kpi h2">
+          <div class="hk-label">📈 Tổng Tài Sản — Khối 2</div>
+          <div class="hk-val" id="r-kpi2">—</div>
+          <div class="hk-sub">Vốn gốc + Lãi kép + Lá chắn</div>
+        </div>
+        <div class="hero-kpi h3">
+          <div class="hk-label">💼 Ưu Đãi Thuế Rút — Khối 3</div>
+          <div class="hk-val" id="r-kpi3">—</div>
+          <div class="hk-sub">Tiết kiệm so với lũy tiến 35%</div>
+        </div>
+        <div class="hero-kpi h4">
+          <div class="hk-label">💰 Lương Hưu — Khối 4</div>
+          <div class="hk-val" id="r-kpi4">—</div>
+          <div class="hk-sub" id="r-kpi4-sub">Nhận hàng tháng suốt kỳ hưu</div>
+        </div>
       </div>
     </div>
-    <div class="rpt-body">
 
-      <div class="cmp-grid">
-        <div class="cmp-box bad">
-          <div class="cb-tag">❌ Không tham gia Quỹ — Thuế TNCN/tháng</div>
-          <div class="cb-val" id="r1-tax-before">—</div>
-          <div class="cb-sub">VND/tháng phải nộp</div>
-        </div>
-        <div class="cmp-arr">→</div>
-        <div class="cmp-box good">
-          <div class="cb-tag">✅ Có tham gia Quỹ — Thuế TNCN/tháng</div>
-          <div class="cb-val" id="r1-tax-after">—</div>
-          <div class="cb-sub">VND/tháng phải nộp</div>
-        </div>
+    <span class="back-link" onclick="switchTab('inputs', document.querySelector('[data-tab=inputs]'))">← Quay lại Thông
+      Số Đầu Vào</span>
+
+    <!-- JOURNEY -->
+    <div class="journey">
+      <div class="journey-block">
+        <div class="jb-title">KHỐI 1 — Lúc ĐÓNG</div>
+        <div class="jb-sub">Giảm thuế TNCN ngay lập tức</div>
       </div>
-
-      <div class="kpi-grid-3">
-        <div class="kpi-card">
-          <div class="kpi-label">Tiết kiệm thuế / tháng</div>
-          <div class="kpi-val" id="r1-monthly-save">—</div>
-          <div class="kpi-sub">VND — Giữ lại mỗi tháng</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-label">Tiết kiệm thuế / năm</div>
-          <div class="kpi-val" id="r1-annual-save">—</div>
-          <div class="kpi-sub">VND</div>
-        </div>
-        <div class="kpi-card green">
-          <div class="kpi-label">Tổng tiết kiệm sau <span id="r1-n-years">N</span> năm</div>
-          <div class="kpi-val big" id="r1-total-save">—</div>
-          <div class="kpi-sub">VND (phần NLĐ)</div>
-        </div>
+      <div class="journey-arr">→</div>
+      <div class="journey-block" style="background:#1d6a3a">
+        <div class="jb-title">KHỐI 2 — Trong TÍCH LŨY</div>
+        <div class="jb-sub">Lãi kép 100% miễn thuế</div>
       </div>
-
-      <div class="callout" id="r1-message"></div>
-
-    </div>
-  </div>
-
-  <!-- ═══ KHỐI 2 ═══ -->
-  <div class="rpt-section">
-    <div class="rpt-hdr h2">
-      <div class="rpt-num">02</div>
-      <div>
-        <div class="rpt-hdr-title">📈 Lãi Kép & Miễn Thuế — Tài Sản Tăng Trưởng Mạnh Mẽ Theo Từng Năm</div>
-        <div class="rpt-hdr-sub">Toàn bộ lãi, cổ tức trong Quỹ đều KHÔNG bị đánh thuế — tiền sinh lời được tái đầu tư 100%</div>
+      <div class="journey-arr">→</div>
+      <div class="journey-block" style="background:#b06e00">
+        <div class="jb-title">KHỐI 3 — Lúc RÚT</div>
+        <div class="jb-sub">Chỉ 10% — Không lũy tiến</div>
+      </div>
+      <div class="journey-arr">→</div>
+      <div class="journey-block" style="background:#c0251f">
+        <div class="jb-title">KHỐI 4 — Khi VỀ HƯU</div>
+        <div class="jb-sub">Rút 1 lần hoặc lương hưu</div>
       </div>
     </div>
-    <div class="rpt-body">
-      <div class="kpi-grid">
-        <div class="kpi-card">
-          <div class="kpi-label">Tổng vốn gốc đóng vào</div>
-          <div class="kpi-val" id="r2-k1">—</div>
-          <div class="kpi-sub">VND</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-label">Giá trị từ lá chắn thuế</div>
-          <div class="kpi-val" id="r2-k2">—</div>
-          <div class="kpi-sub">VND (thuế tiết kiệm tái đầu tư)</div>
-        </div>
-        <div class="kpi-card amber">
-          <div class="kpi-label">Lãi kép đầu tư (miễn thuế)</div>
-          <div class="kpi-val" id="r2-k3">—</div>
-          <div class="kpi-sub">VND — 100% miễn thuế tích lũy</div>
-        </div>
-        <div class="kpi-card green">
-          <div class="kpi-label">🔥 Tổng tài sản cuối kỳ</div>
-          <div class="kpi-val big" id="r2-k4">—</div>
-          <div class="kpi-sub" id="r2-k4-ratio">—</div>
-        </div>
-      </div>
 
-      <div class="chart-grid">
-        <div class="chart-wrap">
-          <div class="chart-title">📊 Tăng Trưởng Tài Sản Theo Năm — 3 Lớp Tích Lũy (triệu VND)</div>
-          <canvas id="chart-growth"></canvas>
-        </div>
-        <div class="chart-wrap">
-          <div class="chart-title">🥧 Cơ Cấu Tài Sản Cuối Kỳ</div>
-          <canvas id="chart-donut"></canvas>
-        </div>
-      </div>
-
-      <div class="sec-hdr">Bảng Chi Tiết Tăng Trưởng Từng Năm</div>
-      <div style="max-height:320px;overflow-y:auto;border:1px solid #dce8f7">
-        <table class="res-tbl" style="margin:0" id="r2-table"></table>
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══ KHỐI 3 ═══ -->
-  <div class="rpt-section">
-    <div class="rpt-hdr h3">
-      <div class="rpt-num">03</div>
-      <div>
-        <div class="rpt-hdr-title">💼 Khi Rút Tiền — Chỉ 10% Phẳng, Không Lo Thuế Lũy Tiến</div>
-        <div class="rpt-hdr-sub">Theo NĐ 85/2026: không áp dụng biểu lũy tiến — chỉ khấu trừ phẳng 10% tại nguồn cho phần DN đóng</div>
-      </div>
-    </div>
-    <div class="rpt-body">
-
-      <div class="sec-hdr" style="margin-top:0">Phân Tách Nguồn Vốn Khi Rút</div>
-      <table class="res-tbl" id="r3-sources"></table>
-
-      <div class="cmp-grid" style="margin-top:16px">
-        <div class="cmp-box bad">
-          <div class="cb-tag">❌ Nếu bị đánh thuế lũy tiến 35%</div>
-          <div class="cb-val" id="r3-luy-tien">—</div>
-          <div class="cb-sub">VND thuế phải nộp trên phần DN đóng</div>
-        </div>
-        <div class="cmp-arr">→</div>
-        <div class="cmp-box good">
-          <div class="cb-tag">✅ Thực tế — Khấu trừ phẳng 10%</div>
-          <div class="cb-val" id="r3-dnTax">—</div>
-          <div class="cb-sub">VND thuế thực tế phải nộp</div>
-        </div>
-      </div>
-
-      <div class="big-saving">
-        <div class="bs-icon">💸</div>
+    <!-- ═══ KHỐI 1 ═══ -->
+    <div class="rpt-section">
+      <div class="rpt-hdr h1">
+        <div class="rpt-num">01</div>
         <div>
-          <div class="bs-label">Bạn tiết kiệm được — nhờ quy định thuế phẳng</div>
-          <div class="bs-val" id="r3-saving">—</div>
-          <div class="bs-sub">VND — khoản tiền này ở lại trong túi bạn, không phải nộp thuế</div>
+          <div class="rpt-hdr-title">🛡️ Lá Chắn Thuế — Bạn Tiết Kiệm Được Tiền Thuế Ngay Từ Tháng Đầu</div>
+          <div class="rpt-hdr-sub">Đóng vào Quỹ → thu nhập chịu thuế giảm → thuế TNCN phải nộp giảm ngay — không cần chờ
+            cuối năm</div>
         </div>
       </div>
+      <div class="rpt-body">
 
-      <div class="callout green">
-        <span class="callout-hdr">✅ 3 điểm mấu chốt cần nhớ khi rút tiền</span>
-        1️⃣ Phần NLĐ tự đóng + toàn bộ lãi phát sinh → Rút ra <strong>MIỄN THUẾ 100%</strong><br>
-        2️⃣ Phần DN đóng thay + lãi → Chỉ khấu trừ phẳng <strong>10%</strong> tại nguồn<br>
-        3️⃣ KHÔNG áp dụng biểu thuế lũy tiến (20%–35%) → Tiết kiệm: <strong id="r3-saving-inline">—</strong>
+        <div class="cmp-grid">
+          <div class="cmp-box bad">
+            <div class="cb-tag">❌ Không tham gia Quỹ — Thuế TNCN/tháng</div>
+            <div class="cb-val" id="r1-tax-before">—</div>
+            <div class="cb-sub">VND/tháng phải nộp</div>
+          </div>
+          <div class="cmp-arr">→</div>
+          <div class="cmp-box good">
+            <div class="cb-tag">✅ Có tham gia Quỹ — Thuế TNCN/tháng</div>
+            <div class="cb-val" id="r1-tax-after">—</div>
+            <div class="cb-sub">VND/tháng phải nộp</div>
+          </div>
+        </div>
+
+        <div class="kpi-grid-3">
+          <div class="kpi-card">
+            <div class="kpi-label">Tiết kiệm thuế / tháng</div>
+            <div class="kpi-val" id="r1-monthly-save">—</div>
+            <div class="kpi-sub">VND — Giữ lại mỗi tháng</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Tiết kiệm thuế / năm</div>
+            <div class="kpi-val" id="r1-annual-save">—</div>
+            <div class="kpi-sub">VND</div>
+          </div>
+          <div class="kpi-card green">
+            <div class="kpi-label">Tổng tiết kiệm sau <span id="r1-n-years">N</span> năm</div>
+            <div class="kpi-val big" id="r1-total-save">—</div>
+            <div class="kpi-sub">VND (phần NLĐ)</div>
+          </div>
+        </div>
+
+        <div class="callout" id="r1-message"></div>
+
       </div>
     </div>
-  </div>
 
-  <!-- ═══ KHỐI 4 ═══ -->
-  <div class="rpt-section">
-    <div class="rpt-hdr h4">
-      <div class="rpt-num">04</div>
-      <div>
-        <div class="rpt-hdr-title">💰 Nhận Hưu Trí — Chủ Động Tài Chính Khi Về Hưu</div>
-        <div class="rpt-hdr-sub">Linh hoạt chọn rút một lần hoặc nhận lương hưu hàng tháng — phần vốn chưa rút tiếp tục sinh lời</div>
-      </div>
-    </div>
-    <div class="rpt-body">
-
-      <div class="two-col">
-        <!-- Option A -->
+    <!-- ═══ KHỐI 2 ═══ -->
+    <div class="rpt-section">
+      <div class="rpt-hdr h2">
+        <div class="rpt-num">02</div>
         <div>
-          <div class="sec-sub">🅐 LỰA CHỌN A — RÚT MỘT LẦN</div>
-          <div class="kpi-card" style="margin-top:8px">
-            <div class="kpi-label">Nhận ngay một lần sau thuế</div>
-            <div class="kpi-val big" id="r4-lump">—</div>
-            <div class="kpi-sub">VND — Toàn bộ vào tài khoản ngay</div>
+          <div class="rpt-hdr-title">📈 Lãi Kép & Miễn Thuế — Tài Sản Tăng Trưởng Mạnh Mẽ Theo Từng Năm</div>
+          <div class="rpt-hdr-sub">Toàn bộ lãi, cổ tức trong Quỹ đều KHÔNG bị đánh thuế — tiền sinh lời được tái đầu tư
+            100%</div>
+        </div>
+      </div>
+      <div class="rpt-body">
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-label">Tổng vốn gốc đóng vào</div>
+            <div class="kpi-val" id="r2-k1">—</div>
+            <div class="kpi-sub">VND</div>
           </div>
-          <div class="callout amber" style="margin-top:10px;font-size:7.5pt">
-            <strong>✅ Ưu điểm:</strong> Túi tiền lớn, chủ động (mua nhà, kinh doanh, du lịch)<br>
-            <strong>⚠️ Rủi ro:</strong> Tự quản lý, mất lãi kép tiếp tục, tâm lý tiêu hết
+          <div class="kpi-card">
+            <div class="kpi-label">Giá trị từ lá chắn thuế</div>
+            <div class="kpi-val" id="r2-k2">—</div>
+            <div class="kpi-sub">VND (thuế tiết kiệm tái đầu tư)</div>
+          </div>
+          <div class="kpi-card amber">
+            <div class="kpi-label">Lãi kép đầu tư (miễn thuế)</div>
+            <div class="kpi-val" id="r2-k3">—</div>
+            <div class="kpi-sub">VND — 100% miễn thuế tích lũy</div>
+          </div>
+          <div class="kpi-card green">
+            <div class="kpi-label">🔥 Tổng tài sản cuối kỳ</div>
+            <div class="kpi-val big" id="r2-k4">—</div>
+            <div class="kpi-sub" id="r2-k4-ratio">—</div>
           </div>
         </div>
-        <!-- Option B -->
+
+        <div class="chart-grid">
+          <div class="chart-wrap">
+            <div class="chart-title">📊 Tăng Trưởng Tài Sản Theo Năm — 3 Lớp Tích Lũy (triệu VND)</div>
+            <canvas id="chart-growth"></canvas>
+          </div>
+          <div class="chart-wrap">
+            <div class="chart-title">🥧 Cơ Cấu Tài Sản Cuối Kỳ</div>
+            <canvas id="chart-donut"></canvas>
+          </div>
+        </div>
+
+        <div class="sec-hdr">Bảng Chi Tiết Tăng Trưởng Từng Năm</div>
+        <div style="max-height:320px;overflow-y:auto;border:1px solid #dce8f7">
+          <table class="res-tbl" style="margin:0" id="r2-table"></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ KHỐI 3 ═══ -->
+    <div class="rpt-section">
+      <div class="rpt-hdr h3">
+        <div class="rpt-num">03</div>
         <div>
-          <div class="sec-sub">🅑 LỰA CHỌN B — LƯƠNG HƯU ĐỊNH KỲ HÀNG THÁNG</div>
-          <div class="kpi-grid-2" style="margin-top:8px">
-            <div class="kpi-card red">
-              <div class="kpi-label">Nhận hàng tháng</div>
-              <div class="kpi-val big" id="r4-monthly">—</div>
-              <div class="kpi-sub">VND/tháng</div>
-            </div>
-            <div class="kpi-card">
-              <div class="kpi-label">Nhận hàng năm</div>
-              <div class="kpi-val" id="r4-annual">—</div>
-              <div class="kpi-sub">VND/năm</div>
-            </div>
-          </div>
-          <div class="kpi-grid-2">
-            <div class="kpi-card green">
-              <div class="kpi-label">Tổng nhận trong <span id="r4-n-label">15</span> năm</div>
-              <div class="kpi-val" id="r4-total">—</div>
-              <div class="kpi-sub">VND</div>
-            </div>
-            <div class="kpi-card amber">
-              <div class="kpi-label">Thặng dư so với rút 1 lần</div>
-              <div class="kpi-val" id="r4-surplus">—</div>
-              <div class="kpi-sub">VND nhờ tiếp tục sinh lời</div>
-            </div>
-          </div>
-          <div class="callout green" style="font-size:7.5pt">
-            <strong>✅ Bảo toàn vốn — Vốn chưa rút tiếp tục sinh lời</strong>
-            Phần vốn còn lại trong quỹ vẫn đầu tư ở lãi suất <span id="r4-rate">7%</span>/năm — lãi kép tiếp tục cộng dồn.
-          </div>
+          <div class="rpt-hdr-title">💼 Khi Rút Tiền — Chỉ 10% Phẳng, Không Lo Thuế Lũy Tiến</div>
+          <div class="rpt-hdr-sub">Theo NĐ 85/2026: không áp dụng biểu lũy tiến — chỉ khấu trừ phẳng 10% tại nguồn cho
+            phần DN đóng</div>
         </div>
       </div>
+      <div class="rpt-body">
 
-      <div class="chart-wrap" id="chart-payout-wrap" style="margin-top:16px">
-        <div class="chart-title">📉 Dòng Tiền Hưu Trí Theo Năm — Số Dư Đầu Năm & Tiền Rút Hàng Năm</div>
-        <canvas id="chart-payout"></canvas>
-      </div>
+        <div class="sec-hdr" style="margin-top:0">Phân Tách Nguồn Vốn Khi Rút</div>
+        <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid #dce8f7">
+          <table class="res-tbl" style="margin:0;min-width:600px" id="r3-sources"></table>
+        </div>
 
-      <div class="sec-hdr">Bảng Dòng Tiền Nhận Hưu Hàng Năm (Phương Án B)</div>
-      <div style="max-height:320px;overflow-y:auto;border:1px solid #dce8f7">
-        <table class="res-tbl" style="margin:0" id="r4-table"></table>
+        <div class="cmp-grid" style="margin-top:16px">
+          <div class="cmp-box bad">
+            <div class="cb-tag">❌ Nếu bị đánh thuế lũy tiến 35%</div>
+            <div class="cb-val" id="r3-luy-tien">—</div>
+            <div class="cb-sub">VND thuế phải nộp trên phần DN đóng</div>
+          </div>
+          <div class="cmp-arr">→</div>
+          <div class="cmp-box good">
+            <div class="cb-tag">✅ Thực tế — Khấu trừ phẳng 10%</div>
+            <div class="cb-val" id="r3-dnTax">—</div>
+            <div class="cb-sub">VND thuế thực tế phải nộp</div>
+          </div>
+        </div>
+
+        <div class="big-saving">
+          <div class="bs-icon">💸</div>
+          <div>
+            <div class="bs-label">Bạn tiết kiệm được — nhờ quy định thuế phẳng</div>
+            <div class="bs-val" id="r3-saving">—</div>
+            <div class="bs-sub">VND — khoản tiền này ở lại trong túi bạn, không phải nộp thuế</div>
+          </div>
+        </div>
+
+        <div class="callout green">
+          <span class="callout-hdr">✅ 3 điểm mấu chốt cần nhớ khi rút tiền</span>
+          1️⃣ Phần NLĐ tự đóng + toàn bộ lãi phát sinh → Rút ra <strong>MIỄN THUẾ 100%</strong><br>
+          2️⃣ Phần DN đóng thay + lãi → Chỉ khấu trừ phẳng <strong>10%</strong> tại nguồn<br>
+          3️⃣ KHÔNG áp dụng biểu thuế lũy tiến (20%–35%) → Tiết kiệm: <strong id="r3-saving-inline">—</strong>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- ═══ TỔNG KẾT ═══ -->
-  <div class="rpt-section">
-    <div class="rpt-hdr hx">
-      <div class="rpt-num">∑</div>
-      <div>
-        <div class="rpt-hdr-title">📋 Tổng Kết — Toàn Bộ Lợi Ích 4 Khối</div>
-        <div class="rpt-hdr-sub">Bảng tổng hợp đầy đủ từ đóng quỹ đến nhận hưu trí</div>
+    <!-- ═══ KHỐI 4 ═══ -->
+    <div class="rpt-section">
+      <div class="rpt-hdr h4">
+        <div class="rpt-num">04</div>
+        <div>
+          <div class="rpt-hdr-title">💰 Nhận Hưu Trí — Chủ Động Tài Chính Khi Về Hưu</div>
+          <div class="rpt-hdr-sub">Linh hoạt chọn rút một lần hoặc nhận lương hưu hàng tháng — phần vốn chưa rút tiếp
+            tục sinh lời</div>
+        </div>
+      </div>
+      <div class="rpt-body">
+
+        <div class="two-col">
+          <!-- Option A -->
+          <div>
+            <div class="sec-sub">🅐 LỰA CHỌN A — RÚT MỘT LẦN</div>
+            <div class="kpi-card" style="margin-top:8px">
+              <div class="kpi-label">Nhận ngay một lần sau thuế</div>
+              <div class="kpi-val big" id="r4-lump">—</div>
+              <div class="kpi-sub">VND — Toàn bộ vào tài khoản ngay</div>
+            </div>
+            <div class="callout amber" style="margin-top:10px;font-size:7.5pt">
+              <strong>✅ Ưu điểm:</strong> Túi tiền lớn, chủ động (mua nhà, kinh doanh, du lịch)<br>
+              <strong>⚠️ Rủi ro:</strong> Tự quản lý, mất lãi kép tiếp tục, tâm lý tiêu hết
+            </div>
+          </div>
+          <!-- Option B -->
+          <div>
+            <div class="sec-sub">🅑 LỰA CHỌN B — LƯƠNG HƯU ĐỊNH KỲ HÀNG THÁNG</div>
+            <div class="kpi-grid-2" style="margin-top:8px">
+              <div class="kpi-card red">
+                <div class="kpi-label">Nhận hàng tháng</div>
+                <div class="kpi-val big" id="r4-monthly">—</div>
+                <div class="kpi-sub">VND/tháng</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-label">Nhận hàng năm</div>
+                <div class="kpi-val" id="r4-annual">—</div>
+                <div class="kpi-sub">VND/năm</div>
+              </div>
+            </div>
+            <div class="kpi-grid-2">
+              <div class="kpi-card green">
+                <div class="kpi-label">Tổng nhận trong <span id="r4-n-label">15</span> năm</div>
+                <div class="kpi-val" id="r4-total">—</div>
+                <div class="kpi-sub">VND</div>
+              </div>
+              <div class="kpi-card amber">
+                <div class="kpi-label">Thặng dư so với rút 1 lần</div>
+                <div class="kpi-val" id="r4-surplus">—</div>
+                <div class="kpi-sub">VND nhờ tiếp tục sinh lời</div>
+              </div>
+            </div>
+            <div class="callout green" style="font-size:7.5pt">
+              <strong>✅ Bảo toàn vốn — Vốn chưa rút tiếp tục sinh lời</strong>
+              Phần vốn còn lại trong quỹ vẫn đầu tư ở lãi suất <span id="r4-rate">7%</span>/năm — lãi kép tiếp tục cộng
+              dồn.
+            </div>
+          </div>
+        </div>
+
+        <div class="chart-wrap" id="chart-payout-wrap" style="margin-top:16px">
+          <div class="chart-title">📉 Dòng Tiền Hưu Trí Theo Năm — Số Dư Đầu Năm & Tiền Rút Hàng Năm</div>
+          <canvas id="chart-payout"></canvas>
+        </div>
+
+        <div class="sec-hdr">Bảng Dòng Tiền Nhận Hưu Hàng Năm (Phương Án B)</div>
+        <div style="max-height:320px;overflow-y:auto;border:1px solid #dce8f7">
+          <table class="res-tbl" style="margin:0" id="r4-table"></table>
+        </div>
       </div>
     </div>
-    <div class="rpt-body">
-      <table class="res-tbl" id="r-summary"></table>
-      <div style="margin-top:16px;text-align:right;display:flex;gap:10px;justify-content:flex-end">
-        <button onclick="switchTab('inputs', document.querySelector('[data-tab=inputs]'))" style="background:#1a3a6b;color:#fff;border:none;padding:8px 18px;cursor:pointer;font-size:9pt;border-radius:2px;font-weight:bold">⚙️ Điều Chỉnh Thông Số</button>
-        <button onclick="window.print()" style="background:#1d6a3a;color:#fff;border:none;padding:8px 18px;cursor:pointer;font-size:9pt;border-radius:2px;font-weight:bold">🖨️ In Báo Cáo</button>
+
+    <!-- ═══ TỔNG KẾT ═══ -->
+    <div class="rpt-section">
+      <div class="rpt-hdr hx">
+        <div class="rpt-num">∑</div>
+        <div>
+          <div class="rpt-hdr-title">📋 Tổng Kết — Toàn Bộ Lợi Ích 4 Khối</div>
+          <div class="rpt-hdr-sub">Bảng tổng hợp đầy đủ từ đóng quỹ đến nhận hưu trí</div>
+        </div>
+      </div>
+      <div class="rpt-body">
+        <table class="res-tbl" id="r-summary"></table>
+        <div style="margin-top:16px;text-align:right;display:flex;gap:10px;justify-content:flex-end">
+          <button onclick="switchTab('inputs', document.querySelector('[data-tab=inputs]'))"
+            style="background:#1a3a6b;color:#fff;border:none;padding:8px 18px;cursor:pointer;font-size:9pt;border-radius:2px;font-weight:bold">⚙️
+            Điều Chỉnh Thông Số</button>
+          <button onclick="window.print()"
+            style="background:#1d6a3a;color:#fff;border:none;padding:8px 18px;cursor:pointer;font-size:9pt;border-radius:2px;font-weight:bold">🖨️
+            In Báo Cáo,PDF</button>
+        </div>
       </div>
     </div>
-  </div>
 
-</div><!-- end pan-baocao -->
+  </div><!-- end pan-baocao -->
 
-<script>
-// UTILS
-function parseVN(s) {
-  if(typeof s==='number') return s;
-  return parseInt(String(s).replace(/\./g,'').replace(/,/g,'').replace(/\s/g,'')) || 0;
-}
-function fmtVND(n) {
-  if(!isFinite(n)||isNaN(n)) return '0';
-  return new Intl.NumberFormat('vi-VN').format(Math.round(n));
-}
-function fmtPct(n) { return (n*100).toFixed(1)+'%'; }
-function fmtBill(n) {
-  if(n>=1e9) return (n/1e9).toFixed(2)+' tỷ';
-  if(n>=1e6) return (n/1e6).toFixed(0)+' tr';
-  return fmtVND(n);
-}
+  <script>
+    // UTILS
+    function parseVN(s) {
+      if (typeof s === 'number') return s;
+      return parseInt(String(s).replace(/\./g, '').replace(/,/g, '').replace(/\s/g, '')) || 0;
+    }
+    function fmtVND(n) {
+      if (!isFinite(n) || isNaN(n)) return '0';
+      return new Intl.NumberFormat('vi-VN').format(Math.round(n));
+    }
+    function fmtPct(n) { return (n * 100).toFixed(1) + '%'; }
+    function fmtBill(n) {
+      if (n >= 1e9) return (n / 1e9).toFixed(2) + ' tỷ';
+      if (n >= 1e6) return (n / 1e6).toFixed(0) + ' tr';
+      return fmtVND(n);
+    }
 
-// TAB SWITCHING
-function switchTab(id, el) {
-  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('show'));
-  document.querySelectorAll('.itab').forEach(b=>b.classList.remove('act'));
-  document.getElementById('pan-'+id).classList.add('show');
-  if(el) el.classList.add('act');
-  else { const b=document.querySelector('.itab[data-tab="'+id+'"]'); if(b) b.classList.add('act'); }
-  if(id==='baocao') setTimeout(renderCharts, 60);
-  window.scrollTo(0,0);
-}
+    // TAB SWITCHING
+    function switchTab(id, el) {
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('show'));
+      document.querySelectorAll('.itab').forEach(b => b.classList.remove('act'));
+      document.getElementById('pan-' + id).classList.add('show');
+      if (el) el.classList.add('act');
+      else { const b = document.querySelector('.itab[data-tab="' + id + '"]'); if (b) b.classList.add('act'); }
+      if (id === 'baocao') setTimeout(renderCharts, 60);
+      window.scrollTo(0, 0);
+    }
 
-function goToReport() {
-  recalc();
-  switchTab('baocao');
-  document.querySelector('.itab[data-tab="baocao"]').classList.add('act');
-}
+    function goToReport() {
+      recalc();
+      switchTab('baocao');
+      document.querySelector('.itab[data-tab="baocao"]').classList.add('act');
+    }
 
-// MODE HELPERS
-function onModeChange() {
-  const mode = parseInt(document.getElementById('mode_dong').value);
-  document.getElementById('row-dn-ratio').style.display = mode===3?'':'none';
-  recalc();
-}
-function onPayoutChange() {
-  const mode = parseInt(document.getElementById('mode_pt').value);
-  document.getElementById('row-nam-nhan').style.display = mode===2?'':'none';
-  recalc();
-}
+    // MODE HELPERS
+    function onModeChange() {
+      const mode = parseInt(document.getElementById('mode_dong').value);
+      document.getElementById('row-dn-ratio').style.display = mode === 3 ? '' : 'none';
+      recalc();
+    }
+    function onPayoutChange() {
+      const mode = parseInt(document.getElementById('mode_pt').value);
+      document.getElementById('row-nam-nhan').style.display = mode === 2 ? '' : 'none';
+      recalc();
+    }
 
-// FORMAT ON BLUR
-['thu_nhap','muc_dong_tong'].forEach(id=>{
-  const el = document.getElementById(id);
-  el.addEventListener('blur', function(){
-    const n = parseVN(this.value);
-    if(n>0) this.value = fmtVND(n);
-    recalc();
-  });
-  el.addEventListener('keydown', function(e){ if(e.key==='Enter') this.blur(); });
-});
+    // FORMAT ON BLUR
+    ['thu_nhap', 'muc_dong_tong'].forEach(id => {
+      const el = document.getElementById(id);
+      el.addEventListener('blur', function () {
+        const n = parseVN(this.value);
+        if (n > 0) this.value = fmtVND(n);
+        recalc();
+      });
+      el.addEventListener('keydown', function (e) { if (e.key === 'Enter') this.blur(); });
+    });
 
-// GLOBALS
-let G = {};
-let chartGrowth=null, chartDonut=null, chartPayout=null;
+    // GLOBALS
+    let G = {};
+    let chartGrowth = null, chartDonut = null, chartPayout = null;
 
-// MAIN CALC
-function recalc() {
-  const thuNhap     = parseVN(document.getElementById('thu_nhap').value);
-  const bacThue     = parseInt(document.getElementById('bac_thue').value)/100;
-  const mode        = parseInt(document.getElementById('mode_dong').value);
-  const dnRatioRaw  = parseInt(document.getElementById('dn_ratio').value)/100;
-  const dnRatio     = mode===1 ? 1 : (mode===2 ? 0 : dnRatioRaw);
-  const nldRatio    = 1 - dnRatio;
-  const mucDongTong = parseVN(document.getElementById('muc_dong_tong').value);
-  const soNam       = parseInt(document.getElementById('so_nam').value)||25;
-  const laiSuat     = parseInt(document.getElementById('lai_suat').value)/100;
-  const modePT      = parseInt(document.getElementById('mode_pt').value);
-  const soNamNhan   = parseInt(document.getElementById('so_nam_nhan').value)||15;
+    // MAIN CALC
+    function recalc() {
+      const thuNhap = parseVN(document.getElementById('thu_nhap').value);
+      const bacThue = parseInt(document.getElementById('bac_thue').value) / 100;
+      const mode = parseInt(document.getElementById('mode_dong').value);
+      const dnRatioRaw = parseInt(document.getElementById('dn_ratio').value) / 100;
+      const dnRatio = mode === 1 ? 1 : (mode === 2 ? 0 : dnRatioRaw);
+      const nldRatio = 1 - dnRatio;
+      const mucDongTong = parseVN(document.getElementById('muc_dong_tong').value);
+      const soNam = parseInt(document.getElementById('so_nam').value) || 25;
+      const laiSuat = parseInt(document.getElementById('lai_suat').value) / 100;
+      const modePT = parseInt(document.getElementById('mode_pt').value);
+      const soNamNhan = parseInt(document.getElementById('so_nam_nhan').value) || 15;
 
-  const TRAN_NLD=1000000, TRAN_DN=3000000, THUE_RUT_DN=0.10, TNDN_RATE=0.20;
+      const TRAN_NLD = 1000000, TRAN_DN = 3000000, THUE_RUT_DN = 0.10, TNDN_RATE = 0.20;
 
-  const nldDong    = mucDongTong * nldRatio;
-  const dnDong     = mucDongTong * dnRatio;
-  const nldGiamTru = Math.min(nldDong, TRAN_NLD);
-  const dnGiamTru  = Math.min(dnDong,  TRAN_DN);
+      const nldDong = mucDongTong * nldRatio;
+      const dnDong = mucDongTong * dnRatio;
+      const nldGiamTru = Math.min(nldDong, TRAN_NLD);
+      const dnGiamTru = Math.min(dnDong, TRAN_DN);
 
-  document.getElementById('dn_dong_disp').textContent  = fmtVND(dnDong)+' VND';
-  document.getElementById('nld_dong_disp').textContent = fmtVND(nldDong)+' VND';
+      document.getElementById('dn_dong_disp').textContent = fmtVND(dnDong) + ' VND';
+      document.getElementById('nld_dong_disp').textContent = fmtVND(nldDong) + ' VND';
 
-  // BLOCK 1
-  const thuNhapCoQuy  = thuNhap - nldGiamTru;
-  const thueKhongQuy  = thuNhap * bacThue;
-  const thueCoQuy     = thuNhapCoQuy * bacThue;
-  const tietKiemThang = nldGiamTru * bacThue;
-  const tietKiemNam   = tietKiemThang * 12;
-  const tietKiemNNam  = tietKiemNam * soNam;
-  const dnTietKiemNNam= dnGiamTru * TNDN_RATE * 12 * soNam;
+      // BLOCK 1
+      const thuNhapCoQuy = thuNhap - nldGiamTru;
+      const thueKhongQuy = thuNhap * bacThue;
+      const thueCoQuy = thuNhapCoQuy * bacThue;
+      const tietKiemThang = nldGiamTru * bacThue;
+      const tietKiemNam = tietKiemThang * 12;
+      const tietKiemNNam = tietKiemNam * soNam;
+      const dnTietKiemNNam = dnGiamTru * TNDN_RATE * 12 * soNam;
 
-  // BLOCK 2
-  const r = laiSuat/12;
-  const compRows = [];
-  for(let y=1; y<=soNam; y++) {
-    const fv_y = r>0 ? mucDongTong*(Math.pow(1+r,y*12)-1)/r : mucDongTong*y*12;
-    const vonGoc   = mucDongTong*12*y;
-    const taxAcc   = tietKiemNam*y;
-    const interest = fv_y - vonGoc;
-    compRows.push({year:y, vonGoc, taxAcc, interest, total:fv_y+taxAcc});
-  }
-  const last = compRows[compRows.length-1];
-  const totalAsset=last.total, totalVonGoc=last.vonGoc, totalTaxAccum=last.taxAcc, totalInterest=last.interest;
+      // BLOCK 2
+      const r = laiSuat / 12;
+      const compRows = [];
+      for (let y = 1; y <= soNam; y++) {
+        const fv_y = r > 0 ? mucDongTong * (Math.pow(1 + r, y * 12) - 1) / r : mucDongTong * y * 12;
+        const vonGoc = mucDongTong * 12 * y;
+        const taxAcc = tietKiemNam * y;
+        const interest = fv_y - vonGoc;
+        compRows.push({ year: y, vonGoc, taxAcc, interest, total: fv_y + taxAcc });
+      }
+      const last = compRows[compRows.length - 1];
+      const totalAsset = last.total, totalVonGoc = last.vonGoc, totalTaxAccum = last.taxAcc, totalInterest = last.interest;
 
-  // BLOCK 3
-  const nldGoc    = nldDong*12*soNam;
-  const dnGoc     = dnDong*12*soNam;
-  const totalGoc  = nldGoc+dnGoc;
-  const nldFrac   = totalGoc>0 ? nldGoc/totalGoc : 0;
-  const dnFrac    = totalGoc>0 ? dnGoc/totalGoc  : 1;
-  const corpus    = totalVonGoc + totalInterest;
-  const nldPortion= corpus * nldFrac;
-  const dnPortion = corpus * dnFrac;
-  const nldAfter  = nldPortion;
-  const dnTax     = dnPortion * THUE_RUT_DN;
-  const dnAfter   = dnPortion - dnTax;
-  const totalAfterTax = nldAfter + dnAfter;
-  const thueLuyTien35 = dnPortion * 0.35;
-  const tietKiemExit  = thueLuyTien35 - dnTax;
+      // BLOCK 3
+      const nldGoc = nldDong * 12 * soNam;
+      const dnGoc = dnDong * 12 * soNam;
+      const totalGoc = nldGoc + dnGoc;
+      const nldFrac = totalGoc > 0 ? nldGoc / totalGoc : 0;
+      const dnFrac = totalGoc > 0 ? dnGoc / totalGoc : 1;
+      const corpus = totalVonGoc + totalInterest;
+      const nldPortion = corpus * nldFrac;
+      const dnPortion = corpus * dnFrac;
+      const nldAfter = nldPortion;
+      const dnTax = dnPortion * THUE_RUT_DN;
+      const dnAfter = dnPortion - dnTax;
+      const totalAfterTax = nldAfter + dnAfter;
+      const thueLuyTien35 = dnPortion * 0.35;
+      const tietKiemExit = thueLuyTien35 - dnTax;
 
-  // BLOCK 4
-  const lumpSum = totalAfterTax;
-  const rPay = laiSuat/12, nPay = soNamNhan*12;
-  let monthlyPMT=0, annualPMT=0, totalPayout=0, thangDu=0;
-  if(modePT===2) {
-    monthlyPMT = rPay>0 ? totalAfterTax*rPay/(1-Math.pow(1+rPay,-nPay)) : totalAfterTax/nPay;
-    annualPMT  = monthlyPMT*12;
-    totalPayout= annualPMT*soNamNhan;
-    thangDu    = totalPayout-lumpSum;
-  }
-  // Payout table: lãi kép hàng tháng khớp Excel
-  // FV = PV*(1+r)^12 − PMT_tháng*((1+r)^12−1)/r
-  const payoutRows = [];
-  let payBal = totalAfterTax;
-  const gf_pay   = rPay>0 ? Math.pow(1+rPay,12) : 1;
-  const annF_pay = rPay>0 ? (gf_pay-1)/rPay : 12;
-  for(let y=1; y<=soNamNhan; y++) {
-    const sodudau = payBal;
-    let endBal, laiPS, rut;
-    if(modePT===2 && monthlyPMT>0) {
-      endBal = payBal*gf_pay - monthlyPMT*annF_pay;
-      rut    = monthlyPMT*12;
-      laiPS  = endBal - sodudau + rut;
-    } else { endBal=0; laiPS=0; rut=0; }
-    payBal = Math.max(0, endBal);
-    payoutRows.push({year:y, sodudau, laiPS:Math.max(0,laiPS), rut, soducuoi:payBal});
-  }
+      // BLOCK 4
+      const lumpSum = totalAfterTax;
+      const rPay = laiSuat / 12, nPay = soNamNhan * 12;
+      let monthlyPMT = 0, annualPMT = 0, totalPayout = 0, thangDu = 0;
+      if (modePT === 2) {
+        monthlyPMT = rPay > 0 ? totalAfterTax * rPay / (1 - Math.pow(1 + rPay, -nPay)) : totalAfterTax / nPay;
+        annualPMT = monthlyPMT * 12;
+        totalPayout = annualPMT * soNamNhan;
+        thangDu = totalPayout - lumpSum;
+      }
+      // Payout table: lãi kép hàng tháng khớp Excel
+      // FV = PV*(1+r)^12 − PMT_tháng*((1+r)^12−1)/r
+      const payoutRows = [];
+      let payBal = totalAfterTax;
+      const gf_pay = rPay > 0 ? Math.pow(1 + rPay, 12) : 1;
+      const annF_pay = rPay > 0 ? (gf_pay - 1) / rPay : 12;
+      for (let y = 1; y <= soNamNhan; y++) {
+        const sodudau = payBal;
+        let endBal, laiPS, rut;
+        if (modePT === 2 && monthlyPMT > 0) {
+          endBal = payBal * gf_pay - monthlyPMT * annF_pay;
+          rut = monthlyPMT * 12;
+          laiPS = endBal - sodudau + rut;
+        } else { endBal = 0; laiPS = 0; rut = 0; }
+        payBal = Math.max(0, endBal);
+        payoutRows.push({ year: y, sodudau, laiPS: Math.max(0, laiPS), rut, soducuoi: payBal });
+      }
 
-  G = {
-    thuNhap, bacThue, mode, mucDongTong, soNam, laiSuat, modePT, soNamNhan,
-    nldDong, dnDong, nldGiamTru, dnGiamTru,
-    thueKhongQuy, thueCoQuy, tietKiemThang, tietKiemNam, tietKiemNNam, dnTietKiemNNam,
-    compRows, totalAsset, totalVonGoc, totalTaxAccum, totalInterest,
-    nldGoc, dnGoc, nldPortion, dnPortion, nldAfter, dnTax, dnAfter, totalAfterTax,
-    thueLuyTien35, tietKiemExit,
-    lumpSum, monthlyPMT, annualPMT, totalPayout, thangDu, payoutRows
-  };
+      G = {
+        thuNhap, bacThue, mode, mucDongTong, soNam, laiSuat, modePT, soNamNhan,
+        nldDong, dnDong, nldGiamTru, dnGiamTru,
+        thueKhongQuy, thueCoQuy, tietKiemThang, tietKiemNam, tietKiemNNam, dnTietKiemNNam,
+        compRows, totalAsset, totalVonGoc, totalTaxAccum, totalInterest,
+        nldGoc, dnGoc, nldPortion, dnPortion, nldAfter, dnTax, dnAfter, totalAfterTax,
+        thueLuyTien35, tietKiemExit,
+        lumpSum, monthlyPMT, annualPMT, totalPayout, thangDu, payoutRows
+      };
 
-  renderAll();
-}
+      renderAll();
+    }
 
-function renderAll() {
-  renderHero();
-  renderBlock1();
-  renderBlock2();
-  renderBlock3();
-  renderBlock4();
-  renderSummary();
-}
+    function renderAll() {
+      renderHero();
+      renderBlock1();
+      renderBlock2();
+      renderBlock3();
+      renderBlock4();
+      renderSummary();
+    }
 
-// HERO
-function renderHero() {
-  const {thuNhap,bacThue,mucDongTong,soNam,laiSuat,modePT,soNamNhan,
-         tietKiemNNam,totalAsset,tietKiemExit,monthlyPMT,lumpSum} = G;
+    // HERO
+    function renderHero() {
+      const { thuNhap, bacThue, mucDongTong, soNam, laiSuat, modePT, soNamNhan,
+        tietKiemNNam, totalAsset, tietKiemExit, monthlyPMT, lumpSum } = G;
 
-  document.getElementById('r-params').innerHTML =
-    ['<div class="dash-param"><div class="dp-lbl">Thu nhập/tháng</div><div class="dp-val">'+fmtBill(thuNhap)+' VND</div></div>',
-     '<div class="dash-param"><div class="dp-lbl">Bậc thuế</div><div class="dp-val">'+fmtPct(bacThue)+'</div></div>',
-     '<div class="dash-param"><div class="dp-lbl">Mức đóng/tháng</div><div class="dp-val">'+fmtBill(mucDongTong)+' VND</div></div>',
-     '<div class="dash-param"><div class="dp-lbl">Tích lũy</div><div class="dp-val">'+soNam+' năm</div></div>',
-     '<div class="dash-param"><div class="dp-lbl">Lãi suất</div><div class="dp-val">'+(laiSuat*100).toFixed(0)+'%/năm</div></div>',
-     '<div class="dash-param"><div class="dp-lbl">Phương thức nhận</div><div class="dp-val">'+(modePT===1?'Rút 1 lần':'Định kỳ '+soNamNhan+' năm')+'</div></div>'
-    ].join('');
+      document.getElementById('r-params').innerHTML =
+        ['<div class="dash-param"><div class="dp-lbl">Thu nhập/tháng</div><div class="dp-val">' + fmtBill(thuNhap) + ' VND</div></div>',
+        '<div class="dash-param"><div class="dp-lbl">Bậc thuế</div><div class="dp-val">' + fmtPct(bacThue) + '</div></div>',
+        '<div class="dash-param"><div class="dp-lbl">Mức đóng/tháng</div><div class="dp-val">' + fmtBill(mucDongTong) + ' VND</div></div>',
+        '<div class="dash-param"><div class="dp-lbl">Tích lũy</div><div class="dp-val">' + soNam + ' năm</div></div>',
+        '<div class="dash-param"><div class="dp-lbl">Lãi suất</div><div class="dp-val">' + (laiSuat * 100).toFixed(0) + '%/năm</div></div>',
+        '<div class="dash-param"><div class="dp-lbl">Phương thức nhận</div><div class="dp-val">' + (modePT === 1 ? 'Rút 1 lần' : 'Định kỳ ' + soNamNhan + ' năm') + '</div></div>'
+        ].join('');
 
-  document.getElementById('r-kpi1').textContent = fmtBill(tietKiemNNam)+' VND';
-  document.getElementById('r-kpi2').textContent = fmtBill(totalAsset)+' VND';
-  document.getElementById('r-kpi3').textContent = fmtBill(tietKiemExit)+' VND';
-  if(modePT===2) {
-    document.getElementById('r-kpi4').textContent = fmtBill(monthlyPMT)+' VND/tháng';
-    document.getElementById('r-kpi4-sub').textContent = 'Suốt '+soNamNhan+' năm hưu trí';
-  } else {
-    document.getElementById('r-kpi4').textContent = fmtBill(lumpSum)+' VND';
-    document.getElementById('r-kpi4-sub').textContent = 'Rút một lần sau '+soNam+' năm';
-  }
-}
-
-// BLOCK 1
-function renderBlock1() {
-  const {nldDong,nldGiamTru,thueKhongQuy,thueCoQuy,
-         tietKiemThang,tietKiemNam,tietKiemNNam,dnTietKiemNNam,soNam} = G;
-
-  document.getElementById('r1-n-years').textContent  = soNam;
-  document.getElementById('r1-tax-before').textContent = fmtVND(thueKhongQuy);
-  document.getElementById('r1-tax-after').textContent  = fmtVND(thueCoQuy);
-  document.getElementById('r1-monthly-save').textContent = fmtVND(tietKiemThang);
-  document.getElementById('r1-annual-save').textContent  = fmtVND(tietKiemNam);
-  document.getElementById('r1-total-save').textContent   = fmtBill(tietKiemNNam);
-
-  document.getElementById('r1-message').innerHTML =
-    nldGiamTru>0
-    ? '<span class="callout-hdr">💡 Ý nghĩa thực tế với bạn</span>Mỗi tháng bạn đóng <strong>'+fmtVND(nldDong)+' VND</strong> vào Quỹ, thu nhập chịu thuế giảm <strong>'+fmtVND(nldGiamTru)+' VND</strong> → tiết kiệm ngay <strong>'+fmtVND(tietKiemThang)+' VND/tháng</strong> tiền thuế. Sau <strong>'+soNam+' năm</strong>, tổng thuế tiết kiệm được: <strong>'+fmtBill(tietKiemNNam)+' VND</strong> — số tiền này vẫn nằm trong túi bạn và tiếp tục sinh lời.'
-    : '<span class="callout-hdr">💡 Lưu ý</span>Phương thức "Công ty đóng 100%" không tạo lá chắn thuế TNCN cho NLĐ. Lợi ích tập trung ở Khối 2 (lãi kép) và Khối 4 (nhận hưu trí).';
-
-}
-
-// BLOCK 2
-function renderBlock2() {
-  const {totalAsset,totalVonGoc,totalTaxAccum,totalInterest,compRows,soNam,laiSuat} = G;
-
-  document.getElementById('r2-k1').textContent = fmtBill(totalVonGoc);
-  document.getElementById('r2-k2').textContent = fmtBill(totalTaxAccum);
-  document.getElementById('r2-k3').textContent = fmtBill(totalInterest);
-  document.getElementById('r2-k4').textContent = fmtBill(totalAsset);
-  document.getElementById('r2-k4-ratio').textContent =
-    'Hệ số '+(totalAsset/Math.max(totalVonGoc,1)).toFixed(2)+'x vốn gốc — lãi suất '+(laiSuat*100).toFixed(0)+'%/năm';
-
-  document.getElementById('r2-table').innerHTML =
-    '<thead><tr><th class="rc">Năm</th><th class="rr">Vốn Gốc Đóng Vào</th><th class="rr">Lá Chắn Thuế</th><th class="rr">Lãi Kép (Miễn Thuế)</th><th class="rr">Tổng Tài Sản</th></tr></thead><tbody>'+
-    compRows.map(r=>'<tr'+(r.year===soNam?' class="green-row"':'')+'><td class="rc">'+r.year+'</td><td class="rr">'+fmtVND(r.vonGoc)+'</td><td class="rr">'+fmtVND(r.taxAcc)+'</td><td class="rr">'+fmtVND(r.interest)+'</td><td class="rr">'+fmtVND(r.total)+'</td></tr>').join('')+
-    '</tbody>';
-}
-
-// BLOCK 3
-function renderBlock3() {
-  const {nldGoc,dnGoc,nldPortion,dnPortion,nldAfter,dnTax,dnAfter,
-         totalAfterTax,thueLuyTien35,tietKiemExit} = G;
-
-  document.getElementById('r3-sources').innerHTML =
-    '<thead><tr><th>Nguồn Vốn</th><th class="rr">Gốc Đóng Vào</th><th class="rr">Lãi Phát Sinh</th><th class="rr">Tổng Trước Thuế</th><th class="rc">Thuế Suất</th><th class="rr">Thuế Nộp</th><th class="rr">Thực Nhận</th></tr></thead><tbody>'+
-    '<tr class="green-row"><td><strong>NLĐ tự đóng → Miễn thuế 0%</strong></td><td class="rr">'+fmtVND(nldGoc)+'</td><td class="rr">'+fmtVND(nldPortion-nldGoc)+'</td><td class="rr">'+fmtVND(nldPortion)+'</td><td class="rc">0%</td><td class="rr">0</td><td class="rr"><strong>'+fmtVND(nldAfter)+'</strong></td></tr>'+
-    '<tr><td><strong>DN đóng thay → Thuế phẳng 10%</strong></td><td class="rr">'+fmtVND(dnGoc)+'</td><td class="rr">'+fmtVND(dnPortion-dnGoc)+'</td><td class="rr">'+fmtVND(dnPortion)+'</td><td class="rc">10%</td><td class="rr">('+fmtVND(dnTax)+')</td><td class="rr"><strong>'+fmtVND(dnAfter)+'</strong></td></tr>'+
-    '<tr class="total-row"><td>TỔNG CỘNG</td><td class="rr">'+fmtVND(nldGoc+dnGoc)+'</td><td class="rr">'+fmtVND(nldPortion+dnPortion-nldGoc-dnGoc)+'</td><td class="rr">'+fmtVND(nldPortion+dnPortion)+'</td><td class="rc">—</td><td class="rr">('+fmtVND(dnTax)+')</td><td class="rr"><strong>'+fmtVND(totalAfterTax)+'</strong></td></tr>'+
-    '</tbody>';
-
-  document.getElementById('r3-luy-tien').textContent   = fmtBill(thueLuyTien35)+' VND';
-  document.getElementById('r3-dnTax').textContent       = fmtBill(dnTax)+' VND';
-  document.getElementById('r3-saving').textContent      = fmtBill(tietKiemExit)+' VND';
-  document.getElementById('r3-saving-inline').textContent = fmtBill(tietKiemExit)+' VND';
-}
-
-// BLOCK 4
-function renderBlock4() {
-  const {laiSuat,soNamNhan,modePT,lumpSum,monthlyPMT,annualPMT,totalPayout,thangDu,payoutRows} = G;
-
-  document.getElementById('r4-rate').textContent    = (laiSuat*100).toFixed(0)+'%';
-  document.getElementById('r4-n-label').textContent = soNamNhan;
-  document.getElementById('r4-lump').textContent    = fmtBill(lumpSum)+' VND';
-  document.getElementById('r4-monthly').textContent = fmtBill(monthlyPMT)+' VND';
-  document.getElementById('r4-annual').textContent  = fmtBill(annualPMT)+' VND';
-  document.getElementById('r4-total').textContent   = fmtBill(totalPayout)+' VND';
-  document.getElementById('r4-surplus').textContent = fmtBill(thangDu)+' VND';
-  document.getElementById('chart-payout-wrap').style.display = modePT===2?'':'none';
-
-  document.getElementById('r4-table').innerHTML =
-    modePT===2
-    ? '<thead><tr><th class="rc">Năm Hưu</th><th class="rr">Số Dư Đầu Năm</th><th class="rr">Lãi Phát Sinh</th><th class="rr">Tiền Rút Trong Năm</th><th class="rr">Số Dư Cuối Năm</th></tr></thead><tbody>'+
-      payoutRows.map(r=>'<tr><td class="rc">'+r.year+'</td><td class="rr">'+fmtVND(r.sodudau)+'</td><td class="rr">'+fmtVND(r.laiPS)+'</td><td class="rr">('+fmtVND(r.rut)+')</td><td class="rr">'+fmtVND(r.soducuoi)+'</td></tr>').join('')+
-      '</tbody>'
-    : '<tbody><tr><td colspan="5" style="text-align:center;padding:20px;color:#777;font-style:italic">Chọn "Nhận lương hưu định kỳ hàng tháng" để xem bảng dòng tiền.</td></tr></tbody>';
-}
-
-// SUMMARY
-function renderSummary() {
-  const {totalVonGoc,mucDongTong,soNam,tietKiemNNam,totalInterest,totalAsset,
-         dnTax,tietKiemExit,totalAfterTax,modePT,soNamNhan,monthlyPMT,totalPayout,lumpSum} = G;
-  const ratio = (totalAsset/Math.max(totalVonGoc,1)).toFixed(2);
-  document.getElementById('r-summary').innerHTML =
-    '<thead><tr><th>Hạng Mục</th><th class="rc">Giá Trị</th><th class="rc">Ghi Chú</th></tr></thead><tbody>'+
-    '<tr><td>Vốn gốc tổng đóng vào</td><td class="rr">'+fmtVND(totalVonGoc)+' VND</td><td class="rc">='+fmtBill(mucDongTong)+'/tháng × 12 × '+soNam+' năm</td></tr>'+
-    '<tr><td>🛡️ Tiết kiệm thuế TNCN (Khối 1)</td><td class="rr">'+fmtVND(tietKiemNNam)+' VND</td><td class="rc">Lá chắn thuế NLĐ</td></tr>'+
-    '<tr><td>📈 Lãi kép miễn thuế (Khối 2)</td><td class="rr">'+fmtVND(totalInterest)+' VND</td><td class="rc">100% miễn thuế tích lũy</td></tr>'+
-    '<tr class="total-row"><td>🔥 Tổng tài sản cuối kỳ</td><td class="rr">'+fmtVND(totalAsset)+' VND</td><td class="rc">Hệ số '+ratio+'x vốn gốc</td></tr>'+
-    '<tr><td>💼 Thuế rút (10% × phần DN)</td><td class="rr">('+fmtVND(dnTax)+') VND</td><td class="rc">Khối 3</td></tr>'+
-    '<tr><td>💼 Tiết kiệm so với lũy tiến 35% (Khối 3)</td><td class="rr">'+fmtVND(tietKiemExit)+' VND</td><td class="rc">Không áp dụng biểu lũy tiến</td></tr>'+
-    '<tr class="green-row"><td>✅ Tổng tài sản SAU thuế — Sẵn sàng nhận hưu</td><td class="rr">'+fmtVND(totalAfterTax)+' VND</td><td class="rc">Khối 4 đầu vào</td></tr>'+
-    (modePT===2
-      ? '<tr class="highlight"><td>💰 Lương hưu hàng tháng (Khối 4 — Phương án B)</td><td class="rr">'+fmtVND(monthlyPMT)+' VND/tháng</td><td class="rc">Suốt '+soNamNhan+' năm</td></tr>'+
-        '<tr class="highlight"><td>Tổng nhận trong '+soNamNhan+' năm</td><td class="rr">'+fmtVND(totalPayout)+' VND</td><td class="rc">Nhờ tiếp tục sinh lời</td></tr>'
-      : '<tr class="highlight"><td>💰 Rút một lần (Khối 4 — Phương án A)</td><td class="rr">'+fmtVND(lumpSum)+' VND</td><td class="rc">Sau '+soNam+' năm tích lũy</td></tr>')+
-    '</tbody>';
-}
-
-// CHARTS
-function renderCharts() {
-  if(!G.compRows||!G.compRows.length) return;
-  renderChartGrowth();
-  renderChartDonut();
-  if(G.modePT===2) renderChartPayout();
-}
-
-function renderChartGrowth() {
-  const {compRows, soNam} = G;
-  const ctx = document.getElementById('chart-growth').getContext('2d');
-  if(chartGrowth){chartGrowth.destroy();chartGrowth=null;}
-  chartGrowth = new Chart(ctx,{
-    type:'bar',
-    data:{
-      labels: compRows.map(r=>r.year),
-      datasets:[
-        {label:'Vốn Gốc',      data:compRows.map(r=>+(r.vonGoc/1e6).toFixed(1)),  backgroundColor:'#1a3a6b',stack:'s'},
-        {label:'Lá Chắn Thuế', data:compRows.map(r=>+(r.taxAcc/1e6).toFixed(1)),  backgroundColor:'#4db8ff',stack:'s'},
-        {label:'Lãi Kép Miễn Thuế',data:compRows.map(r=>+(r.interest/1e6).toFixed(1)),backgroundColor:'#1d6a3a',stack:'s'},
-      ]
-    },
-    options:{
-      responsive:true,
-      scales:{
-        x:{title:{display:true,text:'Năm Tích Lũy'},ticks:{maxTicksLimit:10}},
-        y:{title:{display:true,text:'Triệu VND'},ticks:{callback:v=>v+'M'}}
-      },
-      plugins:{
-        legend:{position:'top',labels:{font:{size:9},padding:8}},
-        tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.raw.toLocaleString('vi-VN')} triệu VND`}}
+      document.getElementById('r-kpi1').textContent = fmtBill(tietKiemNNam) + ' VND';
+      document.getElementById('r-kpi2').textContent = fmtBill(totalAsset) + ' VND';
+      document.getElementById('r-kpi3').textContent = fmtBill(tietKiemExit) + ' VND';
+      if (modePT === 2) {
+        document.getElementById('r-kpi4').textContent = fmtBill(monthlyPMT) + ' VND/tháng';
+        document.getElementById('r-kpi4-sub').textContent = 'Suốt ' + soNamNhan + ' năm hưu trí';
+      } else {
+        document.getElementById('r-kpi4').textContent = fmtBill(lumpSum) + ' VND';
+        document.getElementById('r-kpi4-sub').textContent = 'Rút một lần sau ' + soNam + ' năm';
       }
     }
-  });
-}
 
-function renderChartDonut() {
-  const {totalVonGoc, totalTaxAccum, totalInterest} = G;
-  const total = totalVonGoc + totalTaxAccum + totalInterest;
-  const ctx = document.getElementById('chart-donut').getContext('2d');
-  if(chartDonut){chartDonut.destroy();chartDonut=null;}
-  chartDonut = new Chart(ctx,{
-    type:'doughnut',
-    data:{
-      labels:['Vốn Gốc Đóng Vào','Lá Chắn Thuế','Lãi Kép Miễn Thuế'],
-      datasets:[{
-        data:[totalVonGoc, totalTaxAccum, totalInterest],
-        backgroundColor:['#1a3a6b','#4db8ff','#1d6a3a'],
-        borderColor:['#fff','#fff','#fff'],
-        borderWidth:3
-      }]
-    },
-    options:{
-      responsive:true,
-      plugins:{
-        legend:{position:'bottom',labels:{font:{size:8.5},padding:10}},
-        tooltip:{callbacks:{
-          label: function(c){
-            const pct = total>0 ? (c.raw/total*100).toFixed(1) : '0.0';
-            return `${c.label}: ${fmtBill(c.raw)} VND (${pct}%)`;
+    // BLOCK 1
+    function renderBlock1() {
+      const { nldDong, nldGiamTru, thueKhongQuy, thueCoQuy,
+        tietKiemThang, tietKiemNam, tietKiemNNam, dnTietKiemNNam, soNam } = G;
+
+      document.getElementById('r1-n-years').textContent = soNam;
+      document.getElementById('r1-tax-before').textContent = fmtVND(thueKhongQuy);
+      document.getElementById('r1-tax-after').textContent = fmtVND(thueCoQuy);
+      document.getElementById('r1-monthly-save').textContent = fmtVND(tietKiemThang);
+      document.getElementById('r1-annual-save').textContent = fmtVND(tietKiemNam);
+      document.getElementById('r1-total-save').textContent = fmtBill(tietKiemNNam);
+
+      document.getElementById('r1-message').innerHTML =
+        nldGiamTru > 0
+          ? '<span class="callout-hdr">💡 Ý nghĩa thực tế với bạn</span>Mỗi tháng bạn đóng <strong>' + fmtVND(nldDong) + ' VND</strong> vào Quỹ, thu nhập chịu thuế giảm <strong>' + fmtVND(nldGiamTru) + ' VND</strong> → tiết kiệm ngay <strong>' + fmtVND(tietKiemThang) + ' VND/tháng</strong> tiền thuế. Sau <strong>' + soNam + ' năm</strong>, tổng thuế tiết kiệm được: <strong>' + fmtBill(tietKiemNNam) + ' VND</strong> — số tiền này vẫn nằm trong túi bạn và tiếp tục sinh lời.'
+          : '<span class="callout-hdr">💡 Lưu ý</span>Phương thức "Công ty đóng 100%" không tạo lá chắn thuế TNCN cho NLĐ. Lợi ích tập trung ở Khối 2 (lãi kép) và Khối 4 (nhận hưu trí).';
+
+    }
+
+    // BLOCK 2
+    function renderBlock2() {
+      const { totalAsset, totalVonGoc, totalTaxAccum, totalInterest, compRows, soNam, laiSuat } = G;
+
+      document.getElementById('r2-k1').textContent = fmtBill(totalVonGoc);
+      document.getElementById('r2-k2').textContent = fmtBill(totalTaxAccum);
+      document.getElementById('r2-k3').textContent = fmtBill(totalInterest);
+      document.getElementById('r2-k4').textContent = fmtBill(totalAsset);
+      document.getElementById('r2-k4-ratio').textContent =
+        'Hệ số ' + (totalAsset / Math.max(totalVonGoc, 1)).toFixed(2) + 'x vốn gốc — lãi suất ' + (laiSuat * 100).toFixed(0) + '%/năm';
+
+      document.getElementById('r2-table').innerHTML =
+        '<thead><tr><th class="rc">Năm</th><th class="rr">Vốn Gốc Đóng Vào</th><th class="rr">Lá Chắn Thuế</th><th class="rr">Lãi Kép (Miễn Thuế)</th><th class="rr">Tổng Tài Sản</th></tr></thead><tbody>' +
+        compRows.map(r => '<tr' + (r.year === soNam ? ' class="green-row"' : '') + '><td class="rc">' + r.year + '</td><td class="rr">' + fmtVND(r.vonGoc) + '</td><td class="rr">' + fmtVND(r.taxAcc) + '</td><td class="rr">' + fmtVND(r.interest) + '</td><td class="rr">' + fmtVND(r.total) + '</td></tr>').join('') +
+        '</tbody>';
+    }
+
+    // BLOCK 3
+    function renderBlock3() {
+      const { nldGoc, dnGoc, nldPortion, dnPortion, nldAfter, dnTax, dnAfter,
+        totalAfterTax, thueLuyTien35, tietKiemExit } = G;
+
+      document.getElementById('r3-sources').innerHTML =
+        '<thead><tr><th>Nguồn Vốn</th><th class="rr">Gốc Đóng Vào</th><th class="rr">Lãi Phát Sinh</th><th class="rr">Tổng Trước Thuế</th><th class="rc">Thuế Suất</th><th class="rr">Thuế Nộp</th><th class="rr">Thực Nhận</th></tr></thead><tbody>' +
+        '<tr class="green-row"><td><strong>NLĐ tự đóng → Miễn thuế 0%</strong></td><td class="rr">' + fmtVND(nldGoc) + '</td><td class="rr">' + fmtVND(nldPortion - nldGoc) + '</td><td class="rr">' + fmtVND(nldPortion) + '</td><td class="rc">0%</td><td class="rr">0</td><td class="rr"><strong>' + fmtVND(nldAfter) + '</strong></td></tr>' +
+        '<tr><td><strong>DN đóng thay → Thuế phẳng 10%</strong></td><td class="rr">' + fmtVND(dnGoc) + '</td><td class="rr">' + fmtVND(dnPortion - dnGoc) + '</td><td class="rr">' + fmtVND(dnPortion) + '</td><td class="rc">10%</td><td class="rr">(' + fmtVND(dnTax) + ')</td><td class="rr"><strong>' + fmtVND(dnAfter) + '</strong></td></tr>' +
+        '<tr class="total-row"><td>TỔNG CỘNG</td><td class="rr">' + fmtVND(nldGoc + dnGoc) + '</td><td class="rr">' + fmtVND(nldPortion + dnPortion - nldGoc - dnGoc) + '</td><td class="rr">' + fmtVND(nldPortion + dnPortion) + '</td><td class="rc">—</td><td class="rr">(' + fmtVND(dnTax) + ')</td><td class="rr"><strong>' + fmtVND(totalAfterTax) + '</strong></td></tr>' +
+        '</tbody>';
+
+      document.getElementById('r3-luy-tien').textContent = fmtBill(thueLuyTien35) + ' VND';
+      document.getElementById('r3-dnTax').textContent = fmtBill(dnTax) + ' VND';
+      document.getElementById('r3-saving').textContent = fmtBill(tietKiemExit) + ' VND';
+      document.getElementById('r3-saving-inline').textContent = fmtBill(tietKiemExit) + ' VND';
+    }
+
+    // BLOCK 4
+    function renderBlock4() {
+      const { laiSuat, soNamNhan, modePT, lumpSum, monthlyPMT, annualPMT, totalPayout, thangDu, payoutRows } = G;
+
+      document.getElementById('r4-rate').textContent = (laiSuat * 100).toFixed(0) + '%';
+      document.getElementById('r4-n-label').textContent = soNamNhan;
+      document.getElementById('r4-lump').textContent = fmtBill(lumpSum) + ' VND';
+      document.getElementById('r4-monthly').textContent = fmtBill(monthlyPMT) + ' VND';
+      document.getElementById('r4-annual').textContent = fmtBill(annualPMT) + ' VND';
+      document.getElementById('r4-total').textContent = fmtBill(totalPayout) + ' VND';
+      document.getElementById('r4-surplus').textContent = fmtBill(thangDu) + ' VND';
+      document.getElementById('chart-payout-wrap').style.display = modePT === 2 ? '' : 'none';
+
+      document.getElementById('r4-table').innerHTML =
+        modePT === 2
+          ? '<thead><tr><th class="rc">Năm Hưu</th><th class="rr">Số Dư Đầu Năm</th><th class="rr">Lãi Phát Sinh</th><th class="rr">Tiền Rút Trong Năm</th><th class="rr">Số Dư Cuối Năm</th></tr></thead><tbody>' +
+          payoutRows.map(r => '<tr><td class="rc">' + r.year + '</td><td class="rr">' + fmtVND(r.sodudau) + '</td><td class="rr">' + fmtVND(r.laiPS) + '</td><td class="rr">(' + fmtVND(r.rut) + ')</td><td class="rr">' + fmtVND(r.soducuoi) + '</td></tr>').join('') +
+          '</tbody>'
+          : '<tbody><tr><td colspan="5" style="text-align:center;padding:20px;color:#777;font-style:italic">Chọn "Nhận lương hưu định kỳ hàng tháng" để xem bảng dòng tiền.</td></tr></tbody>';
+    }
+
+    // SUMMARY
+    function renderSummary() {
+      const { totalVonGoc, mucDongTong, soNam, tietKiemNNam, totalInterest, totalAsset,
+        dnTax, tietKiemExit, totalAfterTax, modePT, soNamNhan, monthlyPMT, totalPayout, lumpSum } = G;
+      const ratio = (totalAsset / Math.max(totalVonGoc, 1)).toFixed(2);
+      document.getElementById('r-summary').innerHTML =
+        '<thead><tr><th>Hạng Mục</th><th class="rc">Giá Trị</th><th class="rc">Ghi Chú</th></tr></thead><tbody>' +
+        '<tr><td>Vốn gốc tổng đóng vào</td><td class="rr">' + fmtVND(totalVonGoc) + ' VND</td><td class="rc">=' + fmtBill(mucDongTong) + '/tháng × 12 × ' + soNam + ' năm</td></tr>' +
+        '<tr><td>🛡️ Tiết kiệm thuế TNCN (Khối 1)</td><td class="rr">' + fmtVND(tietKiemNNam) + ' VND</td><td class="rc">Lá chắn thuế NLĐ</td></tr>' +
+        '<tr><td>📈 Lãi kép miễn thuế (Khối 2)</td><td class="rr">' + fmtVND(totalInterest) + ' VND</td><td class="rc">100% miễn thuế tích lũy</td></tr>' +
+        '<tr class="total-row"><td>🔥 Tổng tài sản cuối kỳ</td><td class="rr">' + fmtVND(totalAsset) + ' VND</td><td class="rc">Hệ số ' + ratio + 'x vốn gốc</td></tr>' +
+        '<tr><td>💼 Thuế rút (10% × phần DN)</td><td class="rr">(' + fmtVND(dnTax) + ') VND</td><td class="rc">Khối 3</td></tr>' +
+        '<tr><td>💼 Tiết kiệm so với lũy tiến 35% (Khối 3)</td><td class="rr">' + fmtVND(tietKiemExit) + ' VND</td><td class="rc">Không áp dụng biểu lũy tiến</td></tr>' +
+        '<tr class="green-row"><td>✅ Tổng tài sản SAU thuế — Sẵn sàng nhận hưu</td><td class="rr">' + fmtVND(totalAfterTax) + ' VND</td><td class="rc">Khối 4 đầu vào</td></tr>' +
+        (modePT === 2
+          ? '<tr class="highlight"><td>💰 Lương hưu hàng tháng (Khối 4 — Phương án B)</td><td class="rr">' + fmtVND(monthlyPMT) + ' VND/tháng</td><td class="rc">Suốt ' + soNamNhan + ' năm</td></tr>' +
+          '<tr class="highlight"><td>Tổng nhận trong ' + soNamNhan + ' năm</td><td class="rr">' + fmtVND(totalPayout) + ' VND</td><td class="rc">Nhờ tiếp tục sinh lời</td></tr>'
+          : '<tr class="highlight"><td>💰 Rút một lần (Khối 4 — Phương án A)</td><td class="rr">' + fmtVND(lumpSum) + ' VND</td><td class="rc">Sau ' + soNam + ' năm tích lũy</td></tr>') +
+        '</tbody>';
+    }
+
+    // CHARTS
+    function renderCharts() {
+      if (!G.compRows || !G.compRows.length) return;
+      renderChartGrowth();
+      renderChartDonut();
+      if (G.modePT === 2) renderChartPayout();
+    }
+
+    function renderChartGrowth() {
+      const { compRows, soNam } = G;
+      const ctx = document.getElementById('chart-growth').getContext('2d');
+      if (chartGrowth) { chartGrowth.destroy(); chartGrowth = null; }
+      chartGrowth = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: compRows.map(r => r.year),
+          datasets: [
+            { label: 'Vốn Gốc', data: compRows.map(r => +(r.vonGoc / 1e6).toFixed(1)), backgroundColor: '#1a3a6b', stack: 's' },
+            { label: 'Lá Chắn Thuế', data: compRows.map(r => +(r.taxAcc / 1e6).toFixed(1)), backgroundColor: '#4db8ff', stack: 's' },
+            { label: 'Lãi Kép Miễn Thuế', data: compRows.map(r => +(r.interest / 1e6).toFixed(1)), backgroundColor: '#1d6a3a', stack: 's' },
+          ]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            x: { title: { display: true, text: 'Năm Tích Lũy' }, ticks: { maxTicksLimit: 10 } },
+            y: { title: { display: true, text: 'Triệu VND' }, ticks: { callback: v => v + 'M' } }
+          },
+          plugins: {
+            legend: { position: 'top', labels: { font: { size: 9 }, padding: 8 } },
+            tooltip: { callbacks: { label: c => `${c.dataset.label}: ${c.raw.toLocaleString('vi-VN')} triệu VND` } }
           }
-        }}
-      }
+        }
+      });
     }
-  });
-}
 
-function renderChartPayout() {
-  const {payoutRows} = G;
-  if(!payoutRows||!payoutRows.length) return;
-  const ctx = document.getElementById('chart-payout').getContext('2d');
-  if(chartPayout){chartPayout.destroy();chartPayout=null;}
-  chartPayout = new Chart(ctx,{
-    type:'bar',
-    data:{
-      labels: payoutRows.map(r=>'Năm '+r.year),
-      datasets:[
-        {label:'Số Dư Đầu Năm (triệu VND)',data:payoutRows.map(r=>+(r.sodudau/1e6).toFixed(1)),backgroundColor:'rgba(26,58,107,.75)',order:2},
-        {label:'Tiền Rút Trong Năm (triệu VND)',data:payoutRows.map(r=>+(r.rut/1e6).toFixed(1)),backgroundColor:'rgba(232,48,42,.85)',order:1},
-      ]
-    },
-    options:{
-      responsive:true,
-      scales:{
-        x:{title:{display:true,text:'Năm Hưu Trí'}},
-        y:{title:{display:true,text:'Triệu VND'},ticks:{callback:v=>v+'M'}}
-      },
-      plugins:{
-        legend:{position:'top',labels:{font:{size:9},padding:8}},
-        tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.raw.toLocaleString('vi-VN')} triệu`}}
-      }
+    function renderChartDonut() {
+      const { totalVonGoc, totalTaxAccum, totalInterest } = G;
+      const total = totalVonGoc + totalTaxAccum + totalInterest;
+      const ctx = document.getElementById('chart-donut').getContext('2d');
+      if (chartDonut) { chartDonut.destroy(); chartDonut = null; }
+      chartDonut = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Vốn Gốc Đóng Vào', 'Lá Chắn Thuế', 'Lãi Kép Miễn Thuế'],
+          datasets: [{
+            data: [totalVonGoc, totalTaxAccum, totalInterest],
+            backgroundColor: ['#1a3a6b', '#4db8ff', '#1d6a3a'],
+            borderColor: ['#fff', '#fff', '#fff'],
+            borderWidth: 3
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { position: 'bottom', labels: { font: { size: 8.5 }, padding: 10 } },
+            tooltip: {
+              callbacks: {
+                label: function (c) {
+                  const pct = total > 0 ? (c.raw / total * 100).toFixed(1) : '0.0';
+                  return `${c.label}: ${fmtBill(c.raw)} VND (${pct}%)`;
+                }
+              }
+            }
+          }
+        }
+      });
     }
-  });
-}
 
-// INIT
-onModeChange();
-onPayoutChange();
-recalc();
-</script>
+    function renderChartPayout() {
+      const { payoutRows } = G;
+      if (!payoutRows || !payoutRows.length) return;
+      const ctx = document.getElementById('chart-payout').getContext('2d');
+      if (chartPayout) { chartPayout.destroy(); chartPayout = null; }
+      chartPayout = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: payoutRows.map(r => 'Năm ' + r.year),
+          datasets: [
+            { label: 'Số Dư Đầu Năm (triệu VND)', data: payoutRows.map(r => +(r.sodudau / 1e6).toFixed(1)), backgroundColor: 'rgba(26,58,107,.75)', order: 2 },
+            { label: 'Tiền Rút Trong Năm (triệu VND)', data: payoutRows.map(r => +(r.rut / 1e6).toFixed(1)), backgroundColor: 'rgba(232,48,42,.85)', order: 1 },
+          ]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            x: { title: { display: true, text: 'Năm Hưu Trí' } },
+            y: { title: { display: true, text: 'Triệu VND' }, ticks: { callback: v => v + 'M' } }
+          },
+          plugins: {
+            legend: { position: 'top', labels: { font: { size: 9 }, padding: 8 } },
+            tooltip: { callbacks: { label: c => `${c.dataset.label}: ${c.raw.toLocaleString('vi-VN')} triệu` } }
+          }
+        }
+      });
+    }
+
+    // INIT
+    onModeChange();
+    onPayoutChange();
+    recalc();
+  </script>
 </body>
+
 </html>

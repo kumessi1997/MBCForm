@@ -136,7 +136,8 @@
 
         /* ═══════════════════ PAGE WRAP ═══════════════════ */
         .page-wrap {
-            width: 794px;
+            max-width: 794px;
+            width: 100%;
             margin: 22px auto 40px;
             background: #fff;
             box-shadow: 0 2px 20px rgba(0, 0, 0, 0.22);
@@ -390,6 +391,112 @@
                 size: A4 portrait;
                 margin: 0;
             }
+        }
+
+        /* ═══════════════════ RESPONSIVE ═══════════════════ */
+
+        /* ── Tablet landscape / iPad Pro landscape (≤1050px):
+           Thu nhỏ padding tab ── */
+        @media (max-width: 1050px) {
+            .tab-btn { padding: 0 14px; font-size: 11px; }
+            .btn-print, .btn-docx { padding: 7px 14px; }
+        }
+
+        /* ── iPad portrait (tất cả model) + nhỏ hơn (≤900px):
+           Wrap top bar – tab xuống hàng riêng, scroll ngang ── */
+        @media (max-width: 900px) {
+            .top-bar-inner { flex-wrap: wrap; }
+            .nav-logo { flex: none; padding: 7px 12px; }
+            .bar-actions { flex: none; padding: 5px 12px; }
+            .bar-label { font-size: 10px; }
+            .tab-switcher {
+                order: 3;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                justify-content: flex-start;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+                scrollbar-width: none;
+            }
+            .tab-switcher::-webkit-scrollbar { display: none; }
+            .tab-btn {
+                padding: 0 16px;
+                font-size: 11px;
+                min-height: 38px;
+                flex-shrink: 0;
+                letter-spacing: 0;
+            }
+            .btn-print, .btn-docx { padding: 6px 12px; font-size: 11px; }
+        }
+
+        /* ── iPad mini/standard portrait (≤840px):
+           Nén margin/padding page-wrap ── */
+        @media (max-width: 840px) {
+            .page-wrap { margin: 14px 8px 28px; padding: 20px 22px; }
+        }
+
+        /* ── iPad mini portrait (≤780px):
+           Giảm thêm padding ── */
+        @media (max-width: 780px) {
+            .page-wrap { padding: 16px 14px; }
+            .tab-btn { padding: 0 12px; font-size: 10.5px; }
+            .btn-print, .btn-docx { padding: 5px 10px; }
+            .nav-logo { padding: 7px 10px; }
+            .bar-actions { padding: 5px 10px; }
+        }
+
+        /* ── Mobile phone (≤600px):
+           Full mobile – compress nội dung, ẩn label ── */
+        @media (max-width: 600px) {
+            .bar-label { display: none; }
+            .tab-btn { padding: 0 10px; font-size: 10px; min-height: 36px; }
+            .btn-print, .btn-docx { padding: 6px 10px; font-size: 11px; }
+
+            .page-wrap { margin: 0 0 16px; padding: 10px 8px; box-shadow: none; }
+
+            .doc-title h1 { font-size: 9pt; letter-spacing: 0.2px; }
+            .doc-title h2 { font-size: 8.5pt; }
+            .doc-title h3 { font-size: 7.5pt; }
+            .logo-img { height: 20px; }
+
+            .main-table { font-size: 7.5pt; }
+            .main-table td, .main-table th { padding: 2px 3px; }
+            .cell-num { width: 14px; font-size: 7.5pt; padding: 2px 1px; }
+            .lbl { font-size: 7.5pt; }
+            .lbl-en { font-size: 7pt; }
+            .lbl-only { font-size: 7.5pt; }
+            .lbl-only-en { font-size: 7pt; }
+
+            input[type="text"],
+            input[type="email"],
+            input[type="tel"],
+            input[type="number"],
+            input[type="date"] { font-size: 8pt; min-height: 18px; }
+            .cb-item { font-size: 7.5pt; gap: 3px; }
+            .cb-item input[type="checkbox"],
+            .cb-item input[type="radio"] { width: 13px; height: 13px; }
+            .cb-group { gap: 6px; }
+
+            .sig-h90 { height: 90px; }
+            .sig-title { font-size: 7.5pt; }
+            .sig-sub { font-size: 7pt; }
+            .commit-block { font-size: 7pt; padding: 3px 5px; }
+            .doc-footer { font-size: 6.5pt; line-height: 1.5; }
+        }
+
+        /* ── Bảng nhiều cột: scroll ngang trên màn rất nhỏ (≤500px) ── */
+        @media (max-width: 500px) {
+            .main-table {
+                display: block;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+
+        /* ── Rất nhỏ (≤400px) ── */
+        @media (max-width: 400px) {
+            .page-wrap { padding: 8px 5px; }
+            .main-table { font-size: 7pt; }
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
