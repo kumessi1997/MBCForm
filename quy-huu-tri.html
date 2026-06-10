@@ -647,7 +647,7 @@
 
     .hero-kpi-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 12px
     }
 
@@ -848,27 +848,49 @@
     /* ── Tablet landscape / iPad Pro landscape (≤1050px):
        Thu nhỏ padding tab ── */
     @media(max-width:1050px) {
-      .tab-btn { padding: 0 14px; font-size: 11px }
+      .tab-btn {
+        padding: 0 14px;
+        font-size: 11px
+      }
     }
 
     /* ── iPad portrait (tất cả model) + nhỏ hơn (≤900px):
        Wrap top bar, grid 4-col → 2-col ── */
     @media(max-width:900px) {
+
       /* Top bar */
-      .top-bar-inner { flex-wrap: wrap }
-      .nav-logo { flex: none; padding: 7px 12px }
-      .bar-actions { flex: none; padding: 5px 12px }
-      .bar-label { font-size: 10px }
+      .top-bar-inner {
+        flex-wrap: wrap
+      }
+
+      .nav-logo {
+        flex: none;
+        padding: 7px 12px
+      }
+
+      .bar-actions {
+        flex: none;
+        padding: 5px 12px
+      }
+
+      .bar-label {
+        font-size: 10px
+      }
+
       .tab-switcher {
         order: 3;
         width: 100%;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         justify-content: flex-start;
-        border-top: 1px solid rgba(255,255,255,.1);
+        border-top: 1px solid rgba(255, 255, 255, .1);
         scrollbar-width: none
       }
-      .tab-switcher::-webkit-scrollbar { display: none }
+
+      .tab-switcher::-webkit-scrollbar {
+        display: none
+      }
+
       .tab-btn {
         padding: 0 16px;
         font-size: 11px;
@@ -878,26 +900,47 @@
       }
 
       /* Inner tabs */
-      .itab { padding: 8px 16px; font-size: 10.5px }
+      .itab {
+        padding: 8px 16px;
+        font-size: 10.5px
+      }
 
       /* Panel */
-      .panel { padding: 20px 14px }
+      .panel {
+        padding: 20px 14px
+      }
 
       /* Grid: 4-col → 2-col trên iPad portrait */
       .kpi-grid,
-      .hero-kpi-grid { grid-template-columns: repeat(2, 1fr) }
+      .hero-kpi-grid {
+        grid-template-columns: repeat(2, 1fr)
+      }
 
       /* chart-grid vẫn 2-col trên iPad portrait 768px+ */
       /* hero-params hiển thị 3 per row */
-      .hero-params { gap: 10px }
+      .hero-params {
+        gap: 10px
+      }
     }
 
     /* ── iPad mini/standard portrait rìa (≤780px) ── */
     @media(max-width:780px) {
-      .tab-btn { padding: 0 12px; font-size: 10.5px }
-      .nav-logo { padding: 7px 10px }
-      .bar-actions { padding: 5px 10px }
-      .panel { padding: 16px 12px }
+      .tab-btn {
+        padding: 0 12px;
+        font-size: 10.5px
+      }
+
+      .nav-logo {
+        padding: 7px 10px
+      }
+
+      .bar-actions {
+        padding: 5px 10px
+      }
+
+      .panel {
+        padding: 16px 12px
+      }
     }
 
     /* ── Mobile phone (≤700px):
@@ -905,59 +948,130 @@
     @media(max-width:700px) {
 
       /* Tab nhỏ hơn trên mobile */
-      .tab-btn { padding: 0 10px; font-size: 10px; min-height: 36px }
+      .tab-btn {
+        padding: 0 10px;
+        font-size: 10px;
+        min-height: 36px
+      }
 
       /* Inner tabs */
-      .itab { padding: 8px 14px; font-size: 10px }
+      .itab {
+        padding: 8px 14px;
+        font-size: 10px
+      }
 
       /* Grids */
       .kpi-grid,
-      .hero-kpi-grid { grid-template-columns: repeat(2, 1fr) }
+      .hero-kpi-grid {
+        grid-template-columns: repeat(2, 1fr)
+      }
 
       .two-col,
       .kpi-grid-3,
       .chart-grid,
-      .cmp-grid { grid-template-columns: 1fr }
+      .cmp-grid {
+        grid-template-columns: 1fr
+      }
 
-      .kpi-grid-2 { grid-template-columns: repeat(2, 1fr) }
+      .kpi-grid-2 {
+        grid-template-columns: repeat(2, 1fr)
+      }
 
-      .cmp-arr { transform: rotate(90deg) }
+      .cmp-arr {
+        transform: rotate(90deg)
+      }
 
       /* Input table: label trên, input dưới */
       .inp-tbl .lbl-cell,
-      .inp-tbl .val-cell { display: block; width: 100% }
-      .inp-tbl tr { display: block; margin-bottom: 2px }
-      .inp-tbl td { display: block; border-bottom: none }
-      .inp-tbl .lbl-cell { border-bottom: none; padding-bottom: 2px }
-      .inp-tbl .val-cell { border-top: none }
+      .inp-tbl .val-cell {
+        display: block;
+        width: 100%
+      }
+
+      .inp-tbl tr {
+        display: block;
+        margin-bottom: 2px
+      }
+
+      .inp-tbl td {
+        display: block;
+        border-bottom: none
+      }
+
+      .inp-tbl .lbl-cell {
+        border-bottom: none;
+        padding-bottom: 2px
+      }
+
+      .inp-tbl .val-cell {
+        border-top: none
+      }
+
       .inp-tbl select,
       .inp-tbl input[type=text],
-      .inp-tbl input[type=number] { font-size: 10pt }
+      .inp-tbl input[type=number] {
+        font-size: 10pt
+      }
 
       /* Report hero */
-      .report-hero { margin: -16px -12px 16px; padding: 16px 12px 14px }
-      .hero-title { font-size: 13pt }
-      .hero-params { gap: 8px; padding: 8px 10px }
+      .report-hero {
+        margin: -16px -12px 16px;
+        padding: 16px 12px 14px
+      }
+
+      .hero-title {
+        font-size: 13pt
+      }
+
+      .hero-params {
+        gap: 8px;
+        padding: 8px 10px
+      }
 
       /* Journey */
-      .journey { flex-direction: column; gap: 4px }
-      .journey-arr { transform: rotate(90deg); line-height: 1 }
-      .journey-block { min-width: unset; width: 100% }
+      .journey {
+        flex-direction: column;
+        gap: 4px
+      }
+
+      .journey-arr {
+        transform: rotate(90deg);
+        line-height: 1
+      }
+
+      .journey-block {
+        min-width: unset;
+        width: 100%
+      }
 
       /* Section headers */
-      .sec-hdr { font-size: 9pt }
+      .sec-hdr {
+        font-size: 9pt
+      }
 
       /* Simulate button */
-      .btn-simulate { padding: 12px 20px; font-size: 11pt }
+      .btn-simulate {
+        padding: 12px 20px;
+        font-size: 11pt
+      }
     }
 
     /* ── Rất nhỏ (≤400px) ── */
     @media(max-width:400px) {
-      .panel { padding: 10px 8px }
+      .panel {
+        padding: 10px 8px
+      }
+
       .kpi-grid,
       .hero-kpi-grid,
-      .kpi-grid-2 { grid-template-columns: 1fr }
-      .report-hero { margin: -10px -8px 12px; padding: 12px 8px 10px }
+      .kpi-grid-2 {
+        grid-template-columns: 1fr
+      }
+
+      .report-hero {
+        margin: -10px -8px 12px;
+        padding: 12px 8px 10px
+      }
     }
 
     @media print {
@@ -1054,30 +1168,17 @@
           </select>
         </td>
       </tr>
-      <tr id="row-dn-ratio">
-        <td class="lbl-cell">Tỷ lệ Công ty đóng (%) <span class="hint" style="display:inline">— chỉ áp dụng phương thức
-            3</span></td>
-        <td class="val-cell">
-          <select id="dn_ratio" onchange="recalc()">
-            <option value="50">50%</option>
-            <option value="60">60%</option>
-            <option value="70" selected>70%</option>
-            <option value="80">80%</option>
-            <option value="90">90%</option>
-          </select>
-        </td>
+      <tr>
+        <td class="lbl-cell">Phần Công ty đóng (VND/tháng/người)</td>
+        <td class="val-cell"><input type="text" id="dn_dong_input" value="3.000.000" onchange="recalc()"></td>
       </tr>
       <tr>
-        <td class="lbl-cell">Mức đóng quỹ tổng (VND/tháng/người)</td>
-        <td class="val-cell"><input type="text" id="muc_dong_tong" value="8.000.000" onchange="recalc()"></td>
+        <td class="lbl-cell">Phần NLĐ tự đóng (VND/tháng)</td>
+        <td class="val-cell"><input type="text" id="nld_dong_input" value="5.000.000" onchange="recalc()"></td>
       </tr>
       <tr>
-        <td class="lbl-cell">→ Phần Công ty đóng (VND/tháng)</td>
-        <td class="val-cell readonly"><span id="dn_dong_disp" class="derived">—</span></td>
-      </tr>
-      <tr>
-        <td class="lbl-cell">→ Phần NLĐ đóng (VND/tháng)</td>
-        <td class="val-cell readonly"><span id="nld_dong_disp" class="derived">—</span></td>
+        <td class="lbl-cell">→ Tổng mức đóng (VND/tháng)</td>
+        <td class="val-cell readonly"><span id="muc_dong_tong_disp" class="derived">—</span></td>
       </tr>
     </table>
 
@@ -1091,11 +1192,9 @@
         <td class="lbl-cell">Hiệu suất đầu tư kỳ vọng (%/năm)</td>
         <td class="val-cell">
           <select id="lai_suat" onchange="recalc()">
-            <option value="3">3%/năm — Thận trọng</option>
-            <option value="5">5%/năm — Bảo thủ</option>
-            <option value="7" selected>7%/năm — Cơ sở (lịch sử)</option>
-            <option value="9">9%/năm — Tích cực</option>
-            <option value="11">11%/năm — Lạc quan</option>
+            <option value="6">6%/năm</option>
+            <option value="7" selected>7%/năm</option>
+            <option value="8">8%/năm</option>
           </select>
         </td>
       </tr>
@@ -1116,9 +1215,12 @@
         <td class="lbl-cell">Số năm nhận lương hưu định kỳ</td>
         <td class="val-cell">
           <select id="so_nam_nhan" onchange="recalc()">
+            <option value="5">5 năm</option>
             <option value="10">10 năm</option>
             <option value="15" selected>15 năm</option>
             <option value="20">20 năm</option>
+            <option value="25">25 năm</option>
+            <option value="30">30 năm</option>
           </select>
         </td>
       </tr>
@@ -1127,19 +1229,16 @@
     <div class="sec-hdr">V. HẰNG SỐ PHÁP LÝ (Nghị định 85/2026/NĐ-CP ngày 25/03/2026)</div>
     <table class="inp-tbl">
       <tr>
-        <td class="lbl-cell">Mức trần giảm trừ thuế cho NLĐ (VND/tháng)</td>
-        <td class="val-cell readonly"><span class="derived">1.000.000</span></td>
-      </tr>
-      <tr>
-        <td class="lbl-cell">Mức trần chi phí được trừ cho DN (VND/tháng/người)</td>
+        <td class="lbl-cell">Mức trần giảm trừ thuế cho NLĐ (VND/tháng) <span class="hint" style="display:inline">— theo
+            dự thảo luật thuế TNCN mới</span></td>
         <td class="val-cell readonly"><span class="derived">3.000.000</span></td>
       </tr>
       <tr>
-        <td class="lbl-cell">Thuế suất khấu trừ tại nguồn khi rút (phần DN đóng)</td>
-        <td class="val-cell readonly"><span class="derived">10% (phẳng)</span></td>
+        <td class="lbl-cell">Mức trần chi phí được trừ cho DN (VND/tháng/người)</td>
+        <td class="val-cell readonly"><span class="derived">5.000.000</span></td>
       </tr>
       <tr>
-        <td class="lbl-cell">Thuế suất phần NLĐ tự đóng khi rút</td>
+        <td class="lbl-cell">Thuế suất khi rút (toàn bộ — DN + NLĐ)</td>
         <td class="val-cell readonly"><span class="derived">0% (miễn thuế)</span></td>
       </tr>
     </table>
@@ -1154,7 +1253,7 @@
 
     <!-- HERO -->
     <div class="report-hero">
-      <div class="hero-title">📋 Báo Cáo Kế Hoạch Hưu Trí Tự Nguyện</div>
+      <div class="hero-title">Biểu đồ lợi ích hoàn chỉnh khi tham gia Bảo hiểm hưu trí bổ sung MBC</div>
       <div class="hero-subtitle">Mô phỏng theo Nghị định 85/2026/NĐ-CP — MB Capital</div>
       <div class="hero-params" id="r-params"></div>
       <div class="hero-kpi-grid">
@@ -1168,13 +1267,8 @@
           <div class="hk-val" id="r-kpi2">—</div>
           <div class="hk-sub">Vốn gốc + Lãi kép + Lá chắn</div>
         </div>
-        <div class="hero-kpi h3">
-          <div class="hk-label">💼 Ưu Đãi Thuế Rút — Khối 3</div>
-          <div class="hk-val" id="r-kpi3">—</div>
-          <div class="hk-sub">Tiết kiệm so với lũy tiến 35%</div>
-        </div>
         <div class="hero-kpi h4">
-          <div class="hk-label">💰 Lương Hưu — Khối 4</div>
+          <div class="hk-label">💰 Lương Hưu — Khối 3</div>
           <div class="hk-val" id="r-kpi4">—</div>
           <div class="hk-sub" id="r-kpi4-sub">Nhận hàng tháng suốt kỳ hưu</div>
         </div>
@@ -1187,22 +1281,17 @@
     <!-- JOURNEY -->
     <div class="journey">
       <div class="journey-block">
-        <div class="jb-title">KHỐI 1 — Lúc ĐÓNG</div>
+        <div class="jb-title">KHỐI 1 — Lúc đóng</div>
         <div class="jb-sub">Giảm thuế TNCN ngay lập tức</div>
       </div>
       <div class="journey-arr">→</div>
       <div class="journey-block" style="background:#1d6a3a">
-        <div class="jb-title">KHỐI 2 — Trong TÍCH LŨY</div>
+        <div class="jb-title">KHỐI 2 — Trong tích lũy</div>
         <div class="jb-sub">Lãi kép 100% miễn thuế</div>
       </div>
       <div class="journey-arr">→</div>
-      <div class="journey-block" style="background:#b06e00">
-        <div class="jb-title">KHỐI 3 — Lúc RÚT</div>
-        <div class="jb-sub">Chỉ 10% — Không lũy tiến</div>
-      </div>
-      <div class="journey-arr">→</div>
       <div class="journey-block" style="background:#c0251f">
-        <div class="jb-title">KHỐI 4 — Khi VỀ HƯU</div>
+        <div class="jb-title">KHỐI 3 — Khi về hưu</div>
         <div class="jb-sub">Rút 1 lần hoặc lương hưu</div>
       </div>
     </div>
@@ -1308,59 +1397,10 @@
       </div>
     </div>
 
-    <!-- ═══ KHỐI 3 ═══ -->
-    <div class="rpt-section">
-      <div class="rpt-hdr h3">
-        <div class="rpt-num">03</div>
-        <div>
-          <div class="rpt-hdr-title">💼 Khi Rút Tiền — Chỉ 10% Phẳng, Không Lo Thuế Lũy Tiến</div>
-          <div class="rpt-hdr-sub">Theo NĐ 85/2026: không áp dụng biểu lũy tiến — chỉ khấu trừ phẳng 10% tại nguồn cho
-            phần DN đóng</div>
-        </div>
-      </div>
-      <div class="rpt-body">
-
-        <div class="sec-hdr" style="margin-top:0">Phân Tách Nguồn Vốn Khi Rút</div>
-        <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid #dce8f7">
-          <table class="res-tbl" style="margin:0;min-width:600px" id="r3-sources"></table>
-        </div>
-
-        <div class="cmp-grid" style="margin-top:16px">
-          <div class="cmp-box bad">
-            <div class="cb-tag">❌ Nếu bị đánh thuế lũy tiến 35%</div>
-            <div class="cb-val" id="r3-luy-tien">—</div>
-            <div class="cb-sub">VND thuế phải nộp trên phần DN đóng</div>
-          </div>
-          <div class="cmp-arr">→</div>
-          <div class="cmp-box good">
-            <div class="cb-tag">✅ Thực tế — Khấu trừ phẳng 10%</div>
-            <div class="cb-val" id="r3-dnTax">—</div>
-            <div class="cb-sub">VND thuế thực tế phải nộp</div>
-          </div>
-        </div>
-
-        <div class="big-saving">
-          <div class="bs-icon">💸</div>
-          <div>
-            <div class="bs-label">Bạn tiết kiệm được — nhờ quy định thuế phẳng</div>
-            <div class="bs-val" id="r3-saving">—</div>
-            <div class="bs-sub">VND — khoản tiền này ở lại trong túi bạn, không phải nộp thuế</div>
-          </div>
-        </div>
-
-        <div class="callout green">
-          <span class="callout-hdr">✅ 3 điểm mấu chốt cần nhớ khi rút tiền</span>
-          1️⃣ Phần NLĐ tự đóng + toàn bộ lãi phát sinh → Rút ra <strong>MIỄN THUẾ 100%</strong><br>
-          2️⃣ Phần DN đóng thay + lãi → Chỉ khấu trừ phẳng <strong>10%</strong> tại nguồn<br>
-          3️⃣ KHÔNG áp dụng biểu thuế lũy tiến (20%–35%) → Tiết kiệm: <strong id="r3-saving-inline">—</strong>
-        </div>
-      </div>
-    </div>
-
     <!-- ═══ KHỐI 4 ═══ -->
     <div class="rpt-section">
       <div class="rpt-hdr h4">
-        <div class="rpt-num">04</div>
+        <div class="rpt-num">03</div>
         <div>
           <div class="rpt-hdr-title">💰 Nhận Hưu Trí — Chủ Động Tài Chính Khi Về Hưu</div>
           <div class="rpt-hdr-sub">Linh hoạt chọn rút một lần hoặc nhận lương hưu hàng tháng — phần vốn chưa rút tiếp
@@ -1491,7 +1531,16 @@
     // MODE HELPERS
     function onModeChange() {
       const mode = parseInt(document.getElementById('mode_dong').value);
-      document.getElementById('row-dn-ratio').style.display = mode === 3 ? '' : 'none';
+      if (mode === 1) {
+        document.getElementById('nld_dong_input').value = '0';
+      } else if (mode === 2) {
+        document.getElementById('dn_dong_input').value = '0';
+      } else {
+        if (parseVN(document.getElementById('dn_dong_input').value) === 0)
+          document.getElementById('dn_dong_input').value = '3.000.000';
+        if (parseVN(document.getElementById('nld_dong_input').value) === 0)
+          document.getElementById('nld_dong_input').value = '5.000.000';
+      }
       recalc();
     }
     function onPayoutChange() {
@@ -1501,7 +1550,7 @@
     }
 
     // FORMAT ON BLUR
-    ['thu_nhap', 'muc_dong_tong'].forEach(id => {
+    ['thu_nhap', 'dn_dong_input', 'nld_dong_input'].forEach(id => {
       const el = document.getElementById(id);
       el.addEventListener('blur', function () {
         const n = parseVN(this.value);
@@ -1520,24 +1569,22 @@
       const thuNhap = parseVN(document.getElementById('thu_nhap').value);
       const bacThue = parseInt(document.getElementById('bac_thue').value) / 100;
       const mode = parseInt(document.getElementById('mode_dong').value);
-      const dnRatioRaw = parseInt(document.getElementById('dn_ratio').value) / 100;
-      const dnRatio = mode === 1 ? 1 : (mode === 2 ? 0 : dnRatioRaw);
-      const nldRatio = 1 - dnRatio;
-      const mucDongTong = parseVN(document.getElementById('muc_dong_tong').value);
+      const dnDongRaw = parseVN(document.getElementById('dn_dong_input').value);
+      const nldDongRaw = parseVN(document.getElementById('nld_dong_input').value);
+      const dnDong = mode === 2 ? 0 : dnDongRaw;
+      const nldDong = mode === 1 ? 0 : nldDongRaw;
+      const mucDongTong = dnDong + nldDong;
       const soNam = parseInt(document.getElementById('so_nam').value) || 25;
       const laiSuat = parseInt(document.getElementById('lai_suat').value) / 100;
       const modePT = parseInt(document.getElementById('mode_pt').value);
       const soNamNhan = parseInt(document.getElementById('so_nam_nhan').value) || 15;
 
-      const TRAN_NLD = 1000000, TRAN_DN = 3000000, THUE_RUT_DN = 0.10, TNDN_RATE = 0.20;
+      const TRAN_NLD = 3000000, TRAN_DN = 5000000, TNDN_RATE = 0.20;
 
-      const nldDong = mucDongTong * nldRatio;
-      const dnDong = mucDongTong * dnRatio;
       const nldGiamTru = Math.min(nldDong, TRAN_NLD);
       const dnGiamTru = Math.min(dnDong, TRAN_DN);
 
-      document.getElementById('dn_dong_disp').textContent = fmtVND(dnDong) + ' VND';
-      document.getElementById('nld_dong_disp').textContent = fmtVND(nldDong) + ' VND';
+      document.getElementById('muc_dong_tong_disp').textContent = fmtVND(mucDongTong) + ' VND';
 
       // BLOCK 1
       const thuNhapCoQuy = thuNhap - nldGiamTru;
@@ -1570,12 +1617,7 @@
       const corpus = totalVonGoc + totalInterest;
       const nldPortion = corpus * nldFrac;
       const dnPortion = corpus * dnFrac;
-      const nldAfter = nldPortion;
-      const dnTax = dnPortion * THUE_RUT_DN;
-      const dnAfter = dnPortion - dnTax;
-      const totalAfterTax = nldAfter + dnAfter;
-      const thueLuyTien35 = dnPortion * 0.35;
-      const tietKiemExit = thueLuyTien35 - dnTax;
+      const totalAfterTax = corpus;
 
       // BLOCK 4
       const lumpSum = totalAfterTax;
@@ -1610,8 +1652,7 @@
         nldDong, dnDong, nldGiamTru, dnGiamTru,
         thueKhongQuy, thueCoQuy, tietKiemThang, tietKiemNam, tietKiemNNam, dnTietKiemNNam,
         compRows, totalAsset, totalVonGoc, totalTaxAccum, totalInterest,
-        nldGoc, dnGoc, nldPortion, dnPortion, nldAfter, dnTax, dnAfter, totalAfterTax,
-        thueLuyTien35, tietKiemExit,
+        nldGoc, dnGoc, totalAfterTax,
         lumpSum, monthlyPMT, annualPMT, totalPayout, thangDu, payoutRows
       };
 
@@ -1622,7 +1663,6 @@
       renderHero();
       renderBlock1();
       renderBlock2();
-      renderBlock3();
       renderBlock4();
       renderSummary();
     }
@@ -1630,7 +1670,7 @@
     // HERO
     function renderHero() {
       const { thuNhap, bacThue, mucDongTong, soNam, laiSuat, modePT, soNamNhan,
-        tietKiemNNam, totalAsset, tietKiemExit, monthlyPMT, lumpSum } = G;
+        tietKiemNNam, totalAsset, monthlyPMT, lumpSum } = G;
 
       document.getElementById('r-params').innerHTML =
         ['<div class="dash-param"><div class="dp-lbl">Thu nhập/tháng</div><div class="dp-val">' + fmtBill(thuNhap) + ' VND</div></div>',
@@ -1643,7 +1683,6 @@
 
       document.getElementById('r-kpi1').textContent = fmtBill(tietKiemNNam) + ' VND';
       document.getElementById('r-kpi2').textContent = fmtBill(totalAsset) + ' VND';
-      document.getElementById('r-kpi3').textContent = fmtBill(tietKiemExit) + ' VND';
       if (modePT === 2) {
         document.getElementById('r-kpi4').textContent = fmtBill(monthlyPMT) + ' VND/tháng';
         document.getElementById('r-kpi4-sub').textContent = 'Suốt ' + soNamNhan + ' năm hưu trí';
@@ -1668,7 +1707,7 @@
       document.getElementById('r1-message').innerHTML =
         nldGiamTru > 0
           ? '<span class="callout-hdr">💡 Ý nghĩa thực tế với bạn</span>Mỗi tháng bạn đóng <strong>' + fmtVND(nldDong) + ' VND</strong> vào Quỹ, thu nhập chịu thuế giảm <strong>' + fmtVND(nldGiamTru) + ' VND</strong> → tiết kiệm ngay <strong>' + fmtVND(tietKiemThang) + ' VND/tháng</strong> tiền thuế. Sau <strong>' + soNam + ' năm</strong>, tổng thuế tiết kiệm được: <strong>' + fmtBill(tietKiemNNam) + ' VND</strong> — số tiền này vẫn nằm trong túi bạn và tiếp tục sinh lời.'
-          : '<span class="callout-hdr">💡 Lưu ý</span>Phương thức "Công ty đóng 100%" không tạo lá chắn thuế TNCN cho NLĐ. Lợi ích tập trung ở Khối 2 (lãi kép) và Khối 4 (nhận hưu trí).';
+          : '<span class="callout-hdr">💡 Lưu ý</span>Phương thức "Công ty đóng 100%" không tạo lá chắn thuế TNCN cho NLĐ. Lợi ích tập trung ở Khối 2 (lãi kép) và Khối 3 (nhận hưu trí).';
 
     }
 
@@ -1687,24 +1726,6 @@
         '<thead><tr><th class="rc">Năm</th><th class="rr">Vốn Gốc Đóng Vào</th><th class="rr">Lá Chắn Thuế</th><th class="rr">Lãi Kép (Miễn Thuế)</th><th class="rr">Tổng Tài Sản</th></tr></thead><tbody>' +
         compRows.map(r => '<tr' + (r.year === soNam ? ' class="green-row"' : '') + '><td class="rc">' + r.year + '</td><td class="rr">' + fmtVND(r.vonGoc) + '</td><td class="rr">' + fmtVND(r.taxAcc) + '</td><td class="rr">' + fmtVND(r.interest) + '</td><td class="rr">' + fmtVND(r.total) + '</td></tr>').join('') +
         '</tbody>';
-    }
-
-    // BLOCK 3
-    function renderBlock3() {
-      const { nldGoc, dnGoc, nldPortion, dnPortion, nldAfter, dnTax, dnAfter,
-        totalAfterTax, thueLuyTien35, tietKiemExit } = G;
-
-      document.getElementById('r3-sources').innerHTML =
-        '<thead><tr><th>Nguồn Vốn</th><th class="rr">Gốc Đóng Vào</th><th class="rr">Lãi Phát Sinh</th><th class="rr">Tổng Trước Thuế</th><th class="rc">Thuế Suất</th><th class="rr">Thuế Nộp</th><th class="rr">Thực Nhận</th></tr></thead><tbody>' +
-        '<tr class="green-row"><td><strong>NLĐ tự đóng → Miễn thuế 0%</strong></td><td class="rr">' + fmtVND(nldGoc) + '</td><td class="rr">' + fmtVND(nldPortion - nldGoc) + '</td><td class="rr">' + fmtVND(nldPortion) + '</td><td class="rc">0%</td><td class="rr">0</td><td class="rr"><strong>' + fmtVND(nldAfter) + '</strong></td></tr>' +
-        '<tr><td><strong>DN đóng thay → Thuế phẳng 10%</strong></td><td class="rr">' + fmtVND(dnGoc) + '</td><td class="rr">' + fmtVND(dnPortion - dnGoc) + '</td><td class="rr">' + fmtVND(dnPortion) + '</td><td class="rc">10%</td><td class="rr">(' + fmtVND(dnTax) + ')</td><td class="rr"><strong>' + fmtVND(dnAfter) + '</strong></td></tr>' +
-        '<tr class="total-row"><td>TỔNG CỘNG</td><td class="rr">' + fmtVND(nldGoc + dnGoc) + '</td><td class="rr">' + fmtVND(nldPortion + dnPortion - nldGoc - dnGoc) + '</td><td class="rr">' + fmtVND(nldPortion + dnPortion) + '</td><td class="rc">—</td><td class="rr">(' + fmtVND(dnTax) + ')</td><td class="rr"><strong>' + fmtVND(totalAfterTax) + '</strong></td></tr>' +
-        '</tbody>';
-
-      document.getElementById('r3-luy-tien').textContent = fmtBill(thueLuyTien35) + ' VND';
-      document.getElementById('r3-dnTax').textContent = fmtBill(dnTax) + ' VND';
-      document.getElementById('r3-saving').textContent = fmtBill(tietKiemExit) + ' VND';
-      document.getElementById('r3-saving-inline').textContent = fmtBill(tietKiemExit) + ' VND';
     }
 
     // BLOCK 4
@@ -1731,21 +1752,18 @@
     // SUMMARY
     function renderSummary() {
       const { totalVonGoc, mucDongTong, soNam, tietKiemNNam, totalInterest, totalAsset,
-        dnTax, tietKiemExit, totalAfterTax, modePT, soNamNhan, monthlyPMT, totalPayout, lumpSum } = G;
+        totalAfterTax, modePT, soNamNhan, monthlyPMT, totalPayout, lumpSum } = G;
       const ratio = (totalAsset / Math.max(totalVonGoc, 1)).toFixed(2);
       document.getElementById('r-summary').innerHTML =
         '<thead><tr><th>Hạng Mục</th><th class="rc">Giá Trị</th><th class="rc">Ghi Chú</th></tr></thead><tbody>' +
         '<tr><td>Vốn gốc tổng đóng vào</td><td class="rr">' + fmtVND(totalVonGoc) + ' VND</td><td class="rc">=' + fmtBill(mucDongTong) + '/tháng × 12 × ' + soNam + ' năm</td></tr>' +
         '<tr><td>🛡️ Tiết kiệm thuế TNCN (Khối 1)</td><td class="rr">' + fmtVND(tietKiemNNam) + ' VND</td><td class="rc">Lá chắn thuế NLĐ</td></tr>' +
         '<tr><td>📈 Lãi kép miễn thuế (Khối 2)</td><td class="rr">' + fmtVND(totalInterest) + ' VND</td><td class="rc">100% miễn thuế tích lũy</td></tr>' +
-        '<tr class="total-row"><td>🔥 Tổng tài sản cuối kỳ</td><td class="rr">' + fmtVND(totalAsset) + ' VND</td><td class="rc">Hệ số ' + ratio + 'x vốn gốc</td></tr>' +
-        '<tr><td>💼 Thuế rút (10% × phần DN)</td><td class="rr">(' + fmtVND(dnTax) + ') VND</td><td class="rc">Khối 3</td></tr>' +
-        '<tr><td>💼 Tiết kiệm so với lũy tiến 35% (Khối 3)</td><td class="rr">' + fmtVND(tietKiemExit) + ' VND</td><td class="rc">Không áp dụng biểu lũy tiến</td></tr>' +
-        '<tr class="green-row"><td>✅ Tổng tài sản SAU thuế — Sẵn sàng nhận hưu</td><td class="rr">' + fmtVND(totalAfterTax) + ' VND</td><td class="rc">Khối 4 đầu vào</td></tr>' +
+        '<tr class="total-row green-row"><td>🔥 Tổng tài sản cuối kỳ — Sẵn sàng nhận hưu (miễn thuế)</td><td class="rr">' + fmtVND(totalAfterTax) + ' VND</td><td class="rc">Hệ số ' + ratio + 'x vốn gốc</td></tr>' +
         (modePT === 2
-          ? '<tr class="highlight"><td>💰 Lương hưu hàng tháng (Khối 4 — Phương án B)</td><td class="rr">' + fmtVND(monthlyPMT) + ' VND/tháng</td><td class="rc">Suốt ' + soNamNhan + ' năm</td></tr>' +
+          ? '<tr class="highlight"><td>💰 Lương hưu hàng tháng (Khối 3 — Phương án B)</td><td class="rr">' + fmtVND(monthlyPMT) + ' VND/tháng</td><td class="rc">Suốt ' + soNamNhan + ' năm</td></tr>' +
           '<tr class="highlight"><td>Tổng nhận trong ' + soNamNhan + ' năm</td><td class="rr">' + fmtVND(totalPayout) + ' VND</td><td class="rc">Nhờ tiếp tục sinh lời</td></tr>'
-          : '<tr class="highlight"><td>💰 Rút một lần (Khối 4 — Phương án A)</td><td class="rr">' + fmtVND(lumpSum) + ' VND</td><td class="rc">Sau ' + soNam + ' năm tích lũy</td></tr>') +
+          : '<tr class="highlight"><td>💰 Rút một lần (Khối 3 — Phương án A)</td><td class="rr">' + fmtVND(lumpSum) + ' VND</td><td class="rc">Sau ' + soNam + ' năm tích lũy</td></tr>') +
         '</tbody>';
     }
 
