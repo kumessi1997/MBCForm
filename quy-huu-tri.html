@@ -1239,6 +1239,17 @@
           </select>
         </td>
       </tr>
+      <tr id="row-ty-le">
+        <td class="lbl-cell">Tỷ lệ đóng (NLĐ / Công ty)</td>
+        <td class="val-cell">
+          <select id="ty_le" onchange="onRatioChange()">
+            <option value="0.625" selected>62,5% / 37,5% (mặc định)</option>
+            <option value="0.70">70% / 30%</option>
+            <option value="0.60">60% / 40%</option>
+            <option value="0.50">50% / 50%</option>
+          </select>
+        </td>
+      </tr>
       <tr>
         <td class="lbl-cell">Phần Công ty đóng (VND/tháng/người)</td>
         <td class="val-cell"><input type="text" id="dn_dong_input" value="3.000.000" onchange="recalc()"></td>
@@ -1602,17 +1613,34 @@
     // MODE HELPERS
     function onModeChange() {
       const mode = parseInt(document.getElementById('mode_dong').value);
+      const rowTyLe = document.getElementById('row-ty-le');
       if (mode === 1) {
         document.getElementById('nld_dong_input').value = '0';
+        rowTyLe.style.display = 'none';
       } else if (mode === 2) {
         document.getElementById('dn_dong_input').value = '0';
+        rowTyLe.style.display = 'none';
       } else {
-        if (parseVN(document.getElementById('dn_dong_input').value) === 0)
-          document.getElementById('dn_dong_input').value = '3.000.000';
-        if (parseVN(document.getElementById('nld_dong_input').value) === 0)
-          document.getElementById('nld_dong_input').value = '5.000.000';
+        rowTyLe.style.display = '';
+        const total = parseVN(document.getElementById('dn_dong_input').value) + parseVN(document.getElementById('nld_dong_input').value);
+        const baseTotal = total > 0 ? total : 8000000;
+        applyRatio(baseTotal);
       }
       recalc();
+    }
+
+    function onRatioChange() {
+      const total = parseVN(document.getElementById('dn_dong_input').value) + parseVN(document.getElementById('nld_dong_input').value);
+      applyRatio(total > 0 ? total : 8000000);
+      recalc();
+    }
+
+    function applyRatio(total) {
+      const nldPct = parseFloat(document.getElementById('ty_le').value);
+      const nld = Math.round(total * nldPct);
+      const dn = total - nld;
+      document.getElementById('nld_dong_input').value = fmtVND(nld);
+      document.getElementById('dn_dong_input').value = fmtVND(dn);
     }
     function onPayoutChange() {
       const mode = parseInt(document.getElementById('mode_pt').value);
