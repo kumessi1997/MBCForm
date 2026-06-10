@@ -806,6 +806,76 @@
       margin-top: 4px
     }
 
+    /* KPI TOOLTIP */
+    #kpi-tip {
+      position: fixed;
+      z-index: 9999;
+      background: rgba(4, 18, 30, 0.97);
+      border: 1px solid rgba(162, 140, 117, 0.45);
+      border-top: 2px solid #A28C75;
+      border-radius: 8px;
+      padding: 14px 16px 12px;
+      color: #fff;
+      font-size: 8.5pt;
+      min-width: 230px;
+      max-width: 300px;
+      box-shadow: 0 12px 40px rgba(0,0,0,.6), 0 0 0 1px rgba(162,140,117,.1);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity .22s ease, transform .22s cubic-bezier(.22,.68,0,1.2)
+    }
+    #kpi-tip.show { opacity: 1; transform: translateY(0) }
+    #kpi-tip.above { transform: translateY(-8px) }
+    #kpi-tip.above.show { transform: translateY(0) }
+    #kpi-tip::after {
+      content: '';
+      position: absolute;
+      left: var(--caret, 50%);
+      transform: translateX(-50%);
+      border: 6px solid transparent
+    }
+    #kpi-tip.below::after {
+      top: -12px;
+      border-bottom-color: #A28C75;
+      border-top: none
+    }
+    #kpi-tip.above::after {
+      bottom: -12px;
+      border-top-color: #A28C75;
+      border-bottom: none
+    }
+    #kpi-tip .tip-title {
+      font-size: 7.5pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #C8A87A;
+      letter-spacing: .06em;
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(162,140,117,.25)
+    }
+    #kpi-tip .tip-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 14px;
+      padding: 5px 0;
+      border-bottom: 1px solid rgba(255,255,255,.06)
+    }
+    #kpi-tip .tip-row:last-child { border-bottom: none }
+    #kpi-tip .tip-row.total {
+      border-top: 1px solid rgba(162,140,117,.3);
+      margin-top: 3px;
+      padding-top: 8px;
+      border-bottom: none
+    }
+    #kpi-tip .tip-lbl { opacity: .7; font-size: 8pt }
+    #kpi-tip .tip-val { font-weight: 700; color: #D4B896; white-space: nowrap; font-size: 8.5pt }
+    #kpi-tip .tip-row.total .tip-val { color: #F0D9BE; font-size: 9.5pt }
+
     /* COMPARE GRID */
     .cmp-grid {
       display: grid;
@@ -1695,6 +1765,26 @@
       return fmtVND(n);
     }
 
+    function countUp(el, endVal, suffix, duration, delay) {
+      let unit, divisor, decimals;
+      if (endVal >= 1e9)      { unit = ' tỷ'; divisor = 1e9; decimals = 2; }
+      else if (endVal >= 1e6) { unit = ' tr'; divisor = 1e6; decimals = 0; }
+      else                    { unit = '';    divisor = 1;   decimals = 0; }
+      const target = endVal / divisor;
+      function run() {
+        const start = performance.now();
+        function step(now) {
+          const p = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - p, 3);
+          const cur = eased * target;
+          el.textContent = (decimals > 0 ? cur.toFixed(decimals) : Math.round(cur).toString()) + unit + suffix;
+          if (p < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      }
+      delay ? setTimeout(run, delay) : run();
+    }
+
     // TAB SWITCHING
     function switchTab(id, el) {
       document.querySelectorAll('.panel').forEach(p => p.classList.remove('show'));
@@ -1962,13 +2052,13 @@
         '<div class="dash-param"><div class="dp-lbl">Phương thức nhận</div><div class="dp-val">' + (modePT === 1 ? 'Rút 1 lần' : 'Định kỳ ' + soNamNhan + ' năm') + '</div></div>'
         ].join('');
 
-      document.getElementById('r-kpi1').textContent = fmtBill(tietKiemNNam) + ' VND';
-      document.getElementById('r-kpi2').textContent = fmtBill(totalAsset) + ' VND';
+      countUp(document.getElementById('r-kpi1'), tietKiemNNam, ' VND', 2000, 0);
+      countUp(document.getElementById('r-kpi2'), totalAsset,   ' VND', 2000, 200);
       if (modePT === 2) {
-        document.getElementById('r-kpi4').textContent = fmtBill(monthlyPMT) + ' VND/tháng';
+        countUp(document.getElementById('r-kpi4'), monthlyPMT, ' VND/tháng', 2000, 400);
         document.getElementById('r-kpi4-sub').textContent = 'Suốt ' + soNamNhan + ' năm hưu trí';
       } else {
-        document.getElementById('r-kpi4').textContent = fmtBill(lumpSum) + ' VND';
+        countUp(document.getElementById('r-kpi4'), lumpSum, ' VND', 2000, 400);
         document.getElementById('r-kpi4-sub').textContent = 'Rút một lần sau ' + soNam + ' năm';
       }
     }
@@ -2150,11 +2240,104 @@
       });
     }
 
+    // KPI TOOLTIP
+    function kpiTipRow(lbl, val, cls) {
+      return '<div class="tip-row' + (cls ? ' ' + cls : '') + '"><span class="tip-lbl">' + lbl + '</span><span class="tip-val">' + val + '</span></div>';
+    }
+
+    function buildKpi1Tip() {
+      const { tietKiemThang, tietKiemNam, tietKiemNNam, nldGiamTru, bacThue, soNam } = G;
+      return '<div class="tip-title">Tiết Kiệm Thuế — Khối 1</div>' +
+        kpiTipRow('Giảm trừ thu nhập/tháng', fmtVND(nldGiamTru) + ' VND') +
+        kpiTipRow('Bậc thuế TNCN', fmtPct(bacThue)) +
+        kpiTipRow('Tiết kiệm thuế/tháng', fmtVND(tietKiemThang) + ' VND') +
+        kpiTipRow('Tiết kiệm thuế/năm', fmtVND(tietKiemNam) + ' VND') +
+        kpiTipRow('Tổng tiết kiệm ' + soNam + ' năm', fmtBill(tietKiemNNam) + ' VND', 'total');
+    }
+
+    function buildKpi2Tip() {
+      const { totalVonGoc, totalInterest, totalTaxAccum, totalAsset, laiSuat, soNam } = G;
+      return '<div class="tip-title">Tổng Tài Sản — Khối 2</div>' +
+        kpiTipRow('Vốn gốc tích lũy', fmtBill(totalVonGoc) + ' VND') +
+        kpiTipRow('Lãi kép ' + (laiSuat * 100).toFixed(0) + '%/' + soNam + ' năm', fmtBill(totalInterest) + ' VND') +
+        kpiTipRow('Lá chắn thuế cộng thêm', fmtBill(totalTaxAccum) + ' VND') +
+        kpiTipRow('Tổng tài sản thực tế', fmtBill(totalAsset) + ' VND', 'total');
+    }
+
+    function buildKpi4Tip() {
+      const { monthlyPMT, annualPMT, totalPayout, thangDu, lumpSum, soNamNhan, modePT, soNam, totalAfterTax } = G;
+      if (modePT === 2) {
+        return '<div class="tip-title">Lương Hưu — Khối 3</div>' +
+          kpiTipRow('Nhận mỗi tháng', fmtBill(monthlyPMT) + ' VND') +
+          kpiTipRow('Nhận mỗi năm', fmtBill(annualPMT) + ' VND') +
+          kpiTipRow('Thời gian nhận', soNamNhan + ' năm') +
+          kpiTipRow('Lãi sinh thêm từ quỹ', fmtBill(thangDu) + ' VND') +
+          kpiTipRow('Tổng nhận được', fmtBill(totalPayout) + ' VND', 'total');
+      } else {
+        return '<div class="tip-title">Lương Hưu — Khối 3</div>' +
+          kpiTipRow('Toàn bộ tài sản tích lũy', fmtBill(totalAfterTax) + ' VND') +
+          kpiTipRow('Rút một lần sau ' + soNam + ' năm', fmtBill(lumpSum) + ' VND', 'total');
+      }
+    }
+
+    function initKpiTooltips() {
+      const tip = document.getElementById('kpi-tip');
+      if (!tip) return;
+      const builders = { 'r-kpi1': buildKpi1Tip, 'r-kpi2': buildKpi2Tip, 'r-kpi4': buildKpi4Tip };
+      document.querySelectorAll('.hero-kpi').forEach(function(box) {
+        const valEl = box.querySelector('.hk-val');
+        const id = valEl ? valEl.id : null;
+        const builder = id ? builders[id] : null;
+        if (!builder) return;
+        box.addEventListener('mouseenter', function() {
+          if (!G.soNam) return;
+          tip.innerHTML = builder();
+          tip.classList.remove('show', 'above', 'below');
+          // Force layout to measure
+          tip.style.visibility = 'hidden';
+          tip.style.opacity = '1';
+          const tipH = tip.offsetHeight || 180;
+          const tipW = tip.offsetWidth || 260;
+          tip.style.visibility = '';
+          tip.style.opacity = '';
+
+          const rect = box.getBoundingClientRect();
+          const spaceBelow = window.innerHeight - rect.bottom;
+          const showAbove = spaceBelow < tipH + 20;
+
+          // Horizontal: center under box, clamp to viewport
+          let left = rect.left + rect.width / 2 - tipW / 2;
+          left = Math.max(8, Math.min(left, window.innerWidth - tipW - 8));
+
+          // Caret position relative to tooltip left
+          const caretPx = Math.round(rect.left + rect.width / 2 - left);
+          tip.style.setProperty('--caret', caretPx + 'px');
+
+          if (showAbove) {
+            tip.style.top  = (rect.top - tipH - 12) + 'px';
+            tip.style.left = left + 'px';
+            tip.classList.add('above');
+          } else {
+            tip.style.top  = (rect.bottom + 10) + 'px';
+            tip.style.left = left + 'px';
+            tip.classList.add('below');
+          }
+          requestAnimationFrame(function() { tip.classList.add('show'); });
+        });
+        box.addEventListener('mouseleave', function() {
+          tip.classList.remove('show');
+        });
+      });
+    }
+
     // INIT
     onModeChange();
     onPayoutChange();
     recalc();
+    initKpiTooltips();
   </script>
+
+  <div id="kpi-tip"></div>
 </body>
 
 </html>
