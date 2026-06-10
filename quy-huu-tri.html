@@ -131,7 +131,7 @@
 
     .itab.act {
       color: #fff;
-      border-bottom: 3px solid #4db8ff;
+      border-bottom: 3px solid #8B7053;
       background: rgba(77, 184, 255, .08)
     }
 
@@ -147,9 +147,43 @@
       display: block
     }
 
+    /* ── Report entrance animations ── */
+    @keyframes rptSlideDown {
+      from { opacity: 0; transform: translateY(-20px) scale(.98) }
+      to   { opacity: 1; transform: translateY(0)     scale(1)   }
+    }
+    @keyframes rptSlideUp {
+      from { opacity: 0; transform: translateY(30px) }
+      to   { opacity: 1; transform: translateY(0)    }
+    }
+    @keyframes rptFadeIn {
+      from { opacity: 0 }
+      to   { opacity: 1 }
+    }
+
+    .rpt-enter-hero    { animation: rptSlideDown .6s cubic-bezier(.22,.68,0,1.1) both }
+    .rpt-enter-fade    { animation: rptFadeIn    .5s ease both }
+    .rpt-enter-section { animation: rptSlideUp   .55s cubic-bezier(.22,.68,0,1.15) both }
+
+    /* ── Scroll reveal ── */
+    .sr {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .55s ease, transform .55s cubic-bezier(.22,.68,0,1.2);
+      will-change: opacity, transform
+    }
+    .sr.sr-left  { transform: translateX(-24px) }
+    .sr.sr-right { transform: translateX(24px) }
+    .sr.sr-scale { transform: translateY(16px) scale(.97) }
+
+    .sr.in {
+      opacity: 1;
+      transform: none
+    }
+
     /* SECTION HEADER */
     .sec-hdr {
-      background: #1a3a6b;
+      background: #071C2C;
       color: #fff;
       font-weight: bold;
       font-size: 9.5pt;
@@ -336,12 +370,12 @@
     }
 
     .res-tbl th {
-      background: #1a3a6b;
+      background: #071C2C;
       color: #fff;
       padding: 5px 8px;
       font-size: 8pt;
       text-align: left;
-      border: 1px solid #1a3a6b
+      border: 1px solid #071C2C
     }
 
     .res-tbl th.rc {
@@ -349,7 +383,7 @@
     }
 
     .res-tbl td {
-      border: 1px solid #ccc;
+      border: 1px solid #d4cbc2;
       padding: 4px 8px;
       font-size: 8pt;
       vertical-align: top
@@ -365,24 +399,24 @@
     }
 
     .res-tbl tr:nth-child(even) td {
-      background: #f0f4fa
+      background: rgba(162,140,117,0.10)
     }
 
     .res-tbl tr.total-row td {
-      background: #dce8f7;
+      background: rgba(7,28,44,0.10);
       font-weight: bold
     }
 
     .res-tbl tr.highlight td {
-      background: #fffde7
+      background: rgba(162,140,117,0.18)
     }
 
     .res-tbl tr.red-row td {
-      background: #fde8e8
+      background: rgba(162,140,117,0.12)
     }
 
     .res-tbl tr.green-row td {
-      background: #e8f4ee;
+      background: rgba(7,28,44,0.08);
       font-weight: bold
     }
 
@@ -600,12 +634,16 @@
 
     /* REPORT HERO */
     .report-hero {
-      background: #071C2C;
+      background: #071C2C url('background.png') center/cover no-repeat;
       color: #fff;
-      padding: 24px 20px 20px;
+      padding: 82px 20px 74px;
       margin: -24px -20px 20px;
       border-bottom: 4px solid #A28C75;
-      text-align: center
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center
     }
 
     .hero-title {
@@ -632,7 +670,8 @@
       border-radius: 3px;
       margin-bottom: 16px;
       font-size: 8.5pt;
-      text-align: center
+      text-align: center;
+      width: 100%
     }
 
     .hero-params .dp-lbl {
@@ -652,31 +691,94 @@
     .hero-kpi-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 12px
+      gap: 12px;
+      width: 100%
+    }
+
+    @keyframes glassShimmer {
+      0%   { transform: translateX(-120%) skewX(-15deg); opacity: 0 }
+      10%  { opacity: 1 }
+      90%  { opacity: 1 }
+      100% { transform: translateX(220%) skewX(-15deg); opacity: 0 }
+    }
+
+    @keyframes borderPulse {
+      0%, 100% { border-top-color: #A28C75 }
+      50%       { border-top-color: rgba(162,140,117,.4) }
     }
 
     .hero-kpi {
       background: rgba(255, 255, 255, .06);
-      border: 1px solid rgba(255, 255, 255, .12);
-      border-radius: 4px;
-      padding: 12px 14px;
-      text-align: center
+      border: 1px solid rgba(255, 255, 255, .15);
+      border-radius: 6px;
+      padding: 22px 14px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 4px 24px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.1);
+      transition: transform .35s cubic-bezier(.22,.68,0,1.2), box-shadow .35s ease, background .35s ease, border-color .35s ease;
+      cursor: default
     }
 
+    .hero-kpi:hover {
+      transform: translateY(-6px) scale(1.025);
+      background: rgba(255,255,255,.13);
+      border-color: rgba(255,255,255,.32);
+      box-shadow: 0 16px 48px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.22), 0 0 0 1px rgba(162,140,117,.45)
+    }
+
+    .hero-kpi.h1:hover,
+    .hero-kpi.h2:hover,
+    .hero-kpi.h3:hover,
+    .hero-kpi.h4:hover {
+      border-top-color: #D4B896
+    }
+
+    .hero-kpi:hover::before {
+      animation-duration: 1.8s
+    }
+
+    /* ánh sáng chuyển động */
+    .hero-kpi::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 40%;
+      height: 100%;
+      background: linear-gradient(
+        105deg,
+        transparent 30%,
+        rgba(255,255,255,.10) 50%,
+        rgba(162,140,117,.08) 55%,
+        transparent 70%
+      );
+      animation: glassShimmer 5s ease-in-out infinite;
+      pointer-events: none
+    }
+
+    .hero-kpi:nth-child(2)::before { animation-delay: 1.6s }
+    .hero-kpi:nth-child(3)::before { animation-delay: 3.2s }
+
     .hero-kpi.h1 {
-      border-top: 3px solid #A28C75
+      border-top: 3px solid #A28C75;
+      animation: borderPulse 5s ease-in-out infinite
     }
 
     .hero-kpi.h2 {
-      border-top: 3px solid #A28C75
+      border-top: 3px solid #A28C75;
+      animation: borderPulse 5s ease-in-out infinite 1.6s
     }
 
     .hero-kpi.h3 {
-      border-top: 3px solid #A28C75
+      border-top: 3px solid #A28C75;
+      animation: borderPulse 5s ease-in-out infinite 3.2s
     }
 
     .hero-kpi.h4 {
-      border-top: 3px solid #A28C75
+      border-top: 3px solid #A28C75;
+      animation: borderPulse 5s ease-in-out infinite 3.2s
     }
 
     .hero-kpi .hk-label {
@@ -1207,8 +1309,8 @@
     <table class="inp-tbl">
       <tr>
         <td class="lbl-cell">Thu nhập chịu thuế (VND/tháng)</td>
-        <td class="val-cell"><input type="text" id="thu_nhap" value="50.000.000" onchange="recalc()">
-          <div class="hint">Ví dụ: 50.000.000</div>
+        <td class="val-cell"><input type="text" id="thu_nhap" value="30.000.000" onchange="recalc()">
+          <div class="hint">Ví dụ: 30.000.000</div>
         </td>
       </tr>
       <tr>
@@ -1608,6 +1710,86 @@
       recalc();
       switchTab('baocao');
       document.querySelector('.itab[data-tab="baocao"]').classList.add('act');
+      triggerReportAnimation();
+    }
+
+    function triggerReportAnimation() {
+      const panel = document.getElementById('pan-baocao');
+
+      // reset tất cả class animation cũ
+      panel.querySelectorAll('.rpt-enter-hero, .rpt-enter-fade, .rpt-enter-section')
+           .forEach(el => {
+             el.classList.remove('rpt-enter-hero', 'rpt-enter-fade', 'rpt-enter-section');
+             el.style.animationDelay = '';
+           });
+
+      // force reflow để reset animation
+      void panel.offsetWidth;
+
+      const hero     = panel.querySelector('.report-hero');
+      const backLink = panel.querySelector('.back-link');
+      const journey  = panel.querySelector('.journey');
+      const sections = panel.querySelectorAll('.rpt-section');
+
+      if (hero)     { hero.style.animationDelay = '0s';     hero.classList.add('rpt-enter-hero'); }
+      if (backLink) { backLink.style.animationDelay = '0.25s'; backLink.classList.add('rpt-enter-fade'); }
+      if (journey)  { journey.style.animationDelay = '0.35s';  journey.classList.add('rpt-enter-fade'); }
+
+      sections.forEach((sec, i) => {
+        sec.style.animationDelay = (0.45 + i * 0.15) + 's';
+        sec.classList.add('rpt-enter-section');
+      });
+
+      // khởi động scroll reveal sau khi DOM render xong
+      setTimeout(initScrollReveal, 80);
+    }
+
+    // ── SCROLL REVEAL ──
+    let _srObserver = null;
+
+    function initScrollReveal() {
+      const panel = document.getElementById('pan-baocao');
+
+      // reset lần trước
+      if (_srObserver) { _srObserver.disconnect(); _srObserver = null; }
+      panel.querySelectorAll('.sr').forEach(el => {
+        el.classList.remove('in');
+        el.style.transitionDelay = '';
+      });
+
+      // gán .sr cho các element bên trong rpt-section
+      const cards    = panel.querySelectorAll('.rpt-section .kpi-card');
+      const charts   = panel.querySelectorAll('.rpt-section .chart-wrap');
+      const callouts = panel.querySelectorAll('.rpt-section .callout');
+      const cmpBoxes = panel.querySelectorAll('.rpt-section .cmp-box');
+      const tables   = panel.querySelectorAll('.rpt-section .res-tbl');
+
+      cards.forEach(el    => { el.classList.add('sr', 'sr-scale'); });
+      charts.forEach(el   => { el.classList.add('sr'); });
+      callouts.forEach(el => { el.classList.add('sr'); });
+      cmpBoxes.forEach((el, i) => {
+        el.classList.add('sr', i % 2 === 0 ? 'sr-left' : 'sr-right');
+      });
+      tables.forEach(el   => { el.classList.add('sr'); });
+
+      // stagger các card trong cùng grid
+      panel.querySelectorAll('.kpi-grid, .kpi-grid-2, .kpi-grid-3').forEach(grid => {
+        grid.querySelectorAll('.kpi-card').forEach((el, i) => {
+          el.style.transitionDelay = (i * 0.09) + 's';
+        });
+      });
+
+      // observer
+      _srObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in');
+            _srObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -24px 0px' });
+
+      panel.querySelectorAll('.sr').forEach(el => _srObserver.observe(el));
     }
 
     // MODE HELPERS
@@ -1874,6 +2056,11 @@
       if (G.modePT === 2) renderChartPayout();
     }
 
+    // Palette: #071C2C (primary) — #A28C75 (secondary)
+    const C1 = '#071C2C';
+    const C2 = 'rgba(7,28,44,0.45)';
+    const C3 = '#A28C75';
+
     function renderChartGrowth() {
       const { compRows, soNam } = G;
       const ctx = document.getElementById('chart-growth').getContext('2d');
@@ -1883,9 +2070,9 @@
         data: {
           labels: compRows.map(r => r.year),
           datasets: [
-            { label: 'Vốn Gốc', data: compRows.map(r => +(r.vonGoc / 1e6).toFixed(1)), backgroundColor: '#1a3a6b', stack: 's' },
-            { label: 'Lá Chắn Thuế', data: compRows.map(r => +(r.taxAcc / 1e6).toFixed(1)), backgroundColor: '#4db8ff', stack: 's' },
-            { label: 'Lãi Kép Miễn Thuế', data: compRows.map(r => +(r.interest / 1e6).toFixed(1)), backgroundColor: '#1d6a3a', stack: 's' },
+            { label: 'Vốn Gốc', data: compRows.map(r => +(r.vonGoc / 1e6).toFixed(1)), backgroundColor: C1, stack: 's' },
+            { label: 'Lá Chắn Thuế', data: compRows.map(r => +(r.taxAcc / 1e6).toFixed(1)), backgroundColor: C2, stack: 's' },
+            { label: 'Lãi Kép Miễn Thuế', data: compRows.map(r => +(r.interest / 1e6).toFixed(1)), backgroundColor: C3, stack: 's' },
           ]
         },
         options: {
@@ -1913,7 +2100,7 @@
           labels: ['Vốn Gốc Đóng Vào', 'Lá Chắn Thuế', 'Lãi Kép Miễn Thuế'],
           datasets: [{
             data: [totalVonGoc, totalTaxAccum, totalInterest],
-            backgroundColor: ['#1a3a6b', '#4db8ff', '#1d6a3a'],
+            backgroundColor: [C1, C2, C3],
             borderColor: ['#fff', '#fff', '#fff'],
             borderWidth: 3
           }]
@@ -1945,8 +2132,8 @@
         data: {
           labels: payoutRows.map(r => 'Năm ' + r.year),
           datasets: [
-            { label: 'Số Dư Đầu Năm (triệu VND)', data: payoutRows.map(r => +(r.sodudau / 1e6).toFixed(1)), backgroundColor: 'rgba(26,58,107,.75)', order: 2 },
-            { label: 'Tiền Rút Trong Năm (triệu VND)', data: payoutRows.map(r => +(r.rut / 1e6).toFixed(1)), backgroundColor: 'rgba(232,48,42,.85)', order: 1 },
+            { label: 'Số Dư Đầu Năm (triệu VND)', data: payoutRows.map(r => +(r.sodudau / 1e6).toFixed(1)), backgroundColor: 'rgba(7,28,44,0.75)', order: 2 },
+            { label: 'Tiền Rút Trong Năm (triệu VND)', data: payoutRows.map(r => +(r.rut / 1e6).toFixed(1)), backgroundColor: C3, order: 1 },
           ]
         },
         options: {
